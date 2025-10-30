@@ -7,13 +7,10 @@ from netbox.forms import NetBoxModelFilterSetForm, NetBoxModelForm
 from utilities.forms.fields import DynamicModelChoiceField
 from utilities.forms.widgets import DateTimePicker
 
-from .models import (
-    CircuitMaintenance,
-    CircuitMaintenanceImpact,
-    CircuitMaintenanceNotifications,
-    CircuitMaintenanceTypeChoices,
-    TimeZoneChoices,
-)
+from .models import (CircuitMaintenance, CircuitMaintenanceImpact,
+                     CircuitMaintenanceNotifications,
+                     CircuitMaintenanceTypeChoices, CircuitOutage,
+                     CircuitOutageStatusChoices, TimeZoneChoices)
 
 
 class CircuitMaintenanceForm(NetBoxModelForm):
@@ -147,3 +144,118 @@ class CircuitMaintenanceNotificationsForm(NetBoxModelForm):
             "email_recieved",
         )
         widgets = {"email_recieved": DateTimePicker()}
+
+
+class CircuitOutageForm(NetBoxModelForm):
+
+    provider = DynamicModelChoiceField(queryset=Provider.objects.all())
+
+    original_timezone = forms.ChoiceField(
+        choices=TimeZoneChoices,
+        required=False,
+        label="Timezone",
+        help_text="Timezone for the start/end/ETR times (converted to system timezone on save)",
+    )
+
+    class Meta:
+        model = CircuitOutage
+        fields = (
+            "name",
+            "summary",
+            "status",
+            "provider",
+            "start",
+            "end",
+            "estimated_time_to_repair",
+            "original_timezone",
+            "internal_ticket",
+            "acknowledged",
+            "comments",
+            "tags",
+        )
+        widgets = {
+            "start": DateTimePicker(),
+            "end": DateTimePicker(),
+            "estimated_time_to_repair": DateTimePicker(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # On edit, change help text since we don't convert
+        if self.instance and self.instance.pk:
+            self.fields["original_timezone"].help_text = (
+                "Original timezone from provider notification (reference only)"
+            )
+            self.fields["original_timezone"].label = "Original Timezone"
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        # Only convert timezone on CREATE (not on edit)
+        if not instance.pk and instance.original_timezone:
+            try:
+                # Get the timezone objects
+                original_tz = zoneinfo.ZoneInfo(instance.original_timezone)
+                system_tz = timezone.get_current_timezone()
+
+                # Convert start time if provided
+                if instance.start:
+                    if timezone.is_naive(instance.start):
+                        start_in_original_tz = instance.start.replace(
+                            tzinfo=original_tz
+                        )
+                    else:
+                        start_in_original_tz = instance.start.replace(
+                            tzinfo=original_tz
+                        )
+                    instance.start = start_in_original_tz.astimezone(system_tz)
+
+                # Convert end time if provided
+                if instance.end:
+                    if timezone.is_naive(instance.end):
+                        end_in_original_tz = instance.end.replace(tzinfo=original_tz)
+                    else:
+                        end_in_original_tz = instance.end.replace(tzinfo=original_tz)
+                    instance.end = end_in_original_tz.astimezone(system_tz)
+
+                # Convert ETR time if provided
+                if instance.estimated_time_to_repair:
+                    if timezone.is_naive(instance.estimated_time_to_repair):
+                        etr_in_original_tz = instance.estimated_time_to_repair.replace(
+                            tzinfo=original_tz
+                        )
+                    else:
+                        etr_in_original_tz = instance.estimated_time_to_repair.replace(
+                            tzinfo=original_tz
+                        )
+                    instance.estimated_time_to_repair = etr_in_original_tz.astimezone(
+                        system_tz
+                    )
+
+            except (zoneinfo.ZoneInfoNotFoundError, ValueError):
+                # If timezone is invalid, just save without conversion
+                pass
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
+
+
+class CircuitOutageFilterForm(NetBoxModelFilterSetForm):
+    model = CircuitOutage
+
+    name = forms.CharField(required=False)
+    summary = forms.CharField(required=False)
+    provider = forms.ModelMultipleChoiceField(
+        queryset=Provider.objects.all(), required=False
+    )
+    status = forms.MultipleChoiceField(
+        choices=CircuitOutageStatusChoices, required=False
+    )
+    start = forms.CharField(required=False)
+    end = forms.CharField(required=False)
+    acknowledged = forms.BooleanField(required=False)
+    internal_ticket = forms.CharField(required=False)
