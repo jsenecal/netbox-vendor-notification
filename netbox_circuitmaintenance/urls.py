@@ -30,6 +30,16 @@ urlpatterns = (
         'model': models.CircuitMaintenanceImpact
     }),
 
+    # CircuitOutage URLs
+    path('outages/', views.CircuitOutageListView.as_view(), name='circuitoutage_list'),
+    path('outages/add/', views.CircuitOutageEditView.as_view(), name='circuitoutage_add'),
+    path('outages/<int:pk>/', views.CircuitOutageView.as_view(), name='circuitoutage'),
+    path('outages/<int:pk>/edit/', views.CircuitOutageEditView.as_view(), name='circuitoutage_edit'),
+    path('outages/<int:pk>/delete/', views.CircuitOutageDeleteView.as_view(), name='circuitoutage_delete'),
+    path('outages/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='circuitoutage_changelog', kwargs={
+        'model': models.CircuitOutage
+    }),
+
     path('maintenanceschedule/', views.CircuitMaintenanceScheduleView.as_view(), name='maintenanceschedule'),
 
 
