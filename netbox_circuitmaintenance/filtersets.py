@@ -1,8 +1,12 @@
 from django.db.models import Q
 from netbox.filtersets import NetBoxModelFilterSet
 
-from .models import (CircuitMaintenance, CircuitMaintenanceImpact,
-                     CircuitMaintenanceNotifications)
+from .models import (
+    CircuitMaintenance,
+    CircuitMaintenanceImpact,
+    CircuitMaintenanceNotifications,
+    CircuitOutage,
+)
 
 
 class CircuitMaintenanceFilterSet(NetBoxModelFilterSet):
@@ -52,3 +56,32 @@ class CircuitMaintenanceNotificationsFilterSet(NetBoxModelFilterSet):
         if not value.strip():
             return queryset
         return queryset.filter(Q(subject__icontains=value))
+
+
+class CircuitOutageFilterSet(NetBoxModelFilterSet):
+
+    class Meta:
+        model = CircuitOutage
+        fields = (
+            "id",
+            "name",
+            "summary",
+            "status",
+            "provider",
+            "start",
+            "end",
+            "estimated_time_to_repair",
+            "original_timezone",
+            "internal_ticket",
+            "acknowledged",
+            "comments",
+        )
+
+    def search(self, queryset, name, value):
+        if not value.strip():
+            return queryset
+        return queryset.filter(
+            Q(name__icontains=value)
+            | Q(summary__icontains=value)
+            | Q(internal_ticket__icontains=value)
+        )

@@ -28,3 +28,4 @@ class CircuitMaintenanceNotificationsViewSet(NetBoxModelViewSet):
 class CircuitOutageViewSet(NetBoxModelViewSet):
     queryset = models.CircuitOutage.objects.prefetch_related("tags")
     serializer_class = CircuitOutageSerializer
+    filterset_class = filtersets.CircuitOutageFilterSet
