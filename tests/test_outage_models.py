@@ -283,3 +283,111 @@ class TestCircuitMaintenance(unittest.TestCase):
                 fields,
                 f"CircuitMaintenance should not redefine '{field_name}' (inherited from BaseCircuitEvent)",
             )
+
+
+class TestCircuitOutage(unittest.TestCase):
+    """Test CircuitOutage model structure"""
+
+    def _get_models_file_ast(self):
+        """Parse the models.py file and return AST"""
+        models_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "netbox_circuitmaintenance",
+            "models.py",
+        )
+        with open(models_path, "r") as f:
+            return ast.parse(f.read())
+
+    def _find_class(self, tree, class_name):
+        """Find a class definition in the AST"""
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef) and node.name == class_name:
+                return node
+        return None
+
+    def _get_base_class_name(self, class_node):
+        """Get the name of the base class"""
+        if class_node.bases:
+            for base in class_node.bases:
+                if isinstance(base, ast.Name):
+                    return base.id
+        return None
+
+    def _get_field_names(self, class_node):
+        """Extract field names from model class"""
+        fields = []
+        for item in class_node.body:
+            if isinstance(item, ast.Assign):
+                for target in item.targets:
+                    if isinstance(target, ast.Name):
+                        # Check if it's a models.Field assignment
+                        if isinstance(item.value, ast.Call):
+                            fields.append(target.id)
+        return fields
+
+    def _has_clean_method(self, class_node):
+        """Check if class has a clean() method"""
+        for item in class_node.body:
+            if isinstance(item, ast.FunctionDef) and item.name == "clean":
+                return True
+        return False
+
+    def test_circuit_outage_inherits_from_base(self):
+        """Test that CircuitOutage inherits from BaseCircuitEvent"""
+        tree = self._get_models_file_ast()
+        class_node = self._find_class(tree, "CircuitOutage")
+
+        self.assertIsNotNone(class_node, "CircuitOutage class not found in models.py")
+
+        base_class = self._get_base_class_name(class_node)
+        self.assertEqual(
+            base_class,
+            "BaseCircuitEvent",
+            f"CircuitOutage should inherit from BaseCircuitEvent, got {base_class}",
+        )
+
+    def test_circuit_outage_end_field_exists(self):
+        """Test that CircuitOutage has end field"""
+        tree = self._get_models_file_ast()
+        class_node = self._find_class(tree, "CircuitOutage")
+
+        self.assertIsNotNone(class_node)
+
+        fields = self._get_field_names(class_node)
+        self.assertIn("end", fields, "CircuitOutage should define 'end' field")
+
+    def test_circuit_outage_has_etr_field(self):
+        """Test that CircuitOutage has estimated_time_to_repair field"""
+        tree = self._get_models_file_ast()
+        class_node = self._find_class(tree, "CircuitOutage")
+
+        self.assertIsNotNone(class_node)
+
+        fields = self._get_field_names(class_node)
+        self.assertIn(
+            "estimated_time_to_repair",
+            fields,
+            "CircuitOutage should define 'estimated_time_to_repair' field",
+        )
+
+    def test_circuit_outage_has_status_field(self):
+        """Test that CircuitOutage has status field"""
+        tree = self._get_models_file_ast()
+        class_node = self._find_class(tree, "CircuitOutage")
+
+        self.assertIsNotNone(class_node)
+
+        fields = self._get_field_names(class_node)
+        self.assertIn("status", fields, "CircuitOutage should define 'status' field")
+
+    def test_circuit_outage_has_clean_method(self):
+        """Test that CircuitOutage has clean() validation method"""
+        tree = self._get_models_file_ast()
+        class_node = self._find_class(tree, "CircuitOutage")
+
+        self.assertIsNotNone(class_node)
+
+        self.assertTrue(
+            self._has_clean_method(class_node),
+            "CircuitOutage should define clean() method for validation",
+        )

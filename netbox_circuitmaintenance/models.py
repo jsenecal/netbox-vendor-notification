@@ -322,6 +322,52 @@ class CircuitMaintenance(BaseCircuitEvent):
         )
 
 
+class CircuitOutage(BaseCircuitEvent):
+    """
+    Unplanned outage events with optional end times and ETR tracking.
+    Inherits common fields from BaseCircuitEvent.
+    """
+
+    end = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="End date and time of the outage (required when resolved)",
+    )
+
+    estimated_time_to_repair = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Estimated Time to Repair",
+        help_text="Current estimate for when service will be restored",
+    )
+
+    status = models.CharField(max_length=30, choices=CircuitOutageStatusChoices)
+
+    class Meta:
+        verbose_name = "Circuit Outage"
+        verbose_name_plural = "Circuit Outages"
+        ordering = ("-created",)
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        super().clean()
+        # Validation: end time required when status = RESOLVED
+        if self.status == "RESOLVED" and not self.end:
+            raise ValidationError(
+                {"end": "End time is required when marking outage as resolved"}
+            )
+
+    def get_status_color(self):
+        return CircuitOutageStatusChoices.colors.get(self.status)
+
+    def get_absolute_url(self):
+        return reverse(
+            "plugins:netbox_circuitmaintenance:circuitoutage", args=[self.pk]
+        )
+
+
 class CircuitMaintenanceImpact(NetBoxModel):
 
     circuitmaintenance = models.ForeignKey(
