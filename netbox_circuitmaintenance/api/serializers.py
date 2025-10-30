@@ -4,7 +4,7 @@ from netbox.api.serializers import (NetBoxModelSerializer,
 from rest_framework import serializers
 
 from ..models import (CircuitMaintenance, CircuitMaintenanceImpact,
-                      CircuitMaintenanceNotifications)
+                      CircuitMaintenanceNotifications, CircuitOutage)
 
 
 class NestedCircuitMaintenanceImpactSerializer(WritableNestedSerializer):
@@ -63,6 +63,31 @@ class NestedCircuitMaintenanceNotificationsSerializer(WritableNestedSerializer):
             "subject",
             "email_from",
             "email_recieved",
+            "created",
+            "last_updated",
+        )
+
+
+class NestedCircuitOutageSerializer(WritableNestedSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:netbox_circuitmaintenance-api:circuitoutage-detail"
+    )
+
+    provider = ProviderSerializer(nested=True)
+
+    class Meta:
+        model = CircuitOutage
+        fields = (
+            "id",
+            "url",
+            "name",
+            "status",
+            "provider",
+            "start",
+            "end",
+            "estimated_time_to_repair",
+            "original_timezone",
+            "acknowledged",
             "created",
             "last_updated",
         )
@@ -146,6 +171,46 @@ class CircuitMaintenanceNotificationsSerializer(NetBoxModelSerializer):
             "subject",
             "email_from",
             "email_recieved",
+            "created",
+            "last_updated",
+        )
+
+
+class CircuitOutageSerializer(NetBoxModelSerializer):
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:netbox_circuitmaintenance-api:circuitoutage-detail"
+    )
+
+    provider = ProviderSerializer(nested=True)
+    impacts = NestedCircuitMaintenanceImpactSerializer(
+        required=False, many=True, read_only=True
+    )
+    notifications = NestedCircuitMaintenanceNotificationsSerializer(
+        required=False, many=True, read_only=True
+    )
+
+    class Meta:
+        model = CircuitOutage
+        fields = (
+            "id",
+            "url",
+            "display",
+            "name",
+            "summary",
+            "status",
+            "provider",
+            "start",
+            "end",
+            "estimated_time_to_repair",
+            "original_timezone",
+            "internal_ticket",
+            "acknowledged",
+            "impacts",
+            "notifications",
+            "comments",
+            "tags",
+            "custom_fields",
             "created",
             "last_updated",
         )
