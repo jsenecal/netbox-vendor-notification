@@ -199,9 +199,9 @@ class OutageStatusChoices(ChoiceSet):
     ]
 
 
-class BaseCircuitEvent(NetBoxModel):
+class BaseEvent(NetBoxModel):
     """
-    Abstract base class for circuit maintenance and outage events.
+    Abstract base class for maintenance and outage events.
     Provides common fields and relationships shared by both event types.
     """
 
@@ -250,10 +250,10 @@ class BaseCircuitEvent(NetBoxModel):
         ordering = ("-created",)
 
 
-class CircuitMaintenance(BaseCircuitEvent):
+class CircuitMaintenance(BaseEvent):
     """
     Planned maintenance events with scheduled end times.
-    Inherits common fields from BaseCircuitEvent.
+    Inherits common fields from BaseEvent.
     """
 
     # Override provider to preserve backward compatibility with related_name
@@ -317,10 +317,10 @@ class CircuitMaintenance(BaseCircuitEvent):
         )
 
 
-class CircuitOutage(BaseCircuitEvent):
+class CircuitOutage(BaseEvent):
     """
     Unplanned outage events with optional end times and ETR tracking.
-    Inherits common fields from BaseCircuitEvent.
+    Inherits common fields from BaseEvent.
     """
 
     end = models.DateTimeField(
