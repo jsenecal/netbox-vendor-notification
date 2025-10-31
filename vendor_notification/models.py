@@ -14,7 +14,7 @@ class TimeZoneChoices(ChoiceSet):
     Uses IANA timezone database names.
     """
 
-    key = "CircuitMaintenance.TimeZone"
+    key = "Maintenance.TimeZone"
 
     # Common/UTC timezones
     COMMON_CHOICES = [
@@ -366,7 +366,7 @@ class CircuitOutage(BaseEvent):
 class CircuitMaintenanceImpact(NetBoxModel):
 
     circuitmaintenance = models.ForeignKey(
-        to=CircuitMaintenance,
+        to=Maintenance,
         on_delete=models.CASCADE,
         related_name="impact",
         verbose_name="Circuit Maintenance ID",
@@ -416,7 +416,7 @@ class CircuitMaintenanceImpact(NetBoxModel):
 class CircuitMaintenanceNotifications(NetBoxModel):
 
     circuitmaintenance = models.ForeignKey(
-        to=CircuitMaintenance,
+        to=Maintenance,
         on_delete=models.CASCADE,
         related_name="notification",
         verbose_name="Circuit Maintenance ID",
