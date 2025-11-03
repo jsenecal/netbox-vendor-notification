@@ -1,5 +1,7 @@
 import zoneinfo
 
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -363,19 +365,35 @@ class Outage(BaseEvent):
         )
 
 
-class CircuitMaintenanceImpact(NetBoxModel):
+class Impact(NetBoxModel):
+    """
+    Links a maintenance or outage event to an affected NetBox object.
+    Uses GenericForeignKey to support any configured object type.
+    """
 
-    circuitmaintenance = models.ForeignKey(
-        to=Maintenance,
+    # Link to event (Maintenance or Outage)
+    event_content_type = models.ForeignKey(
+        ContentType,
         on_delete=models.CASCADE,
-        related_name="impact",
-        verbose_name="Circuit Maintenance ID",
+        related_name='impacts_as_event',
+        limit_choices_to=models.Q(
+            app_label='vendor_notification',
+            model__in=['maintenance', 'outage']
+        )
     )
+    event_object_id = models.PositiveIntegerField()
+    event = GenericForeignKey('event_content_type', 'event_object_id')
 
-    circuit = models.ForeignKey(
-        to="circuits.circuit", on_delete=models.CASCADE, related_name="maintenance"
+    # Link to target NetBox object (Circuit, Device, Site, etc.)
+    target_content_type = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE,
+        related_name='impacts_as_target'
     )
+    target_object_id = models.PositiveIntegerField()
+    target = GenericForeignKey('target_content_type', 'target_object_id')
 
+    # Impact level
     impact = models.CharField(
         max_length=30,
         choices=ImpactTypeChoices,
@@ -384,33 +402,65 @@ class CircuitMaintenanceImpact(NetBoxModel):
     )
 
     class Meta:
-        ordering = ("impact",)
-        verbose_name = "Circuit Maintenance Impact"
-        verbose_name_plural = "Circuit Maintenance Imapct"
+        unique_together = [
+            ('event_content_type', 'event_object_id',
+             'target_content_type', 'target_object_id')
+        ]
+        ordering = ('impact',)
+        verbose_name = "Impact"
+        verbose_name_plural = "Impacts"
+
+    def __str__(self):
+        event_name = str(self.event) if self.event else "Unknown"
+        target_name = str(self.target) if self.target else "Unknown"
+        return f"{event_name} - {target_name}"
+
+    def get_absolute_url(self):
+        # Link to the event detail page
+        if self.event and hasattr(self.event, 'get_absolute_url'):
+            return self.event.get_absolute_url()
+        return reverse('plugins:vendor_notification:impact', args=[self.pk])
 
     def get_impact_color(self):
         return ImpactTypeChoices.colors.get(self.impact)
 
-    def __str__(self):
-        return self.circuitmaintenance.name + " - " + self.circuit.cid
-
-    def get_absolute_url(self):
-        return reverse(
-            "plugins:netbox_circuitmaintenance:circuitmaintenance",
-            args=[self.circuitmaintenance.pk],
-        )
-
     def clean(self):
         super().clean()
+        from .utils import get_allowed_content_types
 
-        # Check we are not alerting a circuitmaintenaceimpact once the maintenance is complete
-        if (
-            self.circuitmaintenance.status == "COMPLETED"
-            or self.circuitmaintenance.status == "CANCELLED"
-        ):
-            raise ValidationError(
-                "You cannot alter a circuit maintenance impact once it has completed."
-            )
+        allowed_types = get_allowed_content_types()
+
+        # Validate target is an allowed type
+        if self.target_content_type:
+            app_label = self.target_content_type.app_label
+            model = self.target_content_type.model
+            type_string = f"{app_label}.{model}"
+
+            # Case-insensitive comparison
+            allowed_types_lower = [t.lower() for t in allowed_types]
+            if type_string.lower() not in allowed_types_lower:
+                raise ValidationError({
+                    'target_content_type': f"Content type '{type_string}' is not allowed. "
+                                          f"Allowed types: {', '.join(allowed_types)}"
+                })
+
+        # Validate event is Maintenance or Outage
+        if self.event_content_type:
+            if self.event_content_type.app_label != 'vendor_notification':
+                raise ValidationError({
+                    'event_content_type': 'Event must be a Maintenance or Outage'
+                })
+            if self.event_content_type.model not in ['maintenance', 'outage']:
+                raise ValidationError({
+                    'event_content_type': 'Event must be a Maintenance or Outage'
+                })
+
+        # Validate event status - cannot modify impacts on completed events
+        if hasattr(self.event, 'status'):
+            if self.event.status in ['COMPLETED', 'CANCELLED', 'RESOLVED']:
+                raise ValidationError(
+                    "You cannot alter an impact once the event has completed."
+                )
 
 
 class CircuitMaintenanceNotifications(NetBoxModel):
