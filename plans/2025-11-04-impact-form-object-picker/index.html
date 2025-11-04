@@ -1,0 +1,1221 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://jasonyates.github.io/netbox-circuitmaintenance/plans/2025-11-04-impact-form-object-picker/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>2025 11 04 impact form object picker - Netbox Circuit Maintenance Plugin</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="preference" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#impact-form-object-picker-implementation-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Netbox Circuit Maintenance Plugin" class="md-header__button md-logo" aria-label="Netbox Circuit Maintenance Plugin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netbox Circuit Maintenance Plugin
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2025 11 04 impact form object picker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/jasonyates/netbox-circuitmaintenance" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jasonyates/netbox-circuitmaintenance
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Netbox Circuit Maintenance Plugin" class="md-nav__button md-logo" aria-label="Netbox Circuit Maintenance Plugin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Netbox Circuit Maintenance Plugin
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/jasonyates/netbox-circuitmaintenance" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jasonyates/netbox-circuitmaintenance
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Automated Parsers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Automated Parsers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parsers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using a parser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parsers_sns_lambda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AWS SNS & Lambda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#impact-form-object-picker-implementation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Impact Form Object Picker Implementation Plan
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Impact Form Object Picker Implementation Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-update-impactform-imports-and-meta-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 1: Update ImpactForm imports and Meta class
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-implement-impactform-init-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 2: Implement ImpactForm init method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-implement-init_event_choice-helper-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 3: Implement init_event_choice helper method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-implement-init_target_choice-helper-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 4: Implement init_target_choice helper method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-implement-impactform-clean-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 5: Implement ImpactForm clean method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-6-update-template_contentpy-for-embedded-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 6: Update template_content.py for embedded context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-7-manual-testing---standalone-impact-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 7: Manual testing - Standalone Impact creation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-8-manual-testing---embedded-impact-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 8: Manual testing - Embedded Impact creation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-9-manual-testing---edit-existing-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 9: Manual testing - Edit existing Impact
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-10-final-code-review-and-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 10: Final code review and cleanup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completion-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Completion Checklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>2025 11 04 impact form object picker</h1>
+
+<h2 id="impact-form-object-picker-implementation-plan">Impact Form Object Picker Implementation Plan<a class="headerlink" href="#impact-form-object-picker-implementation-plan" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Replace manual PK entry in Impact form with dynamic object pickers using NetBox's EventRuleForm HTMX pattern.</p>
+<p><strong>Architecture:</strong> Use HTMXSelect widgets for content type dropdowns that trigger form reload. Dynamically inject DynamicModelChoiceField based on selected content type. Hide raw object_id fields. Extract ContentType and ID in clean() method. Support both standalone and embedded (from Event page) contexts.</p>
+<p><strong>Tech Stack:</strong> Django forms, NetBox utilities (HTMXSelect, DynamicModelChoiceField, get_field_value), HTMX for dynamic reloading</p>
+<hr />
+<h3 id="task-1-update-impactform-imports-and-meta-class">Task 1: Update ImpactForm imports and Meta class<a class="headerlink" href="#task-1-update-impactform-imports-and-meta-class" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>vendor_notification/forms.py:1-20</code> (imports section)
+- Modify: <code>vendor_notification/forms.py:118-146</code> (ImpactForm class)</p>
+<p><strong>Step 1: Add required imports</strong></p>
+<p>Add these imports to the top of <code>vendor_notification/forms.py</code> after existing imports:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">django.core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObjectDoesNotExist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utilities.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_field_value</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utilities.forms.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTMXSelect</span>
+</code></pre></div>
+<p><strong>Step 2: Update ImpactForm Meta class widgets</strong></p>
+<p>Replace the entire <code>ImpactForm</code> class (currently lines 118-174) with this updated version:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImpactForm</span><span class="p">(</span><span class="n">NetBoxModelForm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Form for creating/editing Impact records with GenericForeignKey support.</span>
+<span class="sd">    Handles both event (Maintenance/Outage) and target (Circuit/Device/etc.) relationships.</span>
+<span class="sd">    Uses HTMX pattern from EventRuleForm for dynamic object selection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">event_content_type</span> <span class="o">=</span> <span class="n">ContentTypeChoiceField</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Event Type&quot;</span><span class="p">,</span>
+        <span class="n">queryset</span><span class="o">=</span><span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">app_label</span><span class="o">=</span><span class="s2">&quot;vendor_notification&quot;</span><span class="p">,</span> <span class="n">model__in</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;maintenance&quot;</span><span class="p">,</span> <span class="s2">&quot;outage&quot;</span><span class="p">]),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Type of event (Maintenance or Outage)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">target_content_type</span> <span class="o">=</span> <span class="n">ContentTypeChoiceField</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Target Type&quot;</span><span class="p">,</span>
+        <span class="n">queryset</span><span class="o">=</span><span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">(),</span>  <span class="c1"># Will be set in __init__</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Type of affected object&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Dynamic choice fields - created in __init__ based on content type selection</span>
+    <span class="n">event_choice</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">target_choice</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">fieldsets</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;Event&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;event_content_type&#39;</span><span class="p">,</span> <span class="s1">&#39;event_choice&#39;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;target_content_type&#39;</span><span class="p">,</span> <span class="s1">&#39;target_choice&#39;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;Impact Details&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;impact&#39;</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">)),</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Impact</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s1">&#39;event_content_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;event_object_id&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;target_content_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;target_object_id&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;impact&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;tags&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;event_content_type&#39;</span><span class="p">:</span> <span class="n">HTMXSelect</span><span class="p">(),</span>
+            <span class="s1">&#39;target_content_type&#39;</span><span class="p">:</span> <span class="n">HTMXSelect</span><span class="p">(),</span>
+            <span class="s1">&#39;event_object_id&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">,</span>
+            <span class="s1">&#39;target_object_id&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">,</span>
+        <span class="p">}</span>
+</code></pre></div>
+<p><strong>Step 3: Verify syntax</strong></p>
+<p>Run Python syntax check:</p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/python<span class="w"> </span>-m<span class="w"> </span>py_compile<span class="w"> </span>vendor_notification/forms.py
+</code></pre></div>
+<p>Expected: No output (syntax valid)</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>vendor_notification/forms.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: add HTMX widgets and imports to ImpactForm</span>
+
+<span class="s2">Add HTMXSelect widgets for content type fields and hidden inputs for</span>
+<span class="s2">object_id fields. Add imports for get_field_value and HTMXSelect.</span>
+<span class="s2">Prepare form structure for dynamic object picker implementation.</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-2-implement-impactform-init-method">Task 2: Implement ImpactForm <strong>init</strong> method<a class="headerlink" href="#task-2-implement-impactform-init-method" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>vendor_notification/forms.py:118-146</code> (add <strong>init</strong> method after fieldsets)</p>
+<p><strong>Step 1: Add <strong>init</strong> method</strong></p>
+<p>Add this method immediately after the <code>Meta</code> class in <code>ImpactForm</code>:</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Make hidden object_id fields not required</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;event_object_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;target_object_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Get allowed content types for targets from plugin configuration</span>
+        <span class="n">allowed_types</span> <span class="o">=</span> <span class="n">get_allowed_content_types</span><span class="p">()</span>
+        <span class="n">target_content_types</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">type_string</span> <span class="ow">in</span> <span class="n">allowed_types</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">app_label</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">type_string</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="n">ct</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">app_label</span><span class="o">=</span><span class="n">app_label</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">ct</span><span class="p">:</span>
+                    <span class="n">target_content_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="c1"># Skip invalid format</span>
+                <span class="k">continue</span>
+
+        <span class="c1"># Update target_content_type queryset based on allowed types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;target_content_type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">pk__in</span><span class="o">=</span><span class="n">target_content_types</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Determine event content type from form state (instance, initial, or GET/POST)</span>
+        <span class="n">event_ct_id</span> <span class="o">=</span> <span class="n">get_field_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;event_content_type&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">event_ct_id</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_event_choice</span><span class="p">(</span><span class="n">event_ct_id</span><span class="p">)</span>
+
+        <span class="c1"># Determine target content type from form state</span>
+        <span class="n">target_ct_id</span> <span class="o">=</span> <span class="n">get_field_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;target_content_type&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">target_ct_id</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_target_choice</span><span class="p">(</span><span class="n">target_ct_id</span><span class="p">)</span>
+
+        <span class="c1"># Handle embedded context (pre-filled from Event detail page)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">:</span>  <span class="c1"># Only on create</span>
+            <span class="n">event_obj_id</span> <span class="o">=</span> <span class="n">get_field_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;event_object_id&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">event_ct_id</span> <span class="ow">and</span> <span class="n">event_obj_id</span><span class="p">:</span>
+                <span class="c1"># Make event fields read-only in embedded context</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;event_content_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="s1">&#39;event_choice&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;event_choice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
+<p><strong>Step 2: Verify syntax</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/python<span class="w"> </span>-m<span class="w"> </span>py_compile<span class="w"> </span>vendor_notification/forms.py
+</code></pre></div>
+<p>Expected: No output (syntax valid)</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>vendor_notification/forms.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add ImpactForm __init__ with dynamic field setup</span>
+
+<span class="s2">Implement form initialization that:</span>
+<span class="s2">- Makes hidden object_id fields non-required</span>
+<span class="s2">- Filters target content types based on plugin config</span>
+<span class="s2">- Detects selected content types via get_field_value</span>
+<span class="s2">- Calls helper methods to inject dynamic choice fields</span>
+<span class="s2">- Handles embedded context by disabling event fields</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-3-implement-init_event_choice-helper-method">Task 3: Implement init_event_choice helper method<a class="headerlink" href="#task-3-implement-init_event_choice-helper-method" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>vendor_notification/forms.py</code> (add method after <strong>init</strong>)</p>
+<p><strong>Step 1: Add init_event_choice method</strong></p>
+<p>Add this method after the <code>__init__</code> method in <code>ImpactForm</code>:</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span><span class="w"> </span><span class="nf">init_event_choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content_type_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize event choice field based on selected content type.</span>
+<span class="sd">        Creates DynamicModelChoiceField with appropriate queryset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            content_type_id: Primary key of selected ContentType</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">initial</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">content_type</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">content_type_id</span><span class="p">)</span>
+            <span class="n">model_class</span> <span class="o">=</span> <span class="n">content_type</span><span class="o">.</span><span class="n">model_class</span><span class="p">()</span>
+
+            <span class="c1"># Get initial value if editing existing Impact</span>
+            <span class="n">event_id</span> <span class="o">=</span> <span class="n">get_field_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;event_object_id&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">event_id</span><span class="p">:</span>
+                <span class="n">initial</span> <span class="o">=</span> <span class="n">model_class</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">event_id</span><span class="p">)</span>
+
+            <span class="c1"># Create dynamic choice field with model-specific queryset</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;event_choice&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DynamicModelChoiceField</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Event&#39;</span><span class="p">,</span>
+                <span class="n">queryset</span><span class="o">=</span><span class="n">model_class</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>
+                <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">initial</span><span class="o">=</span><span class="n">initial</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ContentType</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">,</span> <span class="n">ObjectDoesNotExist</span><span class="p">):</span>
+            <span class="c1"># Invalid content type or object - form validation will catch this</span>
+            <span class="k">pass</span>
+</code></pre></div>
+<p><strong>Step 2: Verify syntax</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/python<span class="w"> </span>-m<span class="w"> </span>py_compile<span class="w"> </span>vendor_notification/forms.py
+</code></pre></div>
+<p>Expected: No output (syntax valid)</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>vendor_notification/forms.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add init_event_choice helper to ImpactForm</span>
+
+<span class="s2">Add helper method that dynamically creates DynamicModelChoiceField</span>
+<span class="s2">for event selection based on selected ContentType. Handles both</span>
+<span class="s2">create and edit modes by detecting initial values.</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-4-implement-init_target_choice-helper-method">Task 4: Implement init_target_choice helper method<a class="headerlink" href="#task-4-implement-init_target_choice-helper-method" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>vendor_notification/forms.py</code> (add method after init_event_choice)</p>
+<p><strong>Step 1: Add init_target_choice method</strong></p>
+<p>Add this method after the <code>init_event_choice</code> method in <code>ImpactForm</code>:</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span><span class="w"> </span><span class="nf">init_target_choice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content_type_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize target choice field based on selected content type.</span>
+<span class="sd">        Creates DynamicModelChoiceField with appropriate queryset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            content_type_id: Primary key of selected ContentType</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">initial</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">content_type</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">content_type_id</span><span class="p">)</span>
+            <span class="n">model_class</span> <span class="o">=</span> <span class="n">content_type</span><span class="o">.</span><span class="n">model_class</span><span class="p">()</span>
+
+            <span class="c1"># Get initial value if editing existing Impact</span>
+            <span class="n">target_id</span> <span class="o">=</span> <span class="n">get_field_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;target_object_id&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">target_id</span><span class="p">:</span>
+                <span class="n">initial</span> <span class="o">=</span> <span class="n">model_class</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">target_id</span><span class="p">)</span>
+
+            <span class="c1"># Create dynamic choice field with model-specific queryset</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;target_choice&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DynamicModelChoiceField</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Target Object&#39;</span><span class="p">,</span>
+                <span class="n">queryset</span><span class="o">=</span><span class="n">model_class</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>
+                <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">initial</span><span class="o">=</span><span class="n">initial</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ContentType</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">,</span> <span class="n">ObjectDoesNotExist</span><span class="p">):</span>
+            <span class="c1"># Invalid content type or object - form validation will catch this</span>
+            <span class="k">pass</span>
+</code></pre></div>
+<p><strong>Step 2: Verify syntax</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/python<span class="w"> </span>-m<span class="w"> </span>py_compile<span class="w"> </span>vendor_notification/forms.py
+</code></pre></div>
+<p>Expected: No output (syntax valid)</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>vendor_notification/forms.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add init_target_choice helper to ImpactForm</span>
+
+<span class="s2">Add helper method that dynamically creates DynamicModelChoiceField</span>
+<span class="s2">for target object selection based on selected ContentType. Mirrors</span>
+<span class="s2">init_event_choice pattern for consistency.</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-5-implement-impactform-clean-method">Task 5: Implement ImpactForm clean method<a class="headerlink" href="#task-5-implement-impactform-clean-method" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>vendor_notification/forms.py</code> (add method after init_target_choice)</p>
+<p><strong>Step 1: Add clean method</strong></p>
+<p>Add this method after the <code>init_target_choice</code> method in <code>ImpactForm</code>:</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract ContentType and object ID from selected objects.</span>
+<span class="sd">        Populates hidden GenericForeignKey fields for model persistence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+
+        <span class="c1"># Extract event object and populate GenericForeignKey fields</span>
+        <span class="n">event_choice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;event_choice&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">event_choice</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;event_content_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_for_model</span><span class="p">(</span><span class="n">event_choice</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;event_object_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">event_choice</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="c1"># Extract target object and populate GenericForeignKey fields</span>
+        <span class="n">target_choice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;target_choice&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">target_choice</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;target_content_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_for_model</span><span class="p">(</span><span class="n">target_choice</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;target_object_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_choice</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span>
+</code></pre></div>
+<p><strong>Step 2: Verify syntax</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/python<span class="w"> </span>-m<span class="w"> </span>py_compile<span class="w"> </span>vendor_notification/forms.py
+</code></pre></div>
+<p>Expected: No output (syntax valid)</p>
+<p><strong>Step 3: Run linting</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/ruff<span class="w"> </span>check<span class="w"> </span>vendor_notification/forms.py
+</code></pre></div>
+<p>Expected: No errors (or auto-fixable warnings)</p>
+<p><strong>Step 4: Format code</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/ruff<span class="w"> </span>format<span class="w"> </span>vendor_notification/forms.py
+</code></pre></div>
+<p>Expected: File formatted successfully</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>vendor_notification/forms.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add clean method to extract objects from choices</span>
+
+<span class="s2">Implement form validation that extracts ContentType and object IDs</span>
+<span class="s2">from DynamicModelChoiceField selections. Uses get_for_model to</span>
+<span class="s2">automatically determine correct ContentType for selected objects.</span>
+
+<span class="s2">Completes ImpactForm HTMX pattern implementation.</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-6-update-template_contentpy-for-embedded-context">Task 6: Update template_content.py for embedded context<a class="headerlink" href="#task-6-update-template_contentpy-for-embedded-context" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>vendor_notification/template_content.py</code></p>
+<p><strong>Step 1: Review current template_content.py</strong></p>
+<p>Read the file to understand current structure:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>vendor_notification/template_content.py
+</code></pre></div>
+<p><strong>Step 2: Add Impact button template content</strong></p>
+<p>If the file exists and has content, add this at the end. If it's empty or doesn't exist, create it with this content:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.contenttypes.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContentType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">reverse</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_impact_button</span><span class="p">(</span><span class="n">instance</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add &#39;Add Impact&#39; button to Maintenance and Outage detail pages.</span>
+<span class="sd">    Pre-fills event content type and object ID via URL parameters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        instance: Maintenance or Outage instance</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HTML string with button linking to Impact creation form</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ct</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_for_model</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;plugins:vendor_notification:impact_add&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">?event_content_type=</span><span class="si">{</span><span class="n">ct</span><span class="o">.</span><span class="n">pk</span><span class="si">}</span><span class="s2">&amp;event_object_id=</span><span class="si">{</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    &lt;div class=&quot;card&quot;&gt;</span>
+<span class="s1">        &lt;div class=&quot;card-body&quot;&gt;</span>
+<span class="s1">            &lt;h5 class=&quot;card-title&quot;&gt;Impacts&lt;/h5&gt;</span>
+<span class="s1">            &lt;p class=&quot;card-text&quot;&gt;Add affected objects for this event.&lt;/p&gt;</span>
+<span class="s1">            &lt;a href=&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;</span>
+<span class="s1">                &lt;i class=&quot;mdi mdi-plus-thick&quot;&gt;&lt;/i&gt; Add Impact</span>
+<span class="s1">            &lt;/a&gt;</span>
+<span class="s1">        &lt;/div&gt;</span>
+<span class="s1">    &lt;/div&gt;</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+
+
+<span class="c1"># Register template content for Maintenance model</span>
+<span class="n">template_extensions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;circuits.provider&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;right_page&#39;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;vendor_notification.maintenance&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;right_page&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">add_impact_button</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;vendor_notification.outage&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;right_page&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">add_impact_button</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Step 3: Verify syntax</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/python<span class="w"> </span>-m<span class="w"> </span>py_compile<span class="w"> </span>vendor_notification/template_content.py
+</code></pre></div>
+<p>Expected: No output (syntax valid)</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>vendor_notification/template_content.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add Impact button to event detail pages</span>
+
+<span class="s2">Add template content injection that displays &#39;Add Impact&#39; button on</span>
+<span class="s2">Maintenance and Outage detail pages. Button pre-fills event context</span>
+<span class="s2">via URL parameters for streamlined impact creation workflow.</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-7-manual-testing---standalone-impact-creation">Task 7: Manual testing - Standalone Impact creation<a class="headerlink" href="#task-7-manual-testing---standalone-impact-creation" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> Verify form works correctly in standalone mode (from Impact list page)</p>
+<p><strong>Step 1: Start NetBox development server</strong></p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>runserver
+</code></pre></div>
+<p>Expected: Server starts on http://localhost:8008</p>
+<p><strong>Step 2: Navigate to Impact add form</strong></p>
+<ol>
+<li>Open browser to http://localhost:8008</li>
+<li>Login (admin/admin)</li>
+<li>Navigate to: Plugins → Vendor Notification → Impacts</li>
+<li>Click "Add" button</li>
+</ol>
+<p><strong>Step 3: Test event selection</strong></p>
+<ol>
+<li>Select "Event Type" → "Maintenance"</li>
+<li>Verify HTMX reloads form</li>
+<li>Verify "Event" dropdown appears with APISelect widget</li>
+<li>Type to search for maintenance events</li>
+<li>Select a maintenance event</li>
+</ol>
+<p>Expected: Form reloads after content type selection, dropdown shows searchable maintenance events</p>
+<p><strong>Step 4: Test target selection</strong></p>
+<ol>
+<li>Select "Target Type" → "Circuit" (or another allowed type)</li>
+<li>Verify HTMX reloads form</li>
+<li>Verify "Target Object" dropdown appears with APISelect widget</li>
+<li>Type to search for circuits</li>
+<li>Select a circuit</li>
+</ol>
+<p>Expected: Form reloads after content type selection, dropdown shows searchable circuits</p>
+<p><strong>Step 5: Complete form submission</strong></p>
+<ol>
+<li>Select "Impact" level (e.g., "Outage")</li>
+<li>Click "Create"</li>
+</ol>
+<p>Expected: Impact created successfully, redirects to Impact detail page</p>
+<p><strong>Step 6: Document results</strong></p>
+<p>If any issues found, document them. Otherwise, proceed to commit:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>--allow-empty<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test: verify standalone Impact creation works</span>
+
+<span class="s2">Manual testing confirms:</span>
+<span class="s2">- Event content type selection triggers HTMX reload</span>
+<span class="s2">- Event object picker appears with correct queryset</span>
+<span class="s2">- Target content type selection triggers HTMX reload</span>
+<span class="s2">- Target object picker appears with correct queryset</span>
+<span class="s2">- Form submission creates Impact successfully</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-8-manual-testing---embedded-impact-creation">Task 8: Manual testing - Embedded Impact creation<a class="headerlink" href="#task-8-manual-testing---embedded-impact-creation" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> Verify form works correctly in embedded mode (from Event detail page)</p>
+<p><strong>Step 1: Navigate to Maintenance detail page</strong></p>
+<ol>
+<li>Navigate to: Plugins → Vendor Notification → Maintenances</li>
+<li>Click on any maintenance event</li>
+</ol>
+<p><strong>Step 2: Verify Impact button appears</strong></p>
+<ol>
+<li>Look for "Add Impact" button in right sidebar</li>
+</ol>
+<p>Expected: Button appears with link to Impact add form</p>
+<p><strong>Step 3: Click Add Impact button</strong></p>
+<ol>
+<li>Click "Add Impact" button</li>
+<li>Verify redirects to Impact add form</li>
+<li>Verify URL contains: <code>?event_content_type=X&amp;event_object_id=Y</code></li>
+</ol>
+<p>Expected: Form loads with pre-filled event fields</p>
+<p><strong>Step 4: Verify event fields are disabled</strong></p>
+<ol>
+<li>Verify "Event Type" dropdown is disabled/readonly</li>
+<li>Verify "Event" field shows selected maintenance (if visible)</li>
+<li>Verify cannot change event selection</li>
+</ol>
+<p>Expected: Event fields are pre-filled and locked</p>
+<p><strong>Step 5: Complete target selection</strong></p>
+<ol>
+<li>Select "Target Type" → "Circuit"</li>
+<li>Select target circuit from dropdown</li>
+<li>Select "Impact" level</li>
+<li>Click "Create"</li>
+</ol>
+<p>Expected: Impact created successfully with correct event linkage</p>
+<p><strong>Step 6: Repeat for Outage</strong></p>
+<ol>
+<li>Navigate to an Outage detail page</li>
+<li>Click "Add Impact" button</li>
+<li>Verify form pre-fills with outage</li>
+<li>Create an impact</li>
+</ol>
+<p>Expected: Works identically to Maintenance flow</p>
+<p><strong>Step 7: Document results</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>--allow-empty<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test: verify embedded Impact creation works</span>
+
+<span class="s2">Manual testing confirms:</span>
+<span class="s2">- Add Impact button appears on Maintenance detail pages</span>
+<span class="s2">- Add Impact button appears on Outage detail pages</span>
+<span class="s2">- Form pre-fills event_content_type and event_object_id from URL</span>
+<span class="s2">- Event fields are disabled in embedded context</span>
+<span class="s2">- Form submission creates Impact with correct event linkage</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-9-manual-testing---edit-existing-impact">Task 9: Manual testing - Edit existing Impact<a class="headerlink" href="#task-9-manual-testing---edit-existing-impact" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> Verify form correctly populates when editing existing Impact</p>
+<p><strong>Step 1: Navigate to existing Impact</strong></p>
+<ol>
+<li>Navigate to: Plugins → Vendor Notification → Impacts</li>
+<li>Click on an existing impact (created in previous tests)</li>
+<li>Click "Edit" button</li>
+</ol>
+<p><strong>Step 2: Verify fields populate correctly</strong></p>
+<ol>
+<li>Verify "Event Type" shows correct content type (Maintenance or Outage)</li>
+<li>Verify "Event" field shows selected event object</li>
+<li>Verify "Target Type" shows correct content type</li>
+<li>Verify "Target Object" field shows selected target object</li>
+<li>Verify "Impact" level is selected</li>
+</ol>
+<p>Expected: All fields populate with existing values</p>
+<p><strong>Step 3: Test changing selections</strong></p>
+<ol>
+<li>Change "Impact" level</li>
+<li>Click "Update"</li>
+</ol>
+<p>Expected: Impact updates successfully</p>
+<p><strong>Step 4: Test changing content types</strong></p>
+<ol>
+<li>Edit same impact again</li>
+<li>Change "Target Type" to different type</li>
+<li>Verify target object picker updates</li>
+<li>Select new target object</li>
+<li>Click "Update"</li>
+</ol>
+<p>Expected: Impact updates with new target object</p>
+<p><strong>Step 5: Document results</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>--allow-empty<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test: verify Impact edit functionality works</span>
+
+<span class="s2">Manual testing confirms:</span>
+<span class="s2">- Edit form loads with all fields populated from instance</span>
+<span class="s2">- Event choice field initializes with correct object</span>
+<span class="s2">- Target choice field initializes with correct object</span>
+<span class="s2">- Changing content types updates pickers correctly</span>
+<span class="s2">- Form submission updates Impact successfully</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-10-final-code-review-and-cleanup">Task 10: Final code review and cleanup<a class="headerlink" href="#task-10-final-code-review-and-cleanup" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Review: <code>vendor_notification/forms.py</code>
+- Review: <code>vendor_notification/template_content.py</code></p>
+<p><strong>Step 1: Run full linting</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/ruff<span class="w"> </span>check<span class="w"> </span>vendor_notification/
+</code></pre></div>
+<p>Expected: No errors</p>
+<p><strong>Step 2: Run formatting</strong></p>
+<div class="highlight"><pre><span></span><code>/opt/netbox/venv/bin/ruff<span class="w"> </span>format<span class="w"> </span>vendor_notification/
+</code></pre></div>
+<p>Expected: All files formatted</p>
+<p><strong>Step 3: Verify no migrations needed</strong></p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>makemigrations
+</code></pre></div>
+<p>Expected: "No changes detected"</p>
+<p><strong>Step 4: Review changes</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>diff<span class="w"> </span>main...HEAD<span class="w"> </span>--stat
+git<span class="w"> </span>log<span class="w"> </span>main..HEAD<span class="w"> </span>--oneline
+</code></pre></div>
+<p>Expected: See all commits from this implementation</p>
+<p><strong>Step 5: Final commit if any cleanup done</strong></p>
+<p>If any formatting or cleanup was applied:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>vendor_notification/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: final linting and formatting cleanup</span>
+
+<span class="s2">Apply ruff formatting to all modified files.</span>
+<span class="s2">Ensure code quality standards met.</span>
+
+<span class="s2">Refs: docs/plans/2025-11-04-impact-form-object-picker-design.md&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="completion-checklist">Completion Checklist<a class="headerlink" href="#completion-checklist" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Task 1: Updated ImpactForm imports and Meta class</li>
+<li>[ ] Task 2: Implemented ImpactForm <strong>init</strong> method</li>
+<li>[ ] Task 3: Implemented init_event_choice helper method</li>
+<li>[ ] Task 4: Implemented init_target_choice helper method</li>
+<li>[ ] Task 5: Implemented ImpactForm clean method</li>
+<li>[ ] Task 6: Updated template_content.py for embedded context</li>
+<li>[ ] Task 7: Manual testing - Standalone Impact creation</li>
+<li>[ ] Task 8: Manual testing - Embedded Impact creation</li>
+<li>[ ] Task 9: Manual testing - Edit existing Impact</li>
+<li>[ ] Task 10: Final code review and cleanup</li>
+</ul>
+<h3 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h3>
+<p>After completing all tasks:</p>
+<ol>
+<li><strong>Review all commits</strong> - Ensure commit messages are clear and reference design doc</li>
+<li><strong>Test edge cases</strong> - Try creating impacts with various content types</li>
+<li><strong>Update documentation</strong> - Add screenshots if needed</li>
+<li><strong>Create pull request</strong> - Use superpowers:finishing-a-development-branch skill</li>
+</ol>
+<h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Design Document:</strong> <code>docs/plans/2025-11-04-impact-form-object-picker-design.md</code></li>
+<li><strong>NetBox EventRuleForm:</strong> <code>/opt/netbox/netbox/extras/forms/model_forms.py:450-563</code></li>
+<li><strong>CLAUDE.md:</strong> Project instructions and conventions</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.twitter.com/jasonyates" target="_blank" rel="noopener" title="Tweet" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/jasonyates/netbox-circuitmaintenance" target="_blank" rel="noopener" title="Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:me@jasonyates.co.uk" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.indexes", "navigation.instant", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

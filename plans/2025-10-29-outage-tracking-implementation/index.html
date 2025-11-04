@@ -1,0 +1,2160 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://jasonyates.github.io/netbox-circuitmaintenance/plans/2025-10-29-outage-tracking-implementation/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>2025 10 29 outage tracking implementation - Netbox Circuit Maintenance Plugin</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="preference" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#outage-tracking-implementation-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Netbox Circuit Maintenance Plugin" class="md-header__button md-logo" aria-label="Netbox Circuit Maintenance Plugin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Netbox Circuit Maintenance Plugin
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2025 10 29 outage tracking implementation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/jasonyates/netbox-circuitmaintenance" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jasonyates/netbox-circuitmaintenance
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Netbox Circuit Maintenance Plugin" class="md-nav__button md-logo" aria-label="Netbox Circuit Maintenance Plugin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Netbox Circuit Maintenance Plugin
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/jasonyates/netbox-circuitmaintenance" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jasonyates/netbox-circuitmaintenance
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Automated Parsers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Automated Parsers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parsers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using a parser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parsers_sns_lambda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AWS SNS & Lambda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#outage-tracking-implementation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outage Tracking Implementation Plan
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Outage Tracking Implementation Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-1-create-circuitoutagestatuschoices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 1: Create CircuitOutageStatusChoices
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-2-create-basecircuitevent-abstract-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 2: Create BaseCircuitEvent Abstract Model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-3-refactor-circuitmaintenance-to-inherit-from-basecircuitevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 3: Refactor CircuitMaintenance to Inherit from BaseCircuitEvent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-4-create-circuitoutage-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 4: Create CircuitOutage Model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-5-create-database-migration-for-new-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 5: Create Database Migration for New Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-6-create-circuitoutageserializer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 6: Create CircuitOutageSerializer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-7-create-circuitoutage-api-viewset-and-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 7: Create CircuitOutage API ViewSet and URLs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-8-create-circuitoutage-filterset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 8: Create CircuitOutage FilterSet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-9-create-circuitoutage-forms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 9: Create CircuitOutage Forms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-10-create-circuitoutage-table-for-list-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 10: Create CircuitOutage Table for List View
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-11-create-circuitoutage-views" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 11: Create CircuitOutage Views
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-12-create-circuitoutage-url-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 12: Create CircuitOutage URL Patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-13-create-circuitoutage-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 13: Create CircuitOutage Templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-14-update-navigation-to-include-outages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 14: Update Navigation to Include Outages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-15-update-readme-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 15: Update README Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-16-run-full-test-suite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 16: Run Full Test Suite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-17-final-verification-and-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task 17: Final Verification and Cleanup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-implementation-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Implementation Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Implementation Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-testing-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Testing Checklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-enhancements-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Future Enhancements (Out of Scope)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes-for-engineers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes for Engineers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notes for Engineers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-without-netbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Without NetBox
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timezone-conversion-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timezone Conversion Logic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etr-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      ETR History
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related Skills
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>2025 10 29 outage tracking implementation</h1>
+
+<h2 id="outage-tracking-implementation-plan">Outage Tracking Implementation Plan<a class="headerlink" href="#outage-tracking-implementation-plan" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Add unplanned outage event tracking with optional end times, ETR tracking, and unified view alongside existing maintenance events.</p>
+<p><strong>Architecture:</strong> Abstract base model pattern with <code>BaseCircuitEvent</code> providing shared fields/behavior, <code>CircuitMaintenance</code> and <code>CircuitOutage</code> as concrete implementations, refactored shared models using GenericForeignKey for polymorphic relationships.</p>
+<p><strong>Tech Stack:</strong> Django 4.x, NetBox 4.4+, Django REST Framework, pytest</p>
+<hr />
+<h3 id="task-1-create-circuitoutagestatuschoices">Task 1: Create CircuitOutageStatusChoices<a class="headerlink" href="#task-1-create-circuitoutagestatuschoices" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/models.py:159</code> (add after CircuitMaintenanceTypeChoices)</p>
+<p><strong>Step 1: Write the failing test</strong></p>
+<p>Create: <code>tests/test_outage_models.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Unit tests for CircuitOutage models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageStatusChoices</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_outage_status_choices_exist</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that outage status choices are defined&quot;&quot;&quot;</span>
+    <span class="n">expected_statuses</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;REPORTED&#39;</span><span class="p">,</span> <span class="s1">&#39;INVESTIGATING&#39;</span><span class="p">,</span> <span class="s1">&#39;IDENTIFIED&#39;</span><span class="p">,</span> <span class="s1">&#39;MONITORING&#39;</span><span class="p">,</span> <span class="s1">&#39;RESOLVED&#39;</span><span class="p">]</span>
+
+    <span class="n">actual_statuses</span> <span class="o">=</span> <span class="p">[</span><span class="n">choice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">CircuitOutageStatusChoices</span><span class="o">.</span><span class="n">CHOICES</span><span class="p">]</span>
+
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">expected_statuses</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">actual_statuses</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_outage_status_colors</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that outage statuses have appropriate colors&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageStatusChoices</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;REPORTED&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;red&#39;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageStatusChoices</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;INVESTIGATING&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;orange&#39;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageStatusChoices</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;IDENTIFIED&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;yellow&#39;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageStatusChoices</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MONITORING&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;blue&#39;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageStatusChoices</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RESOLVED&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;green&#39;</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py::test_outage_status_choices_exist -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutageStatusChoices'"</p>
+<p><strong>Step 3: Write minimal implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/models.py</code>, add after <code>CircuitMaintenanceImpactTypeChoices</code> (around line 188):</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageStatusChoices</span><span class="p">(</span><span class="n">ChoiceSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Status choices for unplanned circuit outage events.</span>
+<span class="sd">    Follows incident management workflow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;CircuitOutage.Status&quot;</span>
+
+    <span class="n">CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;REPORTED&quot;</span><span class="p">,</span> <span class="s2">&quot;Reported&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;INVESTIGATING&quot;</span><span class="p">,</span> <span class="s2">&quot;Investigating&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;IDENTIFIED&quot;</span><span class="p">,</span> <span class="s2">&quot;Identified&quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;MONITORING&quot;</span><span class="p">,</span> <span class="s2">&quot;Monitoring&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;RESOLVED&quot;</span><span class="p">,</span> <span class="s2">&quot;Resolved&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+</code></pre></div>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py -v</code>
+Expected: 2 tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_models.py<span class="w"> </span>netbox_circuitmaintenance/models.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutageStatusChoices for outage workflow</span>
+
+<span class="s2">Defines status workflow for unplanned outages:</span>
+<span class="s2">- REPORTED: Initial state when outage is reported</span>
+<span class="s2">- INVESTIGATING: Team is investigating root cause</span>
+<span class="s2">- IDENTIFIED: Root cause identified, working on fix</span>
+<span class="s2">- MONITORING: Fix applied, monitoring for stability</span>
+<span class="s2">- RESOLVED: Outage fully resolved</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-2-create-basecircuitevent-abstract-model">Task 2: Create BaseCircuitEvent Abstract Model<a class="headerlink" href="#task-2-create-basecircuitevent-abstract-model" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/models.py:190</code> (before CircuitMaintenance)</p>
+<p><strong>Step 1: Write the failing test</strong></p>
+<p>Add to <code>tests/test_outage_models.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseCircuitEvent</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_base_circuit_event_is_abstract</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that BaseCircuitEvent cannot be instantiated&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;abstract&quot;</span><span class="p">):</span>
+        <span class="n">BaseCircuitEvent</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_base_circuit_event_fields</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that BaseCircuitEvent defines expected fields&quot;&quot;&quot;</span>
+    <span class="n">expected_fields</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;original_timezone&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;internal_ticket&#39;</span><span class="p">,</span> <span class="s1">&#39;acknowledged&#39;</span><span class="p">,</span> <span class="s1">&#39;comments&#39;</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Get field names from Meta</span>
+    <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">expected_fields</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">BaseCircuitEvent</span><span class="p">,</span> <span class="n">field_name</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Missing field: </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py::test_base_circuit_event_is_abstract -v</code>
+Expected: FAIL with "cannot import name 'BaseCircuitEvent'"</p>
+<p><strong>Step 3: Write minimal implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/models.py</code>, add BEFORE <code>CircuitMaintenance</code> class (around line 190):</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseCircuitEvent</span><span class="p">(</span><span class="n">NetBoxModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for circuit maintenance and outage events.</span>
+<span class="sd">    Provides common fields and relationships shared by both event types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Event ID&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Provider supplied event ID or ticket number&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Brief summary of the event&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s2">&quot;circuits.provider&quot;</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(class)s</span><span class="s1">_events&#39;</span>  <span class="c1"># Dynamic related name per subclass</span>
+    <span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Start date and time of the event&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">original_timezone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Original Timezone&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Original timezone from provider notification&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">internal_ticket</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Internal Ticket #&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal ticket or change reference&quot;</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">acknowledged</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Acknowledged?&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Confirm if this event has been acknowledged&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">comments</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;-created&#39;</span><span class="p">,)</span>
+</code></pre></div>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py::test_base_circuit_event_is_abstract tests/test_outage_models.py::test_base_circuit_event_fields -v</code>
+Expected: 2 tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_models.py<span class="w"> </span>netbox_circuitmaintenance/models.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add BaseCircuitEvent abstract model</span>
+
+<span class="s2">Provides shared fields for both maintenance and outage events:</span>
+<span class="s2">- Event identification (name, summary)</span>
+<span class="s2">- Temporal data (start, timezone)</span>
+<span class="s2">- Provider relationship</span>
+<span class="s2">- Tracking metadata (ticket, acknowledged)</span>
+
+<span class="s2">Uses dynamic related_name for clean ForeignKey relationships.</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-3-refactor-circuitmaintenance-to-inherit-from-basecircuitevent">Task 3: Refactor CircuitMaintenance to Inherit from BaseCircuitEvent<a class="headerlink" href="#task-3-refactor-circuitmaintenance-to-inherit-from-basecircuitevent" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/models.py:190</code> (CircuitMaintenance class)</p>
+<p><strong>Step 1: Write the test</strong></p>
+<p>Add to <code>tests/test_outage_models.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitMaintenance</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_maintenance_inherits_from_base</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitMaintenance inherits from BaseCircuitEvent&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">CircuitMaintenance</span><span class="p">,</span> <span class="n">BaseCircuitEvent</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_maintenance_has_required_end_time</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitMaintenance end field exists and is required&quot;&quot;&quot;</span>
+    <span class="n">end_field</span> <span class="o">=</span> <span class="n">CircuitMaintenance</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">end_field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">end_field</span><span class="o">.</span><span class="n">null</span> <span class="o">==</span> <span class="kc">False</span>  <span class="c1"># Required field</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py::test_circuit_maintenance_inherits_from_base -v</code>
+Expected: FAIL with "False is not true"</p>
+<p><strong>Step 3: Refactor CircuitMaintenance</strong></p>
+<p>In <code>netbox_circuitmaintenance/models.py</code>, replace the CircuitMaintenance class definition:</p>
+<p><strong>BEFORE:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CircuitMaintenance</span><span class="p">(</span><span class="n">NetBoxModel</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">original_timezone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">internal_ticket</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">acknowledged</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">comments</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>AFTER:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CircuitMaintenance</span><span class="p">(</span><span class="n">BaseCircuitEvent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Planned maintenance events with scheduled end times.</span>
+<span class="sd">    Inherits common fields from BaseCircuitEvent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;End date and time of the maintenance event&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">CircuitMaintenanceTypeChoices</span>
+    <span class="p">)</span>
+</code></pre></div></p>
+<p>Keep all the existing methods (get_status_color, get_start_in_original_tz, etc.) unchanged.</p>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py::test_circuit_maintenance_inherits_from_base tests/test_outage_models.py::test_circuit_maintenance_has_required_end_time -v</code>
+Expected: 2 tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_models.py<span class="w"> </span>netbox_circuitmaintenance/models.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: migrate CircuitMaintenance to inherit from BaseCircuitEvent</span>
+
+<span class="s2">Removes duplicate field definitions, inherits from base:</span>
+<span class="s2">- name, summary, provider, start (from base)</span>
+<span class="s2">- original_timezone, internal_ticket, acknowledged, comments (from base)</span>
+<span class="s2">- Retains maintenance-specific: end (required), status</span>
+
+<span class="s2">All existing methods and Meta configuration preserved.</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-4-create-circuitoutage-model">Task 4: Create CircuitOutage Model<a class="headerlink" href="#task-4-create-circuitoutage-model" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/models.py</code> (add after CircuitMaintenance)</p>
+<p><strong>Step 1: Write the failing test</strong></p>
+<p>Add to <code>tests/test_outage_models.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">django.core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_inherits_from_base</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutage inherits from BaseCircuitEvent&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">CircuitOutage</span><span class="p">,</span> <span class="n">BaseCircuitEvent</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_end_is_optional</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutage end field is nullable&quot;&quot;&quot;</span>
+    <span class="n">end_field</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">end_field</span><span class="o">.</span><span class="n">null</span> <span class="o">==</span> <span class="kc">True</span>
+    <span class="k">assert</span> <span class="n">end_field</span><span class="o">.</span><span class="n">blank</span> <span class="o">==</span> <span class="kc">True</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_has_etr_field</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutage has estimated_time_to_repair field&quot;&quot;&quot;</span>
+    <span class="n">etr_field</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s1">&#39;estimated_time_to_repair&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">etr_field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">etr_field</span><span class="o">.</span><span class="n">null</span> <span class="o">==</span> <span class="kc">True</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_validation_requires_end_when_resolved</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that clean() requires end time when status is RESOLVED&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span>
+
+    <span class="n">outage</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="p">()</span>
+    <span class="n">outage</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;RESOLVED&#39;</span>
+    <span class="n">outage</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ValidationError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc_info</span><span class="p">:</span>
+        <span class="n">outage</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="s1">&#39;end&#39;</span> <span class="ow">in</span> <span class="n">exc_info</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">message_dict</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_validation_allows_no_end_when_investigating</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that clean() allows no end time for non-resolved statuses&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span>
+
+    <span class="n">outage</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="p">()</span>
+    <span class="n">outage</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;INVESTIGATING&#39;</span>
+    <span class="n">outage</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Should not raise</span>
+    <span class="n">outage</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py::test_circuit_outage_inherits_from_base -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutage'"</p>
+<p><strong>Step 3: Write minimal implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/models.py</code>, add after CircuitMaintenance class:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutage</span><span class="p">(</span><span class="n">BaseCircuitEvent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Unplanned outage events with optional end times and ETR tracking.</span>
+<span class="sd">    Inherits common fields from BaseCircuitEvent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;End date and time of the outage (required when resolved)&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">estimated_time_to_repair</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Estimated Time to Repair&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Current estimate for when service will be restored&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">CircuitOutageStatusChoices</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s2">&quot;Circuit Outage&quot;</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s2">&quot;Circuit Outages&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="c1"># Validation: end time required when status = RESOLVED</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;RESOLVED&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">({</span>
+                <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="s1">&#39;End time is required when marking outage as resolved&#39;</span>
+            <span class="p">})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_status_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CircuitOutageStatusChoices</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span>
+            <span class="s2">&quot;plugins:netbox_circuitmaintenance:circuitoutage&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">]</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p><strong>Step 4: Run tests to verify they pass</strong></p>
+<p>Run: <code>pytest tests/test_outage_models.py -v -k "outage"</code>
+Expected: All CircuitOutage tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_models.py<span class="w"> </span>netbox_circuitmaintenance/models.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutage model for unplanned events</span>
+
+<span class="s2">New model for tracking unplanned outages:</span>
+<span class="s2">- Optional end time (required only when RESOLVED)</span>
+<span class="s2">- Estimated Time to Repair (ETR) field</span>
+<span class="s2">- Outage-specific status workflow</span>
+<span class="s2">- Validation: prevents marking RESOLVED without end time</span>
+
+<span class="s2">Inherits provider, start, timezone tracking from BaseCircuitEvent.</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-5-create-database-migration-for-new-models">Task 5: Create Database Migration for New Models<a class="headerlink" href="#task-5-create-database-migration-for-new-models" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Create: <code>netbox_circuitmaintenance/migrations/0009_add_outage_tracking.py</code></p>
+<p><strong>Step 1: Generate migration</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/jsenecal/Code/netbox-circuitmaintenance
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+python<span class="w"> </span>manage.py<span class="w"> </span>makemigrations<span class="w"> </span>netbox_circuitmaintenance
+</code></pre></div>
+<p>Expected: Creates new migration file <code>0009_add_outage_tracking.py</code> (or similar number)</p>
+<p><strong>Step 2: Review migration</strong></p>
+<p>Read the generated migration file to ensure it:
+- Creates CircuitOutage table
+- Handles BaseCircuitEvent abstract model correctly
+- Preserves CircuitMaintenance data</p>
+<p><strong>Step 3: Test migration (dry run)</strong></p>
+<p>Note: This requires a NetBox test environment. Document for manual testing:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># In NetBox development environment</span>
+python<span class="w"> </span>manage.py<span class="w"> </span>migrate<span class="w"> </span>netbox_circuitmaintenance<span class="w"> </span>--plan
+</code></pre></div>
+<p>Expected: Shows migration plan without errors</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>netbox_circuitmaintenance/migrations/0009_*.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add database migration for outage tracking</span>
+
+<span class="s2">Creates CircuitOutage table with fields:</span>
+<span class="s2">- Inherited from BaseCircuitEvent (name, summary, provider, start, etc.)</span>
+<span class="s2">- Outage-specific: end (nullable), estimated_time_to_repair, status</span>
+
+<span class="s2">Preserves existing CircuitMaintenance data unchanged.</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-6-create-circuitoutageserializer">Task 6: Create CircuitOutageSerializer<a class="headerlink" href="#task-6-create-circuitoutageserializer" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/api/serializers.py</code></p>
+<p><strong>Step 1: Write the test</strong></p>
+<p>Create: <code>tests/test_outage_api.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tests for CircuitOutage API serialization.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.api.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageSerializer</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_serializer_fields</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that serializer includes all required fields&quot;&quot;&quot;</span>
+    <span class="n">serializer</span> <span class="o">=</span> <span class="n">CircuitOutageSerializer</span><span class="p">()</span>
+
+    <span class="n">expected_fields</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="s1">&#39;estimated_time_to_repair&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;original_timezone&#39;</span><span class="p">,</span> <span class="s1">&#39;internal_ticket&#39;</span><span class="p">,</span> <span class="s1">&#39;acknowledged&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;comments&#39;</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="s1">&#39;custom_fields&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="s1">&#39;last_updated&#39;</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">expected_fields</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">serializer</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Missing field: </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_serializer_read_only_fields</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that computed fields are read-only&quot;&quot;&quot;</span>
+    <span class="n">serializer</span> <span class="o">=</span> <span class="n">CircuitOutageSerializer</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">serializer</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;display&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read_only</span> <span class="o">==</span> <span class="kc">True</span>
+    <span class="k">assert</span> <span class="n">serializer</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read_only</span> <span class="o">==</span> <span class="kc">True</span>
+    <span class="k">assert</span> <span class="n">serializer</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;last_updated&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read_only</span> <span class="o">==</span> <span class="kc">True</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_api.py::test_circuit_outage_serializer_fields -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutageSerializer'"</p>
+<p><strong>Step 3: Write implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/api/serializers.py</code>, add after CircuitMaintenanceSerializer:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">netbox.api.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">NetBoxModelSerializer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">serializers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">circuits.api.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProviderSerializer</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageSerializer</span><span class="p">(</span><span class="n">NetBoxModelSerializer</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">HyperlinkedIdentityField</span><span class="p">(</span>
+        <span class="n">view_name</span><span class="o">=</span><span class="s1">&#39;plugins-api:netbox_circuitmaintenance-api:circuitoutage-detail&#39;</span>
+    <span class="p">)</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">ProviderSerializer</span><span class="p">(</span><span class="n">nested</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CircuitOutage</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="s1">&#39;estimated_time_to_repair&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;original_timezone&#39;</span><span class="p">,</span> <span class="s1">&#39;internal_ticket&#39;</span><span class="p">,</span> <span class="s1">&#39;acknowledged&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;comments&#39;</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="s1">&#39;custom_fields&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="s1">&#39;last_updated&#39;</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_api.py -v</code>
+Expected: 2 tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_api.py<span class="w"> </span>netbox_circuitmaintenance/api/serializers.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutageSerializer for API</span>
+
+<span class="s2">Serializes CircuitOutage model for REST API:</span>
+<span class="s2">- All event fields (name, summary, status, dates)</span>
+<span class="s2">- Nested provider serialization</span>
+<span class="s2">- ETR field for repair estimates</span>
+<span class="s2">- Standard NetBox fields (tags, custom_fields, timestamps)</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-7-create-circuitoutage-api-viewset-and-urls">Task 7: Create CircuitOutage API ViewSet and URLs<a class="headerlink" href="#task-7-create-circuitoutage-api-viewset-and-urls" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/api/views.py</code>
+- Modify: <code>netbox_circuitmaintenance/api/urls.py</code></p>
+<p><strong>Step 1: Write the test</strong></p>
+<p>Add to <code>tests/test_outage_api.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.api.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageViewSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_viewset_exists</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutageViewSet is defined&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageViewSet</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_viewset_queryset</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that viewset uses correct queryset&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageViewSet</span><span class="o">.</span><span class="n">queryset</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_viewset_serializer</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that viewset uses CircuitOutageSerializer&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.api.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageSerializer</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageViewSet</span><span class="o">.</span><span class="n">serializer_class</span> <span class="o">==</span> <span class="n">CircuitOutageSerializer</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_api.py::test_circuit_outage_viewset_exists -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutageViewSet'"</p>
+<p><strong>Step 3: Write implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/api/views.py</code>, add after CircuitMaintenanceViewSet:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageViewSet</span><span class="p">(</span><span class="n">NetBoxModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CircuitOutage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;tags&#39;</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">CircuitOutageSerializer</span>
+</code></pre></div>
+<p>In <code>netbox_circuitmaintenance/api/urls.py</code>, add router registration after existing entries:</p>
+<div class="highlight"><pre><span></span><code><span class="n">router</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s1">&#39;circuitoutage&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">CircuitOutageViewSet</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_api.py -v</code>
+Expected: All tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_api.py<span class="w"> </span>netbox_circuitmaintenance/api/views.py<span class="w"> </span>netbox_circuitmaintenance/api/urls.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutage API endpoints</span>
+
+<span class="s2">Adds REST API support for outage tracking:</span>
+<span class="s2">- ViewSet for CRUD operations</span>
+<span class="s2">- URL routing at /api/plugins/netbox-circuitmaintenance/circuitoutage/</span>
+<span class="s2">- Follows NetBox API conventions</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-8-create-circuitoutage-filterset">Task 8: Create CircuitOutage FilterSet<a class="headerlink" href="#task-8-create-circuitoutage-filterset" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/filtersets.py</code></p>
+<p><strong>Step 1: Write the test</strong></p>
+<p>Create: <code>tests/test_outage_filters.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tests for CircuitOutage filtering.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.filtersets</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageFilterSet</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_filterset_exists</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutageFilterSet is defined&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageFilterSet</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_filterset_model</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that filterset targets CircuitOutage model&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageFilterSet</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_filterset_fields</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that filterset includes key filter fields&quot;&quot;&quot;</span>
+    <span class="n">expected_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">expected_fields</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">CircuitOutageFilterSet</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Missing filter: </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_filters.py::test_circuit_outage_filterset_exists -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutageFilterSet'"</p>
+<p><strong>Step 3: Write implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/filtersets.py</code>, add after CircuitMaintenanceFilterSet:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">django_filters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageFilterSet</span><span class="p">(</span><span class="n">NetBoxModelFilterSet</span><span class="p">):</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">django_filters</span><span class="o">.</span><span class="n">ModelMultipleChoiceFilter</span><span class="p">(</span>
+        <span class="n">queryset</span><span class="o">=</span><span class="n">Provider</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Provider&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">django_filters</span><span class="o">.</span><span class="n">MultipleChoiceFilter</span><span class="p">(</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">CircuitOutageStatusChoices</span><span class="p">,</span>
+        <span class="n">null_value</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CircuitOutage</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;estimated_time_to_repair&#39;</span><span class="p">,</span> <span class="s1">&#39;internal_ticket&#39;</span><span class="p">,</span> <span class="s1">&#39;acknowledged&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> <span class="o">|</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">summary__icontains</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> <span class="o">|</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">internal_ticket__icontains</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p><strong>Step 4: Update API views to use filterset</strong></p>
+<p>In <code>netbox_circuitmaintenance/api/views.py</code>, update CircuitOutageViewSet:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">filtersets</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageViewSet</span><span class="p">(</span><span class="n">NetBoxModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CircuitOutage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;tags&#39;</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">CircuitOutageSerializer</span>
+    <span class="n">filterset_class</span> <span class="o">=</span> <span class="n">filtersets</span><span class="o">.</span><span class="n">CircuitOutageFilterSet</span>
+</code></pre></div>
+<p><strong>Step 5: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_filters.py -v</code>
+Expected: All tests PASS</p>
+<p><strong>Step 6: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_filters.py<span class="w"> </span>netbox_circuitmaintenance/filtersets.py<span class="w"> </span>netbox_circuitmaintenance/api/views.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutageFilterSet for API filtering</span>
+
+<span class="s2">Enables filtering outages by:</span>
+<span class="s2">- Provider (multi-select)</span>
+<span class="s2">- Status (multi-select)</span>
+<span class="s2">- Date ranges (start, end, ETR)</span>
+<span class="s2">- Text search (name, summary, ticket)</span>
+
+<span class="s2">Integrated into API viewset for query support.</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-9-create-circuitoutage-forms">Task 9: Create CircuitOutage Forms<a class="headerlink" href="#task-9-create-circuitoutage-forms" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/forms.py</code></p>
+<p><strong>Step 1: Write the test</strong></p>
+<p>Create: <code>tests/test_outage_forms.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tests for CircuitOutage forms.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageForm</span><span class="p">,</span> <span class="n">CircuitOutageFilterForm</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_form_exists</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutageForm is defined&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageForm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_form_model</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that form targets CircuitOutage model&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageForm</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_form_fields</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that form includes all required fields&quot;&quot;&quot;</span>
+    <span class="n">expected_fields</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;estimated_time_to_repair&#39;</span><span class="p">,</span> <span class="s1">&#39;original_timezone&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;internal_ticket&#39;</span><span class="p">,</span> <span class="s1">&#39;acknowledged&#39;</span><span class="p">,</span> <span class="s1">&#39;comments&#39;</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">CircuitOutageForm</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">fields</span> <span class="o">==</span> <span class="n">expected_fields</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_filter_form_exists</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutageFilterForm is defined&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageFilterForm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_forms.py::test_circuit_outage_form_exists -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutageForm'"</p>
+<p><strong>Step 3: Write implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/forms.py</code>, add after CircuitMaintenanceFilterForm:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span><span class="p">,</span> <span class="n">CircuitOutageStatusChoices</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageForm</span><span class="p">(</span><span class="n">NetBoxModelForm</span><span class="p">):</span>
+
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">DynamicModelChoiceField</span><span class="p">(</span><span class="n">queryset</span><span class="o">=</span><span class="n">Provider</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+
+    <span class="n">original_timezone</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ChoiceField</span><span class="p">(</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">TimeZoneChoices</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Timezone&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Timezone for the start/end/ETR times (converted to system timezone on save)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CircuitOutage</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;summary&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;provider&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;estimated_time_to_repair&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;original_timezone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;internal_ticket&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;acknowledged&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;comments&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">DateTimePicker</span><span class="p">(),</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">DateTimePicker</span><span class="p">(),</span>
+            <span class="s2">&quot;estimated_time_to_repair&quot;</span><span class="p">:</span> <span class="n">DateTimePicker</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># On edit, change help text since we don&#39;t convert</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;original_timezone&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">help_text</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Original timezone from provider notification (reference only)&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;original_timezone&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Original Timezone&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Only convert timezone on CREATE (not on edit)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">instance</span><span class="o">.</span><span class="n">pk</span> <span class="ow">and</span> <span class="n">instance</span><span class="o">.</span><span class="n">original_timezone</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Get the timezone objects</span>
+                <span class="n">original_tz</span> <span class="o">=</span> <span class="n">zoneinfo</span><span class="o">.</span><span class="n">ZoneInfo</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">original_timezone</span><span class="p">)</span>
+                <span class="n">system_tz</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">get_current_timezone</span><span class="p">()</span>
+
+                <span class="c1"># Convert start time if provided</span>
+                <span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">timezone</span><span class="o">.</span><span class="n">is_naive</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">start</span><span class="p">):</span>
+                        <span class="n">start_in_original_tz</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                            <span class="n">tzinfo</span><span class="o">=</span><span class="n">original_tz</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">start_in_original_tz</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                            <span class="n">tzinfo</span><span class="o">=</span><span class="n">original_tz</span>
+                        <span class="p">)</span>
+                    <span class="n">instance</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start_in_original_tz</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">system_tz</span><span class="p">)</span>
+
+                <span class="c1"># Convert end time if provided</span>
+                <span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">timezone</span><span class="o">.</span><span class="n">is_naive</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">end</span><span class="p">):</span>
+                        <span class="n">end_in_original_tz</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">original_tz</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">end_in_original_tz</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">original_tz</span><span class="p">)</span>
+                    <span class="n">instance</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end_in_original_tz</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">system_tz</span><span class="p">)</span>
+
+                <span class="c1"># Convert ETR time if provided</span>
+                <span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">estimated_time_to_repair</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">timezone</span><span class="o">.</span><span class="n">is_naive</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">estimated_time_to_repair</span><span class="p">):</span>
+                        <span class="n">etr_in_original_tz</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">estimated_time_to_repair</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                            <span class="n">tzinfo</span><span class="o">=</span><span class="n">original_tz</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">etr_in_original_tz</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">estimated_time_to_repair</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                            <span class="n">tzinfo</span><span class="o">=</span><span class="n">original_tz</span>
+                        <span class="p">)</span>
+                    <span class="n">instance</span><span class="o">.</span><span class="n">estimated_time_to_repair</span> <span class="o">=</span> <span class="n">etr_in_original_tz</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">system_tz</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="p">(</span><span class="n">zoneinfo</span><span class="o">.</span><span class="n">ZoneInfoNotFoundError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                <span class="c1"># If timezone is invalid, just save without conversion</span>
+                <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_m2m</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">instance</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageFilterForm</span><span class="p">(</span><span class="n">NetBoxModelFilterSetForm</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">CircuitOutage</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ModelMultipleChoiceField</span><span class="p">(</span>
+        <span class="n">queryset</span><span class="o">=</span><span class="n">Provider</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">MultipleChoiceField</span><span class="p">(</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">CircuitOutageStatusChoices</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">acknowledged</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">internal_ticket</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_forms.py -v</code>
+Expected: All tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_forms.py<span class="w"> </span>netbox_circuitmaintenance/forms.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutage forms for UI</span>
+
+<span class="s2">Creates forms for outage management:</span>
+<span class="s2">- CircuitOutageForm: Create/edit with timezone conversion</span>
+<span class="s2">- CircuitOutageFilterForm: Filter by status, provider, dates</span>
+
+<span class="s2">Reuses timezone conversion logic from CircuitMaintenanceForm.</span>
+<span class="s2">Applies to start, end, and ETR fields.</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com)&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-10-create-circuitoutage-table-for-list-view">Task 10: Create CircuitOutage Table for List View<a class="headerlink" href="#task-10-create-circuitoutage-table-for-list-view" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/tables.py</code></p>
+<p><strong>Step 1: Write the test</strong></p>
+<p>Create: <code>tests/test_outage_tables.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tests for CircuitOutage tables.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageTable</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_table_exists</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that CircuitOutageTable is defined&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageTable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_table_columns</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that table includes key columns&quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">CircuitOutageTable</span><span class="p">([])</span>
+
+    <span class="n">expected_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;estimated_time_to_repair&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">expected_columns</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">base_columns</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Missing column: </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_tables.py::test_circuit_outage_table_exists -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutageTable'"</p>
+<p><strong>Step 3: Write implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/tables.py</code>, add after CircuitMaintenanceTable:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">django_tables2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tables</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">NetBoxTable</span><span class="p">,</span> <span class="n">columns</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageTable</span><span class="p">(</span><span class="n">NetBoxTable</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">tables</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">linkify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">tables</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">linkify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">columns</span><span class="o">.</span><span class="n">ChoiceFieldColumn</span><span class="p">()</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">columns</span><span class="o">.</span><span class="n">DateTimeColumn</span><span class="p">()</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">columns</span><span class="o">.</span><span class="n">DateTimeColumn</span><span class="p">()</span>
+    <span class="n">estimated_time_to_repair</span> <span class="o">=</span> <span class="n">columns</span><span class="o">.</span><span class="n">DateTimeColumn</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;ETR&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">(</span><span class="n">NetBoxTable</span><span class="o">.</span><span class="n">Meta</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CircuitOutage</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;estimated_time_to_repair&#39;</span><span class="p">,</span> <span class="s1">&#39;internal_ticket&#39;</span><span class="p">,</span> <span class="s1">&#39;acknowledged&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span>
+        <span class="p">)</span>
+        <span class="n">default_columns</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;provider&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="s1">&#39;estimated_time_to_repair&#39;</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_tables.py -v</code>
+Expected: All tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_tables.py<span class="w"> </span>netbox_circuitmaintenance/tables.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutageTable for list views</span>
+
+<span class="s2">Defines table columns for outage display:</span>
+<span class="s2">- Linkified name and provider</span>
+<span class="s2">- Status with color coding</span>
+<span class="s2">- Temporal fields (start, end, ETR)</span>
+<span class="s2">- Tracking metadata (ticket, acknowledged)</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-11-create-circuitoutage-views">Task 11: Create CircuitOutage Views<a class="headerlink" href="#task-11-create-circuitoutage-views" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/views.py</code></p>
+<p><strong>Step 1: Write the test</strong></p>
+<p>Create: <code>tests/test_outage_views.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tests for CircuitOutage views.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.views</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CircuitOutageListView</span><span class="p">,</span>
+    <span class="n">CircuitOutageView</span><span class="p">,</span>
+    <span class="n">CircuitOutageEditView</span><span class="p">,</span>
+    <span class="n">CircuitOutageDeleteView</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_views_exist</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that all CircuitOutage views are defined&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageListView</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageView</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageEditView</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageDeleteView</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_list_view_queryset</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that list view uses correct queryset&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageListView</span><span class="o">.</span><span class="n">queryset</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">CircuitOutage</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_circuit_outage_list_view_table</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that list view uses CircuitOutageTable&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageTable</span>
+    <span class="k">assert</span> <span class="n">CircuitOutageListView</span><span class="o">.</span><span class="n">table</span> <span class="o">==</span> <span class="n">CircuitOutageTable</span>
+</code></pre></div>
+<p><strong>Step 2: Run test to verify it fails</strong></p>
+<p>Run: <code>pytest tests/test_outage_views.py::test_circuit_outage_views_exist -v</code>
+Expected: FAIL with "cannot import name 'CircuitOutageListView'"</p>
+<p><strong>Step 3: Write implementation</strong></p>
+<p>In <code>netbox_circuitmaintenance/views.py</code>, add after CircuitMaintenance views:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOutageForm</span><span class="p">,</span> <span class="n">CircuitOutageFilterForm</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageListView</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">ObjectListView</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">CircuitOutageTable</span>
+    <span class="n">filterset</span> <span class="o">=</span> <span class="n">filtersets</span><span class="o">.</span><span class="n">CircuitOutageFilterSet</span>
+    <span class="n">filterset_form</span> <span class="o">=</span> <span class="n">CircuitOutageFilterForm</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageView</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">ObjectView</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageEditView</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">ObjectEditView</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">CircuitOutageForm</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitOutageDeleteView</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">ObjectDeleteView</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">CircuitOutage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Step 4: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_views.py -v</code>
+Expected: All tests PASS</p>
+<p><strong>Step 5: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_views.py<span class="w"> </span>netbox_circuitmaintenance/views.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutage views for UI</span>
+
+<span class="s2">Implements CRUD views for outage management:</span>
+<span class="s2">- List view with filtering and table display</span>
+<span class="s2">- Detail view for individual outages</span>
+<span class="s2">- Edit view with form validation</span>
+<span class="s2">- Delete view with confirmation</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-12-create-circuitoutage-url-patterns">Task 12: Create CircuitOutage URL Patterns<a class="headerlink" href="#task-12-create-circuitoutage-url-patterns" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/urls.py</code></p>
+<p><strong>Step 1: Add URL patterns</strong></p>
+<p>In <code>netbox_circuitmaintenance/urls.py</code>, add after CircuitMaintenance URLs:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">.views</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CircuitOutageListView</span><span class="p">,</span>
+    <span class="n">CircuitOutageView</span><span class="p">,</span>
+    <span class="n">CircuitOutageEditView</span><span class="p">,</span>
+    <span class="n">CircuitOutageDeleteView</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># ... existing CircuitMaintenance URLs ...</span>
+
+    <span class="c1"># CircuitOutage URLs</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;outages/&#39;</span><span class="p">,</span> <span class="n">CircuitOutageListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;circuitoutage_list&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;outages/add/&#39;</span><span class="p">,</span> <span class="n">CircuitOutageEditView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;circuitoutage_add&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;outages/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">CircuitOutageView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;circuitoutage&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;outages/&lt;int:pk&gt;/edit/&#39;</span><span class="p">,</span> <span class="n">CircuitOutageEditView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;circuitoutage_edit&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;outages/&lt;int:pk&gt;/delete/&#39;</span><span class="p">,</span> <span class="n">CircuitOutageDeleteView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;circuitoutage_delete&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div>
+<p><strong>Step 2: Test URL resolution</strong></p>
+<p>Create: <code>tests/test_outage_urls.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tests for CircuitOutage URL patterns.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_outage_urls_defined</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that outage URL patterns exist&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">netbox_circuitmaintenance.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlpatterns</span>
+
+    <span class="n">outage_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">urlpatterns</span> <span class="k">if</span> <span class="s1">&#39;outage&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">pattern</span><span class="p">)]</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">outage_patterns</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Should have at least 5 outage URL patterns&quot;</span>
+</code></pre></div>
+<p><strong>Step 3: Run test to verify it passes</strong></p>
+<p>Run: <code>pytest tests/test_outage_urls.py -v</code>
+Expected: Test PASS</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>tests/test_outage_urls.py<span class="w"> </span>netbox_circuitmaintenance/urls.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutage URL patterns</span>
+
+<span class="s2">Defines URL routes for outage management:</span>
+<span class="s2">- /outages/ - List all outages</span>
+<span class="s2">- /outages/add/ - Create new outage</span>
+<span class="s2">- /outages/&lt;id&gt;/ - View outage details</span>
+<span class="s2">- /outages/&lt;id&gt;/edit/ - Edit outage</span>
+<span class="s2">- /outages/&lt;id&gt;/delete/ - Delete outage</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-13-create-circuitoutage-templates">Task 13: Create CircuitOutage Templates<a class="headerlink" href="#task-13-create-circuitoutage-templates" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Create: <code>netbox_circuitmaintenance/templates/netbox_circuitmaintenance/circuitoutage.html</code></p>
+<p><strong>Step 1: Create detail template</strong></p>
+<div class="highlight"><pre><span></span><code>{% extends &#39;generic/object.html&#39; %}
+{% load helpers %}
+
+{% block content %}
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col col-md-6&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h5</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-header&quot;</span><span class="p">&gt;</span>Outage Details<span class="p">&lt;/</span><span class="nt">h5</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-body&quot;</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;table table-hover attr-table&quot;</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Event ID<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ object.name }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Provider<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ object.provider|linkify }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Status<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{% badge object.get_status_color %}{{ object.get_status_display }}{% endbadge %}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Summary<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ object.summary }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Start<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ object.start|annotated_date }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>End<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                            {% if object.end %}
+                                {{ object.end|annotated_date }}
+                            {% else %}
+                                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;text-muted&quot;</span><span class="p">&gt;</span>Not yet resolved<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                            {% endif %}
+                        <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Estimated Time to Repair<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                            {% if object.estimated_time_to_repair %}
+                                {{ object.estimated_time_to_repair|annotated_date }}
+                            {% else %}
+                                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;text-muted&quot;</span><span class="p">&gt;</span>No estimate provided<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                            {% endif %}
+                        <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    {% if object.original_timezone %}
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Original Timezone<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ object.original_timezone }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    {% endif %}
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Internal Ticket<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ object.internal_ticket|placeholder }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>Acknowledged<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{% checkmark object.acknowledged %}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        {% if object.comments %}
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h5</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-header&quot;</span><span class="p">&gt;</span>Comments<span class="p">&lt;/</span><span class="nt">h5</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-body&quot;</span><span class="p">&gt;</span>
+                {{ object.comments|render_markdown }}
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        {% endif %}
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+{% endblock content %}
+</code></pre></div>
+<p><strong>Step 2: Verify template loads</strong></p>
+<p>Manual testing step - requires NetBox environment:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start NetBox development server</span>
+python<span class="w"> </span>manage.py<span class="w"> </span>runserver
+
+<span class="c1"># Navigate to: http://localhost:8000/plugins/netbox-circuitmaintenance/outages/1/</span>
+</code></pre></div>
+<p>Expected: Page renders without template errors</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>netbox_circuitmaintenance/templates/netbox_circuitmaintenance/circuitoutage.html
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add CircuitOutage detail template</span>
+
+<span class="s2">Creates detail view showing:</span>
+<span class="s2">- Event identification (ID, provider, status)</span>
+<span class="s2">- Timeline (start, end, ETR with null handling)</span>
+<span class="s2">- Timezone information (if provided)</span>
+<span class="s2">- Tracking metadata (ticket, acknowledged)</span>
+<span class="s2">- Comments (markdown rendered)</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-14-update-navigation-to-include-outages">Task 14: Update Navigation to Include Outages<a class="headerlink" href="#task-14-update-navigation-to-include-outages" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>netbox_circuitmaintenance/navigation.py</code></p>
+<p><strong>Step 1: Update navigation structure</strong></p>
+<p>In <code>netbox_circuitmaintenance/navigation.py</code>, modify the menu to include outages:</p>
+<p><strong>BEFORE:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">menu_items</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">PluginMenuItem</span><span class="p">(</span>
+        <span class="n">link</span><span class="o">=</span><span class="s1">&#39;plugins:netbox_circuitmaintenance:circuitmaintenance_list&#39;</span><span class="p">,</span>
+        <span class="n">link_text</span><span class="o">=</span><span class="s1">&#39;Circuit Maintenance&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div></p>
+<p><strong>AFTER:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">netbox.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginMenuButton</span><span class="p">,</span> <span class="n">PluginMenuItem</span>
+
+<span class="n">menu_items</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">PluginMenuItem</span><span class="p">(</span>
+        <span class="n">link</span><span class="o">=</span><span class="s1">&#39;plugins:netbox_circuitmaintenance:circuitmaintenance_list&#39;</span><span class="p">,</span>
+        <span class="n">link_text</span><span class="o">=</span><span class="s1">&#39;Maintenances&#39;</span><span class="p">,</span>
+        <span class="n">buttons</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">PluginMenuButton</span><span class="p">(</span>
+                <span class="n">link</span><span class="o">=</span><span class="s1">&#39;plugins:netbox_circuitmaintenance:circuitmaintenance_add&#39;</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Add&#39;</span><span class="p">,</span>
+                <span class="n">icon_class</span><span class="o">=</span><span class="s1">&#39;mdi mdi-plus-thick&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">PluginMenuItem</span><span class="p">(</span>
+        <span class="n">link</span><span class="o">=</span><span class="s1">&#39;plugins:netbox_circuitmaintenance:circuitoutage_list&#39;</span><span class="p">,</span>
+        <span class="n">link_text</span><span class="o">=</span><span class="s1">&#39;Outages&#39;</span><span class="p">,</span>
+        <span class="n">buttons</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">PluginMenuButton</span><span class="p">(</span>
+                <span class="n">link</span><span class="o">=</span><span class="s1">&#39;plugins:netbox_circuitmaintenance:circuitoutage_add&#39;</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Add&#39;</span><span class="p">,</span>
+                <span class="n">icon_class</span><span class="o">=</span><span class="s1">&#39;mdi mdi-plus-thick&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Step 2: Manual verification</strong></p>
+<p>Requires NetBox environment:
+- Restart NetBox
+- Check that "Outages" appears in Circuit Maintenance plugin menu
+- Verify "Add" button links to outage creation form</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>netbox_circuitmaintenance/navigation.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add Outages to navigation menu</span>
+
+<span class="s2">Updates plugin navigation:</span>
+<span class="s2">- Renames &#39;Circuit Maintenance&#39; to &#39;Maintenances&#39;</span>
+<span class="s2">- Adds &#39;Outages&#39; menu item</span>
+<span class="s2">- Includes Add buttons for both menu items</span>
+
+<span class="s2">Provides easy access to both event types.</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com)&quot;</span>
+</code></pre></div>
+<hr />
+<h3 id="task-15-update-readme-documentation">Task 15: Update README Documentation<a class="headerlink" href="#task-15-update-readme-documentation" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong>
+- Modify: <code>README.md</code></p>
+<p><strong>Step 1: Update README</strong></p>
+<p>In <code>README.md</code>, add section about outage tracking after the maintenance tracking section:</p>
+<p><div class="highlight"><pre><span></span><code><span class="gu">## Outage Tracking</span>
+
+In addition to planned maintenance, this plugin supports tracking unplanned outage events:
+
+<span class="gu">### Key Features</span>
+
+<span class="k">-</span><span class="w"> </span><span class="gs">**Optional End Time**</span>: Outages can be created without an end time, which becomes required when marking as resolved
+<span class="k">-</span><span class="w"> </span><span class="gs">**ETR Tracking**</span>: Track Estimated Time to Repair with full revision history via NetBox&#39;s changelog
+<span class="k">-</span><span class="w"> </span><span class="gs">**Outage Status Workflow**</span>:
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>REPORTED: Initial state when outage is reported
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>INVESTIGATING: Team is investigating root cause
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>IDENTIFIED: Root cause identified, working on fix
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>MONITORING: Fix applied, monitoring for stability
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>RESOLVED: Outage fully resolved (requires end time)
+<span class="k">-</span><span class="w"> </span><span class="gs">**Shared Impact Model**</span>: Uses the same circuit impact tracking as maintenance events
+<span class="k">-</span><span class="w"> </span><span class="gs">**Unified View**</span>: View both maintenance and outages together in a single interface
+
+<span class="gu">### API Endpoints</span>
+</code></pre></div>
+GET    /api/plugins/netbox-circuitmaintenance/circuitoutage/
+POST   /api/plugins/netbox-circuitmaintenance/circuitoutage/
+GET    /api/plugins/netbox-circuitmaintenance/circuitoutage/{id}/
+PATCH  /api/plugins/netbox-circuitmaintenance/circuitoutage/{id}/
+DELETE /api/plugins/netbox-circuitmaintenance/circuitoutage/{id}/
+<div class="highlight"><pre><span></span><code>### Example: Creating an Outage
+
+```python
+POST /api/plugins/netbox-circuitmaintenance/circuitoutage/
+{
+    &quot;name&quot;: &quot;OUT-2024-001&quot;,
+    &quot;summary&quot;: &quot;Fiber cut on Main Street&quot;,
+    &quot;provider&quot;: 1,
+    &quot;start&quot;: &quot;2024-10-29T14:30:00Z&quot;,
+    &quot;estimated_time_to_repair&quot;: &quot;2024-10-29T18:00:00Z&quot;,
+    &quot;status&quot;: &quot;INVESTIGATING&quot;
+}
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>**Step 2: Commit**
+
+```bash
+git add README.md
+git commit -m &quot;docs: add outage tracking documentation
+
+Documents new outage tracking features:
+- Outage status workflow
+- ETR tracking capabilities
+- API endpoints and examples
+- Relationship to maintenance tracking
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude &lt;noreply@anthropic.com)&quot;
+</code></pre></div></p>
+<hr />
+<h3 id="task-16-run-full-test-suite">Task 16: Run Full Test Suite<a class="headerlink" href="#task-16-run-full-test-suite" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1: Run all tests</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>../../venv/bin/activate
+pytest<span class="w"> </span>tests/<span class="w"> </span>-v<span class="w"> </span>--tb<span class="o">=</span>short
+</code></pre></div>
+<p>Expected: All tests pass</p>
+<p><strong>Step 2: Check test coverage</strong></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>tests/<span class="w"> </span>--cov<span class="o">=</span>netbox_circuitmaintenance<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+</code></pre></div>
+<p>Expected: New modules have reasonable coverage (&gt;70%)</p>
+<p><strong>Step 3: If failures occur</strong></p>
+<ul>
+<li>Review failure output</li>
+<li>Fix issues</li>
+<li>Rerun tests</li>
+<li>Commit fixes with descriptive messages</li>
+</ul>
+<hr />
+<h3 id="task-17-final-verification-and-cleanup">Task 17: Final Verification and Cleanup<a class="headerlink" href="#task-17-final-verification-and-cleanup" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1: Verify all models registered</strong></p>
+<p>Check that <code>netbox_circuitmaintenance/__init__.py</code> doesn't need updates for model registration.</p>
+<p><strong>Step 2: Check for linting issues</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>../../venv/bin/activate
+black<span class="w"> </span>netbox_circuitmaintenance/<span class="w"> </span>tests/<span class="w"> </span>--check
+isort<span class="w"> </span>netbox_circuitmaintenance/<span class="w"> </span>tests/<span class="w"> </span>--check
+</code></pre></div>
+<p><strong>Step 3: Apply formatting if needed</strong></p>
+<div class="highlight"><pre><span></span><code>black<span class="w"> </span>netbox_circuitmaintenance/<span class="w"> </span>tests/
+isort<span class="w"> </span>netbox_circuitmaintenance/<span class="w"> </span>tests/
+git<span class="w"> </span>add<span class="w"> </span>-A
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;style: apply black and isort formatting</span>
+
+<span class="s2">🤖 Generated with [Claude Code](https://claude.com/claude-code)</span>
+
+<span class="s2">Co-Authored-By: Claude &lt;noreply@anthropic.com)&quot;</span>
+</code></pre></div>
+<p><strong>Step 4: Review git log</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>log<span class="w"> </span>--oneline
+</code></pre></div>
+<p>Expected: Clean commit history with descriptive messages</p>
+<hr />
+<h3 id="post-implementation-tasks">Post-Implementation Tasks<a class="headerlink" href="#post-implementation-tasks" title="Permanent link">&para;</a></h3>
+<h4 id="manual-testing-checklist">Manual Testing Checklist<a class="headerlink" href="#manual-testing-checklist" title="Permanent link">&para;</a></h4>
+<p>These require a NetBox development environment:</p>
+<ol>
+<li>
+<p><strong>Database Migration</strong>
+   <div class="highlight"><pre><span></span><code>python<span class="w"> </span>manage.py<span class="w"> </span>migrate<span class="w"> </span>netbox_circuitmaintenance
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Create Test Outage via UI</strong></p>
+</li>
+<li>Navigate to Circuit Maintenance &gt; Outages</li>
+<li>Click "Add"</li>
+<li>Fill form with test data</li>
+<li>
+<p>Verify validation (end time required when RESOLVED)</p>
+</li>
+<li>
+<p><strong>Update ETR</strong></p>
+</li>
+<li>Edit existing outage</li>
+<li>Change ETR value</li>
+<li>
+<p>Check NetBox changelog shows update</p>
+</li>
+<li>
+<p><strong>Test API</strong>
+   <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:8000/api/plugins/netbox-circuitmaintenance/circuitoutage/
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Test Filtering</strong></p>
+</li>
+<li>Use filter form to find outages by status</li>
+<li>Verify results match expected criteria</li>
+</ol>
+<h4 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Update CHANGELOG.md with new features</li>
+<li>Consider adding screenshots to docs/</li>
+<li>Update any integration guides if applicable</li>
+</ul>
+<h4 id="future-enhancements-out-of-scope">Future Enhancements (Out of Scope)<a class="headerlink" href="#future-enhancements-out-of-scope" title="Permanent link">&para;</a></h4>
+<p>The following were identified in the design doc but are not part of v1:
+- Unified events view (combined maintenance + outages)
+- Refactoring CircuitMaintenanceImpact to use GenericForeignKey
+- Custom timeline view for ETR history
+- Circuit detail page events tab</p>
+<hr />
+<h3 id="notes-for-engineers">Notes for Engineers<a class="headerlink" href="#notes-for-engineers" title="Permanent link">&para;</a></h3>
+<h4 id="testing-without-netbox">Testing Without NetBox<a class="headerlink" href="#testing-without-netbox" title="Permanent link">&para;</a></h4>
+<p>Most tests in this plan are standalone unit tests that don't require NetBox:
+- Model field validation
+- Serializer field checks
+- Form class verification
+- View class existence</p>
+<p>Integration tests requiring NetBox (marked "Manual testing step") should be run in a development environment.</p>
+<h4 id="timezone-conversion-logic">Timezone Conversion Logic<a class="headerlink" href="#timezone-conversion-logic" title="Permanent link">&para;</a></h4>
+<p>The <code>CircuitOutageForm.save()</code> method reuses timezone conversion from <code>CircuitMaintenanceForm</code>:
+- Only converts on CREATE (not edit)
+- Handles start, end, AND estimated_time_to_repair
+- Gracefully handles invalid timezones</p>
+<h4 id="model-validation">Model Validation<a class="headerlink" href="#model-validation" title="Permanent link">&para;</a></h4>
+<p><code>CircuitOutage.clean()</code> enforces business rule:
+- End time is OPTIONAL for non-resolved outages
+- End time is REQUIRED when status = 'RESOLVED'
+- Django calls clean() before save() automatically</p>
+<h4 id="etr-history">ETR History<a class="headerlink" href="#etr-history" title="Permanent link">&para;</a></h4>
+<p>ETR changes are tracked via NetBox's <code>ObjectChange</code> model:
+- No custom history model needed
+- Query <code>ObjectChange.objects.filter(object_id=outage.pk)</code>
+- Timeline view can be added in future enhancement</p>
+<h4 id="related-skills">Related Skills<a class="headerlink" href="#related-skills" title="Permanent link">&para;</a></h4>
+<ul>
+<li>@superpowers:test-driven-development - Applied throughout (RED-GREEN-REFACTOR)</li>
+<li>@superpowers:verification-before-completion - Final testing phase</li>
+<li>@superpowers:finishing-a-development-branch - After all tasks complete</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.twitter.com/jasonyates" target="_blank" rel="noopener" title="Tweet" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/jasonyates/netbox-circuitmaintenance" target="_blank" rel="noopener" title="Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:me@jasonyates.co.uk" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.indexes", "navigation.instant", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
