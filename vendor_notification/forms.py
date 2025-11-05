@@ -11,15 +11,8 @@ from utilities.forms.rendering import FieldSet
 from utilities.forms.fields import DynamicModelChoiceField
 from utilities.forms.widgets import DateTimePicker, HTMXSelect
 
-from .models import (
-    EventNotification,
-    Impact,
-    Maintenance,
-    MaintenanceTypeChoices,
-    Outage,
-    OutageStatusChoices,
-    TimeZoneChoices,
-)
+from .choices import MaintenanceTypeChoices, OutageStatusChoices, TimeZoneChoices
+from .models import EventNotification, Impact, Maintenance, Outage
 from .utils import get_allowed_content_types
 
 
