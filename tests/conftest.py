@@ -19,10 +19,16 @@ os.environ["DJANGO_SETTINGS_MODULE"] = "netbox.settings"
 from netbox import configuration_testing
 
 # Configure database for testing
+# Use PostgreSQL (required for NetBox - SQLite doesn't support array fields)
 configuration_testing.DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME", "netbox"),
+        "USER": os.environ.get("DB_USER", "netbox"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+        "HOST": os.environ.get("DB_HOST", "postgres"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
+        "CONN_MAX_AGE": 300,
     }
 }
 
