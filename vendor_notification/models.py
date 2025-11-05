@@ -7,193 +7,13 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from netbox.models import NetBoxModel
-from utilities.choices import ChoiceSet
 
-
-class TimeZoneChoices(ChoiceSet):
-    """
-    Timezone choices grouped by region for maintenance event scheduling.
-    Uses IANA timezone database names.
-    """
-
-    key = "Maintenance.TimeZone"
-
-    # Common/UTC timezones
-    COMMON_CHOICES = [
-        ("UTC", "UTC"),
-        ("GMT", "GMT"),
-    ]
-
-    # Build regional timezone choices
-    AFRICA_CHOICES = [
-        (tz, tz)
-        for tz in sorted(
-            [
-                "Africa/Cairo",
-                "Africa/Johannesburg",
-                "Africa/Lagos",
-                "Africa/Nairobi",
-                "Africa/Casablanca",
-            ]
-        )
-    ]
-
-    AMERICA_CHOICES = [
-        (tz, tz)
-        for tz in sorted(
-            [
-                "America/New_York",
-                "America/Chicago",
-                "America/Denver",
-                "America/Los_Angeles",
-                "America/Phoenix",
-                "America/Anchorage",
-                "America/Toronto",
-                "America/Vancouver",
-                "America/Montreal",
-                "America/Mexico_City",
-                "America/Sao_Paulo",
-                "America/Buenos_Aires",
-                "America/Santiago",
-                "America/Bogota",
-                "America/Lima",
-            ]
-        )
-    ]
-
-    ASIA_CHOICES = [
-        (tz, tz)
-        for tz in sorted(
-            [
-                "Asia/Dubai",
-                "Asia/Kabul",
-                "Asia/Kolkata",
-                "Asia/Dhaka",
-                "Asia/Bangkok",
-                "Asia/Singapore",
-                "Asia/Hong_Kong",
-                "Asia/Shanghai",
-                "Asia/Tokyo",
-                "Asia/Seoul",
-                "Asia/Manila",
-                "Asia/Jakarta",
-                "Asia/Tehran",
-                "Asia/Jerusalem",
-                "Asia/Karachi",
-            ]
-        )
-    ]
-
-    ATLANTIC_CHOICES = [(tz, tz) for tz in sorted(["Atlantic/Azores", "Atlantic/Cape_Verde", "Atlantic/Reykjavik"])]
-
-    AUSTRALIA_CHOICES = [
-        (tz, tz)
-        for tz in sorted(
-            [
-                "Australia/Perth",
-                "Australia/Adelaide",
-                "Australia/Darwin",
-                "Australia/Brisbane",
-                "Australia/Sydney",
-                "Australia/Melbourne",
-                "Australia/Hobart",
-            ]
-        )
-    ]
-
-    EUROPE_CHOICES = [
-        (tz, tz)
-        for tz in sorted(
-            [
-                "Europe/London",
-                "Europe/Dublin",
-                "Europe/Lisbon",
-                "Europe/Paris",
-                "Europe/Brussels",
-                "Europe/Amsterdam",
-                "Europe/Berlin",
-                "Europe/Rome",
-                "Europe/Madrid",
-                "Europe/Zurich",
-                "Europe/Vienna",
-                "Europe/Prague",
-                "Europe/Warsaw",
-                "Europe/Budapest",
-                "Europe/Athens",
-                "Europe/Helsinki",
-                "Europe/Stockholm",
-                "Europe/Moscow",
-                "Europe/Istanbul",
-            ]
-        )
-    ]
-
-    PACIFIC_CHOICES = [
-        (tz, tz)
-        for tz in sorted(
-            [
-                "Pacific/Auckland",
-                "Pacific/Fiji",
-                "Pacific/Honolulu",
-                "Pacific/Guam",
-                "Pacific/Port_Moresby",
-            ]
-        )
-    ]
-
-    CHOICES = [
-        ("Common", COMMON_CHOICES),
-        ("Africa", AFRICA_CHOICES),
-        ("America", AMERICA_CHOICES),
-        ("Asia", ASIA_CHOICES),
-        ("Atlantic", ATLANTIC_CHOICES),
-        ("Australia", AUSTRALIA_CHOICES),
-        ("Europe", EUROPE_CHOICES),
-        ("Pacific", PACIFIC_CHOICES),
-    ]
-
-
-class MaintenanceTypeChoices(ChoiceSet):
-    """Valid maintenance status choices from BCOP standard"""
-
-    key = "DocTypeChoices.Maintenance"
-
-    CHOICES = [
-        ("TENTATIVE", "Tentative", "yellow"),
-        ("CONFIRMED", "Confirmed", "green"),
-        ("CANCELLED", "Cancelled", "blue"),
-        ("IN-PROCESS", "In-Progress", "orange"),
-        ("COMPLETED", "Completed", "indigo"),
-        ("RE-SCHEDULED", "Rescheduled", "green"),
-        ("UNKNOWN", "Unknown", "blue"),
-    ]
-
-
-class ImpactTypeChoices(ChoiceSet):
-    """Valid impact level choices from BCOP standard"""
-
-    key = "DocTypeChoices.Impact"
-
-    CHOICES = [
-        ("NO-IMPACT", "No-Impact", "green"),
-        ("REDUCED-REDUNDANCY", "Reduced Redundancy", "yellow"),
-        ("DEGRADED", "Degraded", "orange"),
-        ("OUTAGE", "Outage", "red"),
-    ]
-
-
-class OutageStatusChoices(ChoiceSet):
-    """Status choices for unplanned outage events"""
-
-    key = "Outage.Status"
-
-    CHOICES = [
-        ("REPORTED", "Reported", "red"),
-        ("INVESTIGATING", "Investigating", "orange"),
-        ("IDENTIFIED", "Identified", "yellow"),
-        ("MONITORING", "Monitoring", "blue"),
-        ("RESOLVED", "Resolved", "green"),
-    ]
+from .choices import (
+    ImpactTypeChoices,
+    MaintenanceTypeChoices,
+    OutageStatusChoices,
+    TimeZoneChoices,
+)
 
 
 class BaseEvent(NetBoxModel):
@@ -361,7 +181,9 @@ class Outage(BaseEvent):
         super().clean()
         # Validation: end time required when status = RESOLVED
         if self.status == "RESOLVED" and not self.end:
-            raise ValidationError({"end": "End time is required when marking outage as resolved"})
+            raise ValidationError(
+                {"end": "End time is required when marking outage as resolved"}
+            )
 
     def get_status_color(self):
         return OutageStatusChoices.colors.get(self.status)
@@ -381,13 +203,17 @@ class Impact(NetBoxModel):
         ContentType,
         on_delete=models.CASCADE,
         related_name="impacts_as_event",
-        limit_choices_to=models.Q(app_label="vendor_notification", model__in=["maintenance", "outage"]),
+        limit_choices_to=models.Q(
+            app_label="vendor_notification", model__in=["maintenance", "outage"]
+        ),
     )
     event_object_id = models.PositiveIntegerField(db_index=True)
     event = GenericForeignKey("event_content_type", "event_object_id")
 
     # Link to target NetBox object (Circuit, Device, Site, etc.)
-    target_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="impacts_as_target")
+    target_content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, related_name="impacts_as_target"
+    )
     target_object_id = models.PositiveIntegerField(db_index=True)
     target = GenericForeignKey("target_content_type", "target_object_id")
 
@@ -400,7 +226,14 @@ class Impact(NetBoxModel):
     )
 
     class Meta:
-        unique_together = [("event_content_type", "event_object_id", "target_content_type", "target_object_id")]
+        unique_together = [
+            (
+                "event_content_type",
+                "event_object_id",
+                "target_content_type",
+                "target_object_id",
+            )
+        ]
         ordering = ("impact",)
         verbose_name = "Impact"
         verbose_name_plural = "Impacts"
@@ -444,14 +277,20 @@ class Impact(NetBoxModel):
         # Validate event is Maintenance or Outage
         if self.event_content_type:
             if self.event_content_type.app_label != "vendor_notification":
-                raise ValidationError({"event_content_type": "Event must be a Maintenance or Outage"})
+                raise ValidationError(
+                    {"event_content_type": "Event must be a Maintenance or Outage"}
+                )
             if self.event_content_type.model not in ["maintenance", "outage"]:
-                raise ValidationError({"event_content_type": "Event must be a Maintenance or Outage"})
+                raise ValidationError(
+                    {"event_content_type": "Event must be a Maintenance or Outage"}
+                )
 
         # Validate event status - cannot modify impacts on completed events
         if hasattr(self.event, "status"):
             if self.event.status in ["COMPLETED", "CANCELLED", "RESOLVED"]:
-                raise ValidationError("You cannot alter an impact once the event has completed.")
+                raise ValidationError(
+                    "You cannot alter an impact once the event has completed."
+                )
 
 
 class EventNotification(NetBoxModel):
@@ -464,7 +303,9 @@ class EventNotification(NetBoxModel):
     event_content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
-        limit_choices_to=models.Q(app_label="vendor_notification", model__in=["maintenance", "outage"]),
+        limit_choices_to=models.Q(
+            app_label="vendor_notification", model__in=["maintenance", "outage"]
+        ),
     )
     event_object_id = models.PositiveIntegerField(db_index=True)
     event = GenericForeignKey("event_content_type", "event_object_id")

@@ -22,7 +22,8 @@ class TestImpactForm:
         """Create a test maintenance event"""
         from django.utils import timezone
 
-        from vendor_notification.models import Maintenance, MaintenanceTypeChoices
+        from vendor_notification.choices import MaintenanceTypeChoices
+        from vendor_notification.models import Maintenance
 
         return Maintenance.objects.create(
             name="MAINT-001",
@@ -58,8 +59,12 @@ class TestImpactForm:
         """Create a test device"""
         from dcim.models import Device, DeviceRole, DeviceType, Manufacturer
 
-        manufacturer = Manufacturer.objects.create(name="Test Manufacturer", slug="test-manufacturer")
-        device_type = DeviceType.objects.create(manufacturer=manufacturer, model="Test Model", slug="test-model")
+        manufacturer = Manufacturer.objects.create(
+            name="Test Manufacturer", slug="test-manufacturer"
+        )
+        device_type = DeviceType.objects.create(
+            manufacturer=manufacturer, model="Test Model", slug="test-model"
+        )
         device_role = DeviceRole.objects.create(name="Test Role", slug="test-role")
         return Device.objects.create(
             name="test-device-001",
@@ -191,8 +196,9 @@ class TestImpactForm:
         from circuits.models import Circuit
         from django.contrib.contenttypes.models import ContentType
 
+        from vendor_notification.choices import ImpactTypeChoices
         from vendor_notification.forms import ImpactForm
-        from vendor_notification.models import ImpactTypeChoices, Maintenance
+        from vendor_notification.models import Maintenance
 
         maintenance_ct = ContentType.objects.get_for_model(Maintenance)
         circuit_ct = ContentType.objects.get_for_model(Circuit)
@@ -228,8 +234,9 @@ class TestImpactForm:
         from dcim.models import Device
         from django.contrib.contenttypes.models import ContentType
 
+        from vendor_notification.choices import ImpactTypeChoices
         from vendor_notification.forms import ImpactForm
-        from vendor_notification.models import ImpactTypeChoices, Maintenance
+        from vendor_notification.models import Maintenance
 
         maintenance_ct = ContentType.objects.get_for_model(Maintenance)
         device_ct = ContentType.objects.get_for_model(Device)
