@@ -9,7 +9,12 @@ from pathlib import Path
 class TestTemplateStructure:
     """Test that all templates exist and have correct structure"""
 
-    TEMPLATE_DIR = Path(__file__).parent.parent / "vendor_notification" / "templates" / "vendor_notification"
+    TEMPLATE_DIR = (
+        Path(__file__).parent.parent
+        / "vendor_notification"
+        / "templates"
+        / "vendor_notification"
+    )
 
     def test_template_directory_exists(self):
         """Verify template directory exists"""
@@ -49,7 +54,10 @@ class TestTemplateStructure:
 
         # Check that old URLs are NOT present
         assert "netbox_circuitmaintenance" not in content
-        assert "circuitmaintenance" not in content.lower() or "maintenance" in content.lower()
+        assert (
+            "circuitmaintenance" not in content.lower()
+            or "maintenance" in content.lower()
+        )
 
     def test_outage_template_urls(self):
         """Verify outage.html uses correct URL patterns"""
@@ -136,7 +144,9 @@ class TestTemplateStructure:
                         # Make sure it's actually the old model name, not just part of text
                         matches = re.findall(pattern, content)
                         if matches:
-                            assert False, f"Found old model name '{pattern}' in {template_file.name}"
+                            assert False, (
+                                f"Found old model name '{pattern}' in {template_file.name}"
+                            )
 
     def test_templates_extend_correct_base(self):
         """Verify templates extend correct base templates"""
@@ -164,25 +174,32 @@ class TestTemplateStructure:
 class TestTemplateURLParameters:
     """Test that templates pass correct parameters in URLs"""
 
-    TEMPLATE_DIR = Path(__file__).parent.parent / "vendor_notification" / "templates" / "vendor_notification"
+    TEMPLATE_DIR = (
+        Path(__file__).parent.parent
+        / "vendor_notification"
+        / "templates"
+        / "vendor_notification"
+    )
 
     def test_impact_add_urls_include_event_param(self):
-        """Verify impact_add URLs include event parameter"""
+        """Verify impact_add URLs include GenericForeignKey event parameters"""
         for template_name in ["maintenance.html", "outage.html"]:
             template_path = self.TEMPLATE_DIR / template_name
             content = template_path.read_text()
 
-            # Should include event parameter when adding impacts
-            assert "?event={{ object.pk }}" in content or "?event=" in content
+            # Should include GenericForeignKey parameters when adding impacts
+            assert "event_content_type={{ object|content_type_id }}" in content
+            assert "event_object_id={{ object.pk }}" in content
 
     def test_notification_add_urls_include_event_param(self):
-        """Verify eventnotification_add URLs include event parameter"""
+        """Verify eventnotification_add URLs include GenericForeignKey event parameters"""
         for template_name in ["maintenance.html", "outage.html"]:
             template_path = self.TEMPLATE_DIR / template_name
             content = template_path.read_text()
 
-            # Should include event parameter when adding notifications
-            assert "?event={{ object.pk }}" in content or "?event=" in content
+            # Should include GenericForeignKey parameters when adding notifications
+            assert "event_content_type={{ object|content_type_id }}" in content
+            assert "event_object_id={{ object.pk }}" in content
 
     def test_return_url_parameters(self):
         """Verify edit/delete links include return_url parameter"""
@@ -197,7 +214,12 @@ class TestTemplateURLParameters:
 class TestTemplateConditionals:
     """Test that templates have correct conditional logic"""
 
-    TEMPLATE_DIR = Path(__file__).parent.parent / "vendor_notification" / "templates" / "vendor_notification"
+    TEMPLATE_DIR = (
+        Path(__file__).parent.parent
+        / "vendor_notification"
+        / "templates"
+        / "vendor_notification"
+    )
 
     def test_maintenance_status_checks(self):
         """Verify maintenance.html checks for COMPLETED and CANCELLED status"""
