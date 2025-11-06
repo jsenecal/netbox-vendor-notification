@@ -1,4 +1,3 @@
-import pytest
 from vendor_notification.timeline_utils import get_field_display_name
 
 
