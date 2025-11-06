@@ -2,6 +2,17 @@
 {% load render_table from django_tables2 %}
 {% load helpers %}
 
+{% block buttons %}
+    {{ block.super }}
+
+    {% if perms.vendor_notification.add_maintenance and object.status not in 'COMPLETED,CANCELLED' %}
+    <a href="{% url 'plugins:vendor_notification:maintenance_reschedule' pk=object.pk %}"
+       class="btn btn-warning">
+        <i class="mdi mdi-calendar-refresh"></i> Reschedule
+    </a>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
   <div class="row mb-3">
     <div class="col col-md-6">
