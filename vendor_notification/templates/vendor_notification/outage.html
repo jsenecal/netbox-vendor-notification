@@ -27,13 +27,25 @@
                     </tr>
                     <tr>
                         <th scope="row">Start</th>
-                        <td>{{ object.start|annotated_date }}</td>
+                        <td>
+                            {{ object.start|date:"N j, Y, g:i a e" }}
+                            {% if object.has_timezone_difference %}
+                                {% localtime off %}
+                                    <br><small class="text-muted">({{ object.get_start_in_original_tz|date:"N j, Y, g:i a e" }})</small>
+                                {% endlocaltime %}
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">End</th>
                         <td>
                             {% if object.end %}
-                                {{ object.end|annotated_date }}
+                                {{ object.end|date:"N j, Y, g:i a e" }}
+                                {% if object.has_timezone_difference %}
+                                    {% localtime off %}
+                                        <br><small class="text-muted">({{ object.get_end_in_original_tz|date:"N j, Y, g:i a e" }})</small>
+                                    {% endlocaltime %}
+                                {% endif %}
                             {% else %}
                                 <span class="text-muted">Not yet resolved</span>
                             {% endif %}
@@ -43,7 +55,12 @@
                         <th scope="row">Estimated Time to Repair</th>
                         <td>
                             {% if object.estimated_time_to_repair %}
-                                {{ object.estimated_time_to_repair|annotated_date }}
+                                {{ object.estimated_time_to_repair|date:"N j, Y, g:i a e" }}
+                                {% if object.has_timezone_difference %}
+                                    {% localtime off %}
+                                        <br><small class="text-muted">({{ object.get_estimated_time_to_repair_in_original_tz|date:"N j, Y, g:i a e" }})</small>
+                                    {% endlocaltime %}
+                                {% endif %}
                             {% else %}
                                 <span class="text-muted">No estimate provided</span>
                             {% endif %}
