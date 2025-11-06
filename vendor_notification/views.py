@@ -20,6 +20,8 @@ from netbox.config import get_config
 
 from . import filtersets, forms, models, tables
 from .ical_utils import generate_maintenance_ical, calculate_etag
+from .timeline_utils import get_timeline_changes, build_timeline_item
+from .models import Maintenance, Outage
 
 
 # Maintenance Views
@@ -37,7 +39,18 @@ class MaintenanceView(generic.ObjectView):
             event_content_type__model="maintenance", event_object_id=instance.pk
         )
 
-        return {"impacts": impact, "notifications": notification}
+        # Load timeline changes
+        object_changes = get_timeline_changes(instance, Maintenance, limit=20)
+        timeline_items = [
+            build_timeline_item(change, 'maintenance')
+            for change in object_changes
+        ]
+
+        return {
+            "impacts": impact,
+            "notifications": notification,
+            "timeline": timeline_items,
+        }
 
 
 class MaintenanceListView(generic.ObjectListView):
