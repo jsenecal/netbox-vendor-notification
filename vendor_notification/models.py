@@ -8,12 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from netbox.models import NetBoxModel
 
-from .choices import (
-    ImpactTypeChoices,
-    MaintenanceTypeChoices,
-    OutageStatusChoices,
-    TimeZoneChoices,
-)
+from .choices import ImpactTypeChoices, MaintenanceTypeChoices, OutageStatusChoices
 
 
 class BaseEvent(NetBoxModel):
