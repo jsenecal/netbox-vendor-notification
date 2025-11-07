@@ -2,15 +2,12 @@
 
 __author__ = """Jonathan Senecal"""
 __email__ = "contact@jonathansenecal.com"
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 
 
 from netbox.plugins import PluginConfig
 
 from .constants import DEFAULT_ALLOWED_CONTENT_TYPES
-
-# Template extensions will be populated dynamically in ready()
-template_extensions = []
 
 
 class VendorNotificationConfig(PluginConfig):
@@ -34,12 +31,6 @@ class VendorNotificationConfig(PluginConfig):
     def ready(self):
         super().ready()
         from . import widgets  # noqa: F401
-
-        # Register dynamic template extensions
-        from .template_content import create_event_history_extensions
-
-        global template_extensions
-        template_extensions.extend(create_event_history_extensions())
 
 
 config = VendorNotificationConfig
