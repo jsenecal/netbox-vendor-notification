@@ -12,7 +12,7 @@ from .models import Impact
 from .utils import get_allowed_content_types
 
 
-def create_event_history_extensions():
+def _create_event_history_extensions():
     """
     Dynamically create PluginTemplateExtension classes for all
     allowed_content_types to show event history tables.
@@ -22,22 +22,18 @@ def create_event_history_extensions():
     allowed_types = get_allowed_content_types()
     extensions = []
 
+    def right_page_method(self):
+        return render_event_history(self.context["object"])
+
     for content_type_str in allowed_types:
         app_label, model = content_type_str.lower().split(".")
         model_name = f"{app_label}.{model}"
-
-        # Create a wrapper function to capture the model_name in closure
-        def make_left_page_method(model_name):
-            def left_page_method(self):
-                return render_event_history(self.context["object"])
-
-            return left_page_method
 
         # Create extension class dynamically
         extension_class = type(
             f"{model.capitalize()}EventHistory",
             (PluginTemplateExtension,),
-            {"model": model_name, "left_page": make_left_page_method(model_name)},
+            {"models": [model_name], "right_page": right_page_method},
         )
         extensions.append(extension_class)
 
@@ -103,3 +99,8 @@ def render_event_history(obj):
             "event_history_days": days,
         },
     )
+
+
+# Create template extensions at module import time
+# NetBox will auto-discover this via DEFAULT_RESOURCE_PATHS
+template_extensions = _create_event_history_extensions()
