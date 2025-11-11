@@ -3,7 +3,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 from circuits.models import Provider
-from vendor_notification.models import Maintenance
+from notices.models import Maintenance
 
 
 @pytest.mark.django_db
@@ -12,7 +12,7 @@ class TestMaintenanceReplaces:
 
     def test_replaces_field_exists(self):
         """Test that Maintenance model has replaces field."""
-        assert hasattr(Maintenance, 'replaces')
+        assert hasattr(Maintenance, "replaces")
 
     def test_replaces_field_is_nullable(self):
         """Test that replaces field can be null."""
@@ -24,7 +24,7 @@ class TestMaintenanceReplaces:
             start=timezone.now(),
             end=timezone.now() + timedelta(hours=2),
             status="CONFIRMED",
-            replaces=None  # Should not raise error
+            replaces=None,  # Should not raise error
         )
         assert maintenance.replaces is None
 
@@ -38,7 +38,7 @@ class TestMaintenanceReplaces:
             provider=provider,
             start=timezone.now(),
             end=timezone.now() + timedelta(hours=2),
-            status="CONFIRMED"
+            status="CONFIRMED",
         )
 
         rescheduled = Maintenance.objects.create(
@@ -48,7 +48,7 @@ class TestMaintenanceReplaces:
             start=timezone.now() + timedelta(days=1),
             end=timezone.now() + timedelta(days=1, hours=2),
             status="CONFIRMED",
-            replaces=original
+            replaces=original,
         )
 
         assert rescheduled.replaces == original
@@ -63,7 +63,7 @@ class TestMaintenanceReplaces:
             provider=provider,
             start=timezone.now(),
             end=timezone.now() + timedelta(hours=2),
-            status="CONFIRMED"
+            status="CONFIRMED",
         )
 
         rescheduled = Maintenance.objects.create(
@@ -73,7 +73,7 @@ class TestMaintenanceReplaces:
             start=timezone.now() + timedelta(days=1),
             end=timezone.now() + timedelta(days=1, hours=2),
             status="CONFIRMED",
-            replaces=original
+            replaces=original,
         )
 
         # Access reverse relation
@@ -90,7 +90,7 @@ class TestMaintenanceReplaces:
             provider=provider,
             start=timezone.now(),
             end=timezone.now() + timedelta(hours=2),
-            status="CONFIRMED"
+            status="CONFIRMED",
         )
 
         rescheduled = Maintenance.objects.create(
@@ -100,7 +100,7 @@ class TestMaintenanceReplaces:
             start=timezone.now() + timedelta(days=1),
             end=timezone.now() + timedelta(days=1, hours=2),
             status="CONFIRMED",
-            replaces=original
+            replaces=original,
         )
 
         original.delete()

@@ -16,7 +16,7 @@ class TestURLPatterns(unittest.TestCase):
         """Read the urls.py file and return content"""
         urls_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "urls.py",
         )
         with open(urls_path, "r") as f:
@@ -309,17 +309,17 @@ class TestURLPatterns(unittest.TestCase):
         self.assertIn("from . import models, views", content)
 
     def test_maintenance_schedule_url(self):
-        """Test that maintenance schedule URL exists"""
+        """Test that maintenance calendar URL exists"""
         content = self._get_urls_file_content()
 
-        # Check for maintenance schedule URL
+        # Check for maintenance calendar URL
         self.assertIsNotNone(
-            re.search(r"path\(\s*['\"]maintenanceschedule/['\"]", content),
-            "Maintenance schedule URL pattern not found",
+            re.search(r"path\(\s*['\"]maintenance/calendar/['\"]", content),
+            "Maintenance calendar URL pattern not found",
         )
         self.assertIsNotNone(
-            re.search(r'name=["\']maintenanceschedule["\']', content),
-            "Maintenance schedule URL name not found",
+            re.search(r'name=["\']maintenance_calendar["\']', content),
+            "Maintenance calendar URL name not found",
         )
 
 

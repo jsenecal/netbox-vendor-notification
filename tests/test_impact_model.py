@@ -16,7 +16,7 @@ class TestImpactModelStructure(unittest.TestCase):
         """Parse the models.py file and return AST"""
         models_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "models.py",
         )
         with open(models_path, "r") as f:
@@ -286,7 +286,7 @@ try:
             from dcim.models import Site
             from django.utils import timezone
 
-            from vendor_notification.models import Maintenance
+            from notices.models import Maintenance
 
             cls.provider = Provider.objects.create(
                 name="Test Provider", slug="test-provider"
@@ -308,15 +308,13 @@ try:
             )
 
         @override_settings(
-            PLUGINS_CONFIG={
-                "vendor_notification": {"allowed_content_types": ["circuits.Circuit"]}
-            }
+            PLUGINS_CONFIG={"notices": {"allowed_content_types": ["circuits.Circuit"]}}
         )
         def test_validation_disallowed_content_type(self):
             """Test that non-configured content types are rejected"""
             from django.core.exceptions import ValidationError
 
-            from vendor_notification.models import Impact
+            from notices.models import Impact
 
             impact = Impact(event=self.maintenance, target=self.site, impact="OUTAGE")
 

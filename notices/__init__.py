@@ -1,4 +1,4 @@
-"""Top-level package for NetBox Vendor Notification Plugin."""
+"""Top-level package for NetBox Notices Plugin."""
 
 __author__ = """Jonathan Senecal"""
 __email__ = "contact@jonathansenecal.com"
@@ -10,15 +10,15 @@ from netbox.plugins import PluginConfig
 from .constants import DEFAULT_ALLOWED_CONTENT_TYPES
 
 
-class VendorNotificationConfig(PluginConfig):
+class NoticesConfig(PluginConfig):
     author = __author__
     author_email = __email__
-    name = "vendor_notification"
-    verbose_name = "NetBox Vendor Notification Plugin"
+    name = "notices"
+    verbose_name = "Notices"
     description = "Track maintenance and outage events across various NetBox models"
     version = __version__
     min_version = "4.4.0"
-    base_url = "vendor-notification"
+    base_url = "notices"
 
     default_settings = {
         "allowed_content_types": DEFAULT_ALLOWED_CONTENT_TYPES,
@@ -33,4 +33,4 @@ class VendorNotificationConfig(PluginConfig):
         from . import widgets  # noqa: F401
 
 
-config = VendorNotificationConfig
+config = NoticesConfig

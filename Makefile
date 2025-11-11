@@ -1,7 +1,7 @@
-NAME=netbox-vendor-notification
-VERFILE=./vendor_notification/__init__.py
+NAME=netbox-notices
+VERFILE=./notices/__init__.py
 NETBOX_DIR=/opt/netbox/netbox
-PLUGIN_NAME=vendor_notification
+PLUGIN_NAME=notices
 REPO_PATH=/opt/netbox-vendor-notification
 VENV_PY_PATH=/opt/netbox/venv/bin/python3
 INITIALIZER_PATH=${REPO_PATH}/.devcontainer/initializers

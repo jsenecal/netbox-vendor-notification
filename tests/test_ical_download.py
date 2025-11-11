@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
 
-from vendor_notification.models import Maintenance
+from notices.models import Maintenance
 from circuits.models import Provider
 
 
@@ -43,7 +43,7 @@ class TestICalDownload:
 
     def test_ical_without_download_parameter(self, authenticated_client, maintenance):
         """Test iCal view without download parameter has caching headers."""
-        url = reverse("plugins:vendor_notification:ical_maintenances")
+        url = reverse("plugins:notices:ical_maintenances")
         response = authenticated_client.get(url)
 
         assert response.status_code == 200
@@ -55,7 +55,7 @@ class TestICalDownload:
 
     def test_ical_with_download_parameter(self, authenticated_client, maintenance):
         """Test iCal view with download=true has attachment header."""
-        url = reverse("plugins:vendor_notification:ical_maintenances")
+        url = reverse("plugins:notices:ical_maintenances")
         response = authenticated_client.get(url, {"download": "true"})
 
         assert response.status_code == 200
@@ -67,7 +67,7 @@ class TestICalDownload:
 
     def test_ical_download_filename_format(self, authenticated_client, maintenance):
         """Test download filename includes current date."""
-        url = reverse("plugins:vendor_notification:ical_maintenances")
+        url = reverse("plugins:notices:ical_maintenances")
         response = authenticated_client.get(url, {"download": "true"})
 
         # Filename should be: netbox-maintenance-YYYY-MM-DD.ics

@@ -16,7 +16,7 @@ class FilterSetTestBase(unittest.TestCase):
         """Parse the filtersets.py file and return AST"""
         filtersets_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "filtersets.py",
         )
         with open(filtersets_path, "r") as f:

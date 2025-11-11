@@ -2,7 +2,7 @@ from netbox.api.routers import NetBoxRouter
 
 from . import views
 
-app_name = "vendor_notification"
+app_name = "notices"
 
 router = NetBoxRouter()
 router.register("maintenance", views.MaintenanceViewSet)

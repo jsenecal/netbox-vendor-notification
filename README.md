@@ -1,4 +1,4 @@
-# NetBox Vendor Notification Plugin
+# NetBox Notices
 
 **Repository:** https://github.com/jsenecal/netbox-vendor-notification
 
@@ -39,13 +39,13 @@ Activate your virtual env and install via pip:
 
 ```bash
 $ source /opt/netbox/venv/bin/activate
-(venv) $ pip install netbox-vendor-notification
+(venv) $ pip install netbox-notices
 ```
 
 To ensure the plugin is automatically re-installed during future upgrades, add the package to your `local_requirements.txt`:
 
 ```bash
-# echo netbox-vendor-notification >> local_requirements.txt
+# echo netbox-notices >> local_requirements.txt
 ```
 
 ### Enable the Plugin
@@ -54,11 +54,11 @@ In the Netbox `configuration.py` configuration file add or update the PLUGINS pa
 
 ```python
 PLUGINS = [
-    'vendor_notification'
+    'notices'
 ]
 
 PLUGINS_CONFIG = {
-    "vendor_notification": {},
+    "notices": {},
 }
 ```
 
@@ -72,7 +72,7 @@ If you don't specify any configuration, the plugin uses these defaults:
 
 ```python
 PLUGINS_CONFIG = {
-    "vendor_notification": {
+    "notices": {
         "allowed_content_types": [
             "circuits.Circuit",
             "dcim.PowerFeed",
@@ -90,7 +90,7 @@ You can customize which object types are allowed by specifying the `allowed_cont
 
 ```python
 PLUGINS_CONFIG = {
-    "vendor_notification": {
+    "notices": {
         "allowed_content_types": [
             "circuits.Circuit",
             "dcim.Device",
@@ -106,7 +106,7 @@ PLUGINS_CONFIG = {
 
 ```python
 PLUGINS_CONFIG = {
-    "vendor_notification": {
+    "notices": {
         "allowed_content_types": [
             "circuits.Circuit",
         ]
@@ -118,7 +118,7 @@ PLUGINS_CONFIG = {
 
 ```python
 PLUGINS_CONFIG = {
-    "vendor_notification": {
+    "notices": {
         "allowed_content_types": [
             "circuits.Circuit",
             "dcim.Device",
@@ -197,35 +197,35 @@ In addition to planned maintenance, this plugin supports tracking unplanned outa
 
 **Maintenance Events:**
 ```
-GET    /api/plugins/vendor-notification/maintenance/
-POST   /api/plugins/vendor-notification/maintenance/
-GET    /api/plugins/vendor-notification/maintenance/{id}/
-PATCH  /api/plugins/vendor-notification/maintenance/{id}/
-DELETE /api/plugins/vendor-notification/maintenance/{id}/
+GET    /api/plugins/notices/maintenance/
+POST   /api/plugins/notices/maintenance/
+GET    /api/plugins/notices/maintenance/{id}/
+PATCH  /api/plugins/notices/maintenance/{id}/
+DELETE /api/plugins/notices/maintenance/{id}/
 ```
 
 **Outage Events:**
 ```
-GET    /api/plugins/vendor-notification/outage/
-POST   /api/plugins/vendor-notification/outage/
-GET    /api/plugins/vendor-notification/outage/{id}/
-PATCH  /api/plugins/vendor-notification/outage/{id}/
-DELETE /api/plugins/vendor-notification/outage/{id}/
+GET    /api/plugins/notices/outage/
+POST   /api/plugins/notices/outage/
+GET    /api/plugins/notices/outage/{id}/
+PATCH  /api/plugins/notices/outage/{id}/
+DELETE /api/plugins/notices/outage/{id}/
 ```
 
 **Impact Tracking:**
 ```
-GET    /api/plugins/vendor-notification/impact/
-POST   /api/plugins/vendor-notification/impact/
-GET    /api/plugins/vendor-notification/impact/{id}/
-PATCH  /api/plugins/vendor-notification/impact/{id}/
-DELETE /api/plugins/vendor-notification/impact/{id}/
+GET    /api/plugins/notices/impact/
+POST   /api/plugins/notices/impact/
+GET    /api/plugins/notices/impact/{id}/
+PATCH  /api/plugins/notices/impact/{id}/
+DELETE /api/plugins/notices/impact/{id}/
 ```
 
 ### Example: Creating an Outage
 
 ```json
-POST /api/plugins/vendor-notification/outage/
+POST /api/plugins/notices/outage/
 {
     "name": "OUT-2024-001",
     "summary": "Fiber cut on Main Street",
@@ -239,7 +239,7 @@ POST /api/plugins/vendor-notification/outage/
 ### Example: Creating Impact for a Circuit
 
 ```json
-POST /api/plugins/vendor-notification/impact/
+POST /api/plugins/notices/impact/
 {
     "maintenance": 1,
     "content_type": "circuits.circuit",
@@ -251,7 +251,7 @@ POST /api/plugins/vendor-notification/impact/
 ### Example: Creating Impact for a Device
 
 ```json
-POST /api/plugins/vendor-notification/impact/
+POST /api/plugins/notices/impact/
 {
     "outage": 1,
     "content_type": "dcim.device",

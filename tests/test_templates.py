@@ -9,12 +9,7 @@ from pathlib import Path
 class TestTemplateStructure:
     """Test that all templates exist and have correct structure"""
 
-    TEMPLATE_DIR = (
-        Path(__file__).parent.parent
-        / "vendor_notification"
-        / "templates"
-        / "vendor_notification"
-    )
+    TEMPLATE_DIR = Path(__file__).parent.parent / "notices" / "templates" / "notices"
 
     def test_template_directory_exists(self):
         """Verify template directory exists"""
@@ -44,13 +39,13 @@ class TestTemplateStructure:
         content = template_path.read_text()
 
         # Check for new URL patterns
-        assert "plugins:vendor_notification:maintenance" in content
-        assert "plugins:vendor_notification:impact_edit" in content
-        assert "plugins:vendor_notification:impact_delete" in content
-        assert "plugins:vendor_notification:impact_add" in content
-        assert "plugins:vendor_notification:eventnotification" in content
-        assert "plugins:vendor_notification:eventnotification_delete" in content
-        assert "plugins:vendor_notification:eventnotification_add" in content
+        assert "plugins:notices:maintenance" in content
+        assert "plugins:notices:impact_edit" in content
+        assert "plugins:notices:impact_delete" in content
+        assert "plugins:notices:impact_add" in content
+        assert "plugins:notices:eventnotification" in content
+        assert "plugins:notices:eventnotification_delete" in content
+        assert "plugins:notices:eventnotification_add" in content
 
         # Check that old URLs are NOT present
         assert "netbox_circuitmaintenance" not in content
@@ -65,13 +60,13 @@ class TestTemplateStructure:
         content = template_path.read_text()
 
         # Check for new URL patterns
-        assert "plugins:vendor_notification:outage" in content
-        assert "plugins:vendor_notification:impact_edit" in content
-        assert "plugins:vendor_notification:impact_delete" in content
-        assert "plugins:vendor_notification:impact_add" in content
-        assert "plugins:vendor_notification:eventnotification" in content
-        assert "plugins:vendor_notification:eventnotification_delete" in content
-        assert "plugins:vendor_notification:eventnotification_add" in content
+        assert "plugins:notices:outage" in content
+        assert "plugins:notices:impact_edit" in content
+        assert "plugins:notices:impact_delete" in content
+        assert "plugins:notices:impact_add" in content
+        assert "plugins:notices:eventnotification" in content
+        assert "plugins:notices:eventnotification_delete" in content
+        assert "plugins:notices:eventnotification_add" in content
 
     def test_maintenance_template_field_references(self):
         """Verify maintenance.html references correct fields for GenericForeignKey"""
@@ -174,12 +169,7 @@ class TestTemplateStructure:
 class TestTemplateURLParameters:
     """Test that templates pass correct parameters in URLs"""
 
-    TEMPLATE_DIR = (
-        Path(__file__).parent.parent
-        / "vendor_notification"
-        / "templates"
-        / "vendor_notification"
-    )
+    TEMPLATE_DIR = Path(__file__).parent.parent / "notices" / "templates" / "notices"
 
     def test_impact_add_urls_include_event_param(self):
         """Verify impact_add URLs include GenericForeignKey event parameters"""
@@ -214,12 +204,7 @@ class TestTemplateURLParameters:
 class TestTemplateConditionals:
     """Test that templates have correct conditional logic"""
 
-    TEMPLATE_DIR = (
-        Path(__file__).parent.parent
-        / "vendor_notification"
-        / "templates"
-        / "vendor_notification"
-    )
+    TEMPLATE_DIR = Path(__file__).parent.parent / "notices" / "templates" / "notices"
 
     def test_maintenance_status_checks(self):
         """Verify maintenance.html checks for COMPLETED and CANCELLED status"""

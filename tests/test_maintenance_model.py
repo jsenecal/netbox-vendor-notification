@@ -16,7 +16,7 @@ class TestMaintenanceModel(unittest.TestCase):
         """Parse the models.py file and return AST"""
         models_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "models.py",
         )
         with open(models_path, "r") as f:

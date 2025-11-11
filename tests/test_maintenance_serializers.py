@@ -16,7 +16,7 @@ class TestMaintenanceSerializerStructure(unittest.TestCase):
         """Parse the serializers.py file and return AST"""
         serializers_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "serializers.py",
         )
@@ -194,7 +194,7 @@ class TestNestedMaintenanceSerializer(unittest.TestCase):
         """Parse the serializers.py file and return AST"""
         serializers_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "serializers.py",
         )

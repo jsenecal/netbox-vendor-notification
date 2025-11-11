@@ -2,7 +2,7 @@
 Tests for Outage forms.
 """
 
-from vendor_notification.forms import OutageFilterForm, OutageForm
+from notices.forms import OutageFilterForm, OutageForm
 
 
 def test_outage_form_exists():
@@ -12,7 +12,7 @@ def test_outage_form_exists():
 
 def test_outage_form_model():
     """Test that form targets Outage model"""
-    from vendor_notification.models import Outage
+    from notices.models import Outage
 
     assert OutageForm.Meta.model == Outage
 

@@ -5,15 +5,18 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["vendor_notification", "vendor_notification.*"]
+include = ["notices", "notices.*"]
 
 [project]
-name = "netbox-vendor-notification"
-keywords = ['vendor_notification']
+name = "netbox-notices"
+keywords = ['notices']
 version = "0.1.0"
-description = "Provides the ability to record circuit maintenance, maintenance impact and maintenance notifications in Netbox and link them to Providers and Circuits."
+description = "Track maintenance and outage events across various NetBox models from vendors and internal sources."
 readme = "README.md"
-authors = [{ name = "Jason Yates", email = "me@jasonyates.co.uk" }]
+authors = [
+    { name = "Jonathan Senecal", email = "contact@jonathansenecal.com" },
+    { name = "Jason Yates", email = "me@jasonyates.co.uk" }
+]
 license-files = ["LICENSE"]
 
 classifiers = [
@@ -49,10 +52,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/jasonyates/netbox-circuitmaintenance"
-Documentation = "https://jasonyates.github.io/netbox-circuitmaintenance"
-Source = "https://github.com/jasonyates/netbox-circuitmaintenance"
-Tracker = "https://github.com/jasonyates/netbox-circuitmaintenance/issues"
+Homepage = "https://github.com/jsenecal/netbox-vendor-notification"
+Documentation = "https://github.com/jsenecal/netbox-vendor-notification"
+Source = "https://github.com/jsenecal/netbox-vendor-notification"
+Tracker = "https://github.com/jsenecal/netbox-vendor-notification/issues"
 
 
 [tool.bumpver]
@@ -66,7 +69,7 @@ push = true
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"']
 "README.md" = ["{version}", "{pep440_version}"]
-"vendor_notification/__init__.py" = ["{version}", "{__version__}"]
+"notices/__init__.py" = ["{version}", "{__version__}"]
 
 [tool.flake8]
 max-line-length = 120
@@ -96,7 +99,7 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --cov=vendor_notification --cov-report=term-missing"
+addopts = "-v --cov=notices --cov-report=term-missing"
 
 [tool.tox]
 legacy_tox_ini = """

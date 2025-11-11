@@ -22,8 +22,8 @@ class TestImpactForm:
         """Create a test maintenance event"""
         from django.utils import timezone
 
-        from vendor_notification.choices import MaintenanceTypeChoices
-        from vendor_notification.models import Maintenance
+        from notices.choices import MaintenanceTypeChoices
+        from notices.models import Maintenance
 
         return Maintenance.objects.create(
             name="MAINT-001",
@@ -75,20 +75,20 @@ class TestImpactForm:
 
     def test_form_exists(self):
         """Test that ImpactForm is defined"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         assert ImpactForm is not None
 
     def test_form_model(self):
         """Test that form targets Impact model"""
-        from vendor_notification.forms import ImpactForm
-        from vendor_notification.models import Impact
+        from notices.forms import ImpactForm
+        from notices.models import Impact
 
         assert ImpactForm.Meta.model == Impact
 
     def test_form_fields(self):
         """Test that form includes all required fields"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         expected_fields = (
             "event_content_type",
@@ -102,7 +102,7 @@ class TestImpactForm:
 
     def test_form_event_content_type_queryset(self):
         """Test that event_content_type is limited to Maintenance and Outage"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         form = ImpactForm()
         event_ct_field = form.fields["event_content_type"]
@@ -110,7 +110,7 @@ class TestImpactForm:
         # Get the queryset
         queryset = event_ct_field.queryset
 
-        # Should only include vendor_notification Maintenance and Outage
+        # Should only include notices Maintenance and Outage
         assert queryset.count() == 2
         models = list(queryset.values_list("model", flat=True))
         assert "maintenance" in models
@@ -118,7 +118,7 @@ class TestImpactForm:
 
     def test_form_target_content_type_default_allowed(self):
         """Test that target_content_type uses default allowed types"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         form = ImpactForm()
         target_ct_field = form.fields["target_content_type"]
@@ -139,7 +139,7 @@ class TestImpactForm:
 
     @override_settings(
         PLUGINS_CONFIG={
-            "vendor_notification": {
+            "notices": {
                 "allowed_content_types": [
                     "circuits.Circuit",
                     "dcim.Device",
@@ -150,7 +150,7 @@ class TestImpactForm:
     )
     def test_form_target_content_type_custom_allowed(self):
         """Test that target_content_type respects plugin configuration"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         form = ImpactForm()
         target_ct_field = form.fields["target_content_type"]
@@ -169,7 +169,7 @@ class TestImpactForm:
 
     @override_settings(
         PLUGINS_CONFIG={
-            "vendor_notification": {
+            "notices": {
                 "allowed_content_types": [
                     "circuits.Circuit",
                 ]
@@ -178,7 +178,7 @@ class TestImpactForm:
     )
     def test_form_target_content_type_limited(self):
         """Test that target_content_type can be limited via configuration"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         form = ImpactForm()
         target_ct_field = form.fields["target_content_type"]
@@ -196,9 +196,9 @@ class TestImpactForm:
         from circuits.models import Circuit
         from django.contrib.contenttypes.models import ContentType
 
-        from vendor_notification.choices import ImpactTypeChoices
-        from vendor_notification.forms import ImpactForm
-        from vendor_notification.models import Maintenance
+        from notices.choices import ImpactTypeChoices
+        from notices.forms import ImpactForm
+        from notices.models import Maintenance
 
         maintenance_ct = ContentType.objects.get_for_model(Maintenance)
         circuit_ct = ContentType.objects.get_for_model(Circuit)
@@ -221,7 +221,7 @@ class TestImpactForm:
 
     @override_settings(
         PLUGINS_CONFIG={
-            "vendor_notification": {
+            "notices": {
                 "allowed_content_types": [
                     "dcim.Device",
                     "dcim.Site",
@@ -234,9 +234,9 @@ class TestImpactForm:
         from dcim.models import Device
         from django.contrib.contenttypes.models import ContentType
 
-        from vendor_notification.choices import ImpactTypeChoices
-        from vendor_notification.forms import ImpactForm
-        from vendor_notification.models import Maintenance
+        from notices.choices import ImpactTypeChoices
+        from notices.forms import ImpactForm
+        from notices.models import Maintenance
 
         maintenance_ct = ContentType.objects.get_for_model(Maintenance)
         device_ct = ContentType.objects.get_for_model(Device)
@@ -259,7 +259,7 @@ class TestImpactForm:
 
     def test_form_field_labels(self):
         """Test that form fields have appropriate labels"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         form = ImpactForm()
 
@@ -270,7 +270,7 @@ class TestImpactForm:
 
     def test_form_field_help_text(self):
         """Test that form fields have appropriate help text"""
-        from vendor_notification.forms import ImpactForm
+        from notices.forms import ImpactForm
 
         form = ImpactForm()
 

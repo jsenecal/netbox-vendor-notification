@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from circuits.models import Provider
 from users.models import Token
-from vendor_notification.models import Maintenance
+from notices.models import Maintenance
 
 
 @pytest.mark.django_db

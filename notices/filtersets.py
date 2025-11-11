@@ -16,12 +16,12 @@ class MaintenanceFilterSet(NetBoxModelFilterSet):
 
     replaces_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Maintenance.objects.all(),
-        label='Replaces (ID)',
+        label="Replaces (ID)",
     )
 
     has_replaces = django_filters.BooleanFilter(
-        method='filter_has_replaces',
-        label='Has replacement',
+        method="filter_has_replaces",
+        label="Has replacement",
     )
 
     class Meta:

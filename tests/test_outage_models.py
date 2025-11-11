@@ -16,7 +16,7 @@ class TestCircuitOutageStatusChoices(unittest.TestCase):
         """Parse the models.py file and return AST"""
         models_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "models.py",
         )
         with open(models_path, "r") as f:
@@ -102,7 +102,7 @@ class TestBaseEvent(unittest.TestCase):
         """Parse the models.py file and return AST"""
         models_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "models.py",
         )
         with open(models_path, "r") as f:
@@ -185,7 +185,7 @@ class TestCircuitMaintenance(unittest.TestCase):
         """Parse the models.py file and return AST"""
         models_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "models.py",
         )
         with open(models_path, "r") as f:
@@ -292,7 +292,7 @@ class TestCircuitOutage(unittest.TestCase):
         """Parse the models.py file and return AST"""
         models_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "models.py",
         )
         with open(models_path, "r") as f:
@@ -400,7 +400,7 @@ class TestOutageModel(unittest.TestCase):
         """Parse the models.py file and return AST"""
         models_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "models.py",
         )
         with open(models_path, "r") as f:
@@ -495,6 +495,6 @@ class TestOutageModel(unittest.TestCase):
         url_pattern = self._get_url_pattern_from_method(method_node)
         self.assertEqual(
             url_pattern,
-            "plugins:vendor_notification:outage",
-            "URL pattern should be 'plugins:vendor_notification:outage' (not 'plugins:netbox_circuitmaintenance:circuitoutage')",
+            "plugins:notices:outage",
+            "URL pattern should be 'plugins:notices:outage' (not 'plugins:netbox_circuitmaintenance:circuitoutage')",
         )

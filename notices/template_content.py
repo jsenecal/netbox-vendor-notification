@@ -46,9 +46,7 @@ def render_event_history(obj):
     Queries maintenances and outages that impact this object.
     """
     config = get_config()
-    days = config.PLUGINS_CONFIG.get("vendor_notification", {}).get(
-        "event_history_days", 30
-    )
+    days = config.PLUGINS_CONFIG.get("notices", {}).get("event_history_days", 30)
     cutoff_date = timezone.now() - timedelta(days=days)
 
     obj_ct = ContentType.objects.get_for_model(obj)
@@ -91,7 +89,7 @@ def render_event_history(obj):
         return ""
 
     return render_to_string(
-        "vendor_notification/event_history_tabs.html",
+        "notices/event_history_tabs.html",
         {
             "maintenances": maintenances,
             "outages": outages,

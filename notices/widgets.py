@@ -10,7 +10,7 @@ from .models import Maintenance
 class UpcomingMaintenanceWidget(DashboardWidget):
     default_title = "Upcoming Maintenance Events"
     description = "Show a list of upcoming maintenance events"
-    template_name = "vendor_notification/widget.html"
+    template_name = "notices/widget.html"
     width = 8
     height = 3
 
@@ -40,7 +40,7 @@ class UpcomingMaintenanceWidget(DashboardWidget):
 # class MaintenanceCalendarWidget(DashboardWidget):
 #     default_title = "Upcoming Circuit Maintenance Calendar"
 #     description = "Show a simplified calendar view showing upcoming maintenance events this month"
-#     template_name = "vendor_notification/calendar_widget.html"
+#     template_name = "notices/calendar_widget.html"
 #     width = 8
 #     height = 8
 #

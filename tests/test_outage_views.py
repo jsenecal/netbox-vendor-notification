@@ -16,7 +16,7 @@ class TestCircuitOutageViews(unittest.TestCase):
         """Parse the views.py file and return AST"""
         views_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "views.py",
         )
         with open(views_path, "r") as f:

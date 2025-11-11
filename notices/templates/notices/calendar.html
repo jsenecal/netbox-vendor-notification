@@ -4,7 +4,7 @@
 {% block title %}Maintenance Calendar{% endblock %}
 
 {% block css %}
-<link href="{% static 'vendor_notification/css/calendar-overrides.css' %}" rel="stylesheet">
+<link href="{% static 'notices/css/calendar-overrides.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block control-buttons %}
@@ -120,6 +120,6 @@
     // Pass Django context to JavaScript
     window.ICAL_TOKEN_PLACEHOLDER = "{{ ical_token_placeholder }}";
 </script>
-<script src="{% static 'vendor_notification/js/fullcalendar/index.global.min.js' %}"></script>
-<script src="{% static 'vendor_notification/js/calendar.js' %}"></script>
+<script src="{% static 'notices/js/fullcalendar/index.global.min.js' %}"></script>
+<script src="{% static 'notices/js/calendar.js' %}"></script>
 {% endblock %}

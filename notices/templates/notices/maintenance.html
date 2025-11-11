@@ -6,8 +6,8 @@
 {% block buttons %}
     {{ block.super }}
 
-    {% if perms.vendor_notification.add_maintenance and object.status not in 'COMPLETED,CANCELLED' %}
-    <a href="{% url 'plugins:vendor_notification:maintenance_reschedule' pk=object.pk %}"
+    {% if perms.notices.add_maintenance and object.status not in 'COMPLETED,CANCELLED' %}
+    <a href="{% url 'plugins:notices:maintenance_reschedule' pk=object.pk %}"
        class="btn btn-warning">
         <i class="mdi mdi-calendar-refresh"></i> Reschedule
     </a>
@@ -135,10 +135,10 @@
                         <td>{% badge impact.get_impact_display bg_color=impact.get_impact_color %}</td>
                         <td class="text-end noprint">
                             {% if object.status != 'COMPLETED' and  object.status != 'CANCELLED' %}
-                              <a href="{% url 'plugins:vendor_notification:impact_edit' pk=impact.pk %}?return_url={% url 'plugins:vendor_notification:maintenance' pk=object.pk %}" class="btn btn-warning btn-sm lh-1" title="Edit Impact">
+                              <a href="{% url 'plugins:notices:impact_edit' pk=impact.pk %}?return_url={% url 'plugins:notices:maintenance' pk=object.pk %}" class="btn btn-warning btn-sm lh-1" title="Edit Impact">
                                 <i class="mdi mdi-pencil" aria-hidden="true"></i>
                               </a>
-                              <a href="{% url 'plugins:vendor_notification:impact_delete' pk=impact.pk %}?return_url={% url 'plugins:vendor_notification:maintenance' pk=object.pk %}" class="btn btn-danger btn-sm lh-1" title="Delete Impact">
+                              <a href="{% url 'plugins:notices:impact_delete' pk=impact.pk %}?return_url={% url 'plugins:notices:maintenance' pk=object.pk %}" class="btn btn-danger btn-sm lh-1" title="Delete Impact">
                                 <i class="mdi mdi-trash-can-outline" aria-hidden="true"></i>
                               </a>
                             {% endif %}
@@ -156,7 +156,7 @@
         </div>
         {% if object.status != 'COMPLETED' and  object.status != 'CANCELLED' %}
         <div class="card-footer text-end noprint">
-            <a href="{% url 'plugins:vendor_notification:impact_add' %}?event_content_type={{ object|content_type_id }}&event_object_id={{ object.pk }}&return_url={% url 'plugins:vendor_notification:maintenance' pk=object.pk %}" class="btn btn-primary btn-sm">
+            <a href="{% url 'plugins:notices:impact_add' %}?event_content_type={{ object|content_type_id }}&event_object_id={{ object.pk }}&return_url={% url 'plugins:notices:maintenance' pk=object.pk %}" class="btn btn-primary btn-sm">
               <i class="mdi mdi-plus-thick" aria-hidden="true"></i> Associate an Impact
             </a>
           </div>
@@ -188,10 +188,10 @@
                         <td>{{email.email_from}}</td>
                         <td>{{email.email_received}}</td>
                         <td class="text-end noprint">
-                            <a href="{% url 'plugins:vendor_notification:eventnotification' pk=email.pk %}" class="btn btn-primary btn-sm lh-1" title="View Notification" target="_blank">
+                            <a href="{% url 'plugins:notices:eventnotification' pk=email.pk %}" class="btn btn-primary btn-sm lh-1" title="View Notification" target="_blank">
                                 <i class="mdi mdi-book" aria-hidden="true"></i>
                               </a>
-                              <a href="{% url 'plugins:vendor_notification:eventnotification_delete' pk=email.pk %}?return_url={% url 'plugins:vendor_notification:maintenance' pk=object.pk %}" class="btn btn-danger btn-sm lh-1" title="Delete Notification">
+                              <a href="{% url 'plugins:notices:eventnotification_delete' pk=email.pk %}?return_url={% url 'plugins:notices:maintenance' pk=object.pk %}" class="btn btn-danger btn-sm lh-1" title="Delete Notification">
                                 <i class="mdi mdi-trash-can-outline" aria-hidden="true"></i>
                               </a>
                           </td>
@@ -208,7 +208,7 @@
         </div>
         {% if object.status != 'COMPLETED' and  object.status != 'CANCELLED' %}
         <div class="card-footer text-end noprint">
-            <a href="{% url 'plugins:vendor_notification:eventnotification_add' %}?event_content_type={{ object|content_type_id }}&event_object_id={{ object.pk }}&return_url={% url 'plugins:vendor_notification:maintenance' pk=object.pk %}" class="btn btn-primary btn-sm">
+            <a href="{% url 'plugins:notices:eventnotification_add' %}?event_content_type={{ object|content_type_id }}&event_object_id={{ object.pk }}&return_url={% url 'plugins:notices:maintenance' pk=object.pk %}" class="btn btn-primary btn-sm">
               <i class="mdi mdi-plus-thick" aria-hidden="true"></i> Add a Maintenance Notification
             </a>
           </div>

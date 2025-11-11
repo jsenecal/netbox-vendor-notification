@@ -82,7 +82,7 @@ class Maintenance(BaseEvent):
 
     # Reverse relation for GenericForeignKey in Impact model
     impacts = GenericRelation(
-        to="vendor_notification.Impact",
+        to="notices.Impact",
         content_type_field="event_content_type",
         object_id_field="event_object_id",
         related_query_name="maintenance",
@@ -90,13 +90,13 @@ class Maintenance(BaseEvent):
 
     # Self-referencing FK for rescheduled maintenance tracking
     replaces = models.ForeignKey(
-        to='self',
+        to="self",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='replaced_by_maintenance',
-        verbose_name='Replaces Maintenance',
-        help_text='The maintenance event that this event replaces (for rescheduled events)'
+        related_name="replaced_by_maintenance",
+        verbose_name="Replaces Maintenance",
+        help_text="The maintenance event that this event replaces (for rescheduled events)",
     )
 
     class Meta:
@@ -143,7 +143,7 @@ class Maintenance(BaseEvent):
             return False
 
     def get_absolute_url(self):
-        return reverse("plugins:vendor_notification:maintenance", args=[self.pk])
+        return reverse("plugins:notices:maintenance", args=[self.pk])
 
 
 class Outage(BaseEvent):
@@ -169,7 +169,7 @@ class Outage(BaseEvent):
 
     # Reverse relation for GenericForeignKey in Impact model
     impacts = GenericRelation(
-        to="vendor_notification.Impact",
+        to="notices.Impact",
         content_type_field="event_content_type",
         object_id_field="event_object_id",
         related_query_name="outage",
@@ -195,7 +195,7 @@ class Outage(BaseEvent):
         return OutageStatusChoices.colors.get(self.status)
 
     def get_absolute_url(self):
-        return reverse("plugins:vendor_notification:outage", args=[self.pk])
+        return reverse("plugins:notices:outage", args=[self.pk])
 
 
 class Impact(NetBoxModel):
@@ -210,7 +210,7 @@ class Impact(NetBoxModel):
         on_delete=models.CASCADE,
         related_name="impacts_as_event",
         limit_choices_to=models.Q(
-            app_label="vendor_notification", model__in=["maintenance", "outage"]
+            app_label="notices", model__in=["maintenance", "outage"]
         ),
     )
     event_object_id = models.PositiveIntegerField(db_index=True)
@@ -253,7 +253,7 @@ class Impact(NetBoxModel):
         # Link to the event detail page
         if self.event and hasattr(self.event, "get_absolute_url"):
             return self.event.get_absolute_url()
-        return reverse("plugins:vendor_notification:impact", args=[self.pk])
+        return reverse("plugins:notices:impact", args=[self.pk])
 
     def get_impact_color(self):
         return ImpactTypeChoices.colors.get(self.impact)
@@ -282,7 +282,7 @@ class Impact(NetBoxModel):
 
         # Validate event is Maintenance or Outage
         if self.event_content_type:
-            if self.event_content_type.app_label != "vendor_notification":
+            if self.event_content_type.app_label != "notices":
                 raise ValidationError(
                     {"event_content_type": "Event must be a Maintenance or Outage"}
                 )
@@ -310,7 +310,7 @@ class EventNotification(NetBoxModel):
         ContentType,
         on_delete=models.CASCADE,
         limit_choices_to=models.Q(
-            app_label="vendor_notification", model__in=["maintenance", "outage"]
+            app_label="notices", model__in=["maintenance", "outage"]
         ),
     )
     event_object_id = models.PositiveIntegerField(db_index=True)
@@ -331,4 +331,4 @@ class EventNotification(NetBoxModel):
         return self.subject
 
     def get_absolute_url(self):
-        return reverse("plugins:vendor_notification:eventnotification", args=[self.pk])
+        return reverse("plugins:notices:eventnotification", args=[self.pk])

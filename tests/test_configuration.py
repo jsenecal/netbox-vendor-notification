@@ -1,6 +1,6 @@
 from django.test import override_settings
-from vendor_notification.constants import DEFAULT_ALLOWED_CONTENT_TYPES
-from vendor_notification.utils import get_allowed_content_types
+from notices.constants import DEFAULT_ALLOWED_CONTENT_TYPES
+from notices.utils import get_allowed_content_types
 
 
 class TestPluginConfiguration:
@@ -16,7 +16,7 @@ class TestPluginConfiguration:
 
     @override_settings(
         PLUGINS_CONFIG={
-            "vendor_notification": {
+            "notices": {
                 "allowed_content_types": [
                     "dcim.Device",
                     "virtualization.VirtualMachine",

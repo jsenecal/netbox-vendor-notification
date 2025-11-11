@@ -16,7 +16,7 @@ class TestOutageSerializerStructure(unittest.TestCase):
         """Parse the serializers.py file and return AST"""
         serializers_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "serializers.py",
         )
@@ -191,7 +191,7 @@ class TestNestedOutageSerializer(unittest.TestCase):
         """Parse the serializers.py file and return AST"""
         serializers_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "serializers.py",
         )
@@ -237,7 +237,7 @@ class TestImpactSerializer(unittest.TestCase):
         """Parse the serializers.py file and return AST"""
         serializers_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "serializers.py",
         )
@@ -369,7 +369,7 @@ class TestEventNotificationSerializer(unittest.TestCase):
         """Parse the serializers.py file and return AST"""
         serializers_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "serializers.py",
         )

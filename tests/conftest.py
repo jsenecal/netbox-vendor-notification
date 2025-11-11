@@ -1,5 +1,5 @@
 """
-Pytest configuration for vendor_notification tests.
+Pytest configuration for notices tests.
 Sets up Django and NetBox environment for testing.
 """
 
@@ -32,18 +32,18 @@ configuration_testing.DATABASES = {
     }
 }
 
-# Add vendor_notification to PLUGINS
+# Add notices to PLUGINS
 if not hasattr(configuration_testing, "PLUGINS"):
     configuration_testing.PLUGINS = []
-if "vendor_notification" not in configuration_testing.PLUGINS:
-    configuration_testing.PLUGINS.append("vendor_notification")
+if "notices" not in configuration_testing.PLUGINS:
+    configuration_testing.PLUGINS.append("notices")
 
 # Set default PLUGINS_CONFIG if not present
 if not hasattr(configuration_testing, "PLUGINS_CONFIG"):
     configuration_testing.PLUGINS_CONFIG = {}
 
-if "vendor_notification" not in configuration_testing.PLUGINS_CONFIG:
-    configuration_testing.PLUGINS_CONFIG["vendor_notification"] = {}
+if "notices" not in configuration_testing.PLUGINS_CONFIG:
+    configuration_testing.PLUGINS_CONFIG["notices"] = {}
 
 # Initialize Django BEFORE test collection
 import django

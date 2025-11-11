@@ -1,1 +1,1 @@
-"""Unit test package for vendor_notification."""
+"""Unit test package for notices."""

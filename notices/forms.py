@@ -107,8 +107,8 @@ class MaintenanceForm(NetBoxModelForm):
     replaces = DynamicModelChoiceField(
         queryset=Maintenance.objects.all(),
         required=False,
-        label='Replaces',
-        help_text='The maintenance this event replaces (for rescheduled events)'
+        label="Replaces",
+        help_text="The maintenance this event replaces (for rescheduled events)",
     )
 
     original_timezone = forms.ChoiceField(
@@ -255,7 +255,7 @@ class ImpactForm(GenericForeignKeyFormMixin, NetBoxModelForm):
 
         # Customize auto-generated event_content_type field
         self.fields["event_content_type"].queryset = ContentType.objects.filter(
-            app_label="vendor_notification", model__in=["maintenance", "outage"]
+            app_label="notices", model__in=["maintenance", "outage"]
         )
         self.fields["event_content_type"].label = "Event Type"
         self.fields[
@@ -346,7 +346,7 @@ class EventNotificationForm(GenericForeignKeyFormMixin, NetBoxModelForm):
 
         # Customize event_content_type field
         self.fields["event_content_type"].queryset = ContentType.objects.filter(
-            app_label="vendor_notification", model__in=["maintenance", "outage"]
+            app_label="notices", model__in=["maintenance", "outage"]
         )
         self.fields["event_content_type"].label = "Event Type"
         self.fields[

@@ -77,6 +77,7 @@ class MaintenanceRescheduleView(generic.ObjectEditView):
     2. Set 'replaces' field to original maintenance
     3. On save, update original maintenance status to 'RE-SCHEDULED'
     """
+
     queryset = models.Maintenance.objects.all()
     form = forms.MaintenanceForm
 
@@ -86,8 +87,7 @@ class MaintenanceRescheduleView(generic.ObjectEditView):
         """
         # Get original maintenance via URL parameter
         self.original_maintenance = get_object_or_404(
-            models.Maintenance,
-            pk=self.kwargs['pk']
+            models.Maintenance, pk=self.kwargs["pk"]
         )
         # Return None to trigger create mode
         return None
@@ -100,14 +100,14 @@ class MaintenanceRescheduleView(generic.ObjectEditView):
 
         # Clone all fields from original (except auto fields)
         for field in self.original_maintenance._meta.fields:
-            if field.name not in ['id', 'created', 'last_updated']:
+            if field.name not in ["id", "created", "last_updated"]:
                 initial[field.name] = getattr(self.original_maintenance, field.name)
 
         # Set replaces to original
-        initial['replaces'] = self.original_maintenance.pk
+        initial["replaces"] = self.original_maintenance.pk
 
         # Reset status to TENTATIVE
-        initial['status'] = 'TENTATIVE'
+        initial["status"] = "TENTATIVE"
 
         return initial
 
@@ -118,7 +118,7 @@ class MaintenanceRescheduleView(generic.ObjectEditView):
         response = super().form_valid(form)
 
         # Update original maintenance status
-        self.original_maintenance.status = 'RE-SCHEDULED'
+        self.original_maintenance.status = "RE-SCHEDULED"
         self.original_maintenance.save()
 
         return response
@@ -126,7 +126,7 @@ class MaintenanceRescheduleView(generic.ObjectEditView):
     def get_extra_context(self, request, instance):
         """Add original maintenance to context."""
         context = super().get_extra_context(request, instance)
-        context['original_maintenance'] = self.original_maintenance
+        context["original_maintenance"] = self.original_maintenance
         return context
 
 
@@ -185,6 +185,12 @@ class ImpactDeleteView(generic.ObjectDeleteView):
 
 
 # Event Notification views
+class EventNotificationListView(generic.ObjectListView):
+    queryset = models.EventNotification.objects.all()
+    table = tables.EventNotificationTable
+    filterset = filtersets.EventNotificationFilterSet
+
+
 class EventNotificationEditView(generic.ObjectEditView):
     queryset = models.EventNotification.objects.all()
     form = forms.EventNotificationForm
@@ -205,14 +211,14 @@ class MaintenanceCalendarView(PermissionRequiredMixin, View):
     Event data is loaded via AJAX from the REST API.
     """
 
-    permission_required = "vendor_notification.view_maintenance"
-    template_name = "vendor_notification/calendar.html"
+    permission_required = "notices.view_maintenance"
+    template_name = "notices/calendar.html"
 
     def get(self, request):
         from netbox.config import get_config
 
         config = get_config()
-        token_placeholder = config.PLUGINS_CONFIG.get("vendor_notification", {}).get(
+        token_placeholder = config.PLUGINS_CONFIG.get("notices", {}).get(
             "ical_token_placeholder", "changeme"
         )
 
@@ -250,7 +256,7 @@ class MaintenanceICalView(View):
             return HttpResponseForbidden("Authentication required")
 
         # Check permission
-        if not user.has_perm("vendor_notification.view_maintenance"):
+        if not user.has_perm("notices.view_maintenance"):
             return HttpResponseForbidden("Permission denied")
 
         # Parse and validate query parameters
@@ -308,7 +314,7 @@ class MaintenanceICalView(View):
         else:
             # Subscription mode: set caching headers for feed readers
             config = get_config()
-            cache_max_age = config.PLUGINS_CONFIG.get("vendor_notification", {}).get(
+            cache_max_age = config.PLUGINS_CONFIG.get("notices", {}).get(
                 "ical_cache_max_age", 900
             )
 
@@ -362,7 +368,7 @@ class MaintenanceICalView(View):
 
         # past_days
         config = get_config()
-        default_past_days = config.PLUGINS_CONFIG.get("vendor_notification", {}).get(
+        default_past_days = config.PLUGINS_CONFIG.get("notices", {}).get(
             "ical_past_days_default", 30
         )
 

@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Fetch events from NetBox API
-            fetch(`/api/plugins/vendor-notification/maintenance/?${params}`)
+            fetch(`/api/plugins/notices/maintenance/?${params}`)
                 .then(response => response.json())
                 .then(data => {
                     // Transform NetBox API response to FullCalendar event format
@@ -96,7 +96,7 @@ function showEventModal(event) {
 
     // Link to full detail page (UI, not API)
     document.getElementById('eventModalViewLink').href =
-        `/plugins/vendor-notification/maintenance/${event.extendedProps.eventId}/`;
+        `/plugins/notices/maintenance/${event.extendedProps.eventId}/`;
 
     // Show modal manually (Bootstrap 5 compatible)
     const modalEl = document.getElementById('eventModal');
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         subscribeBtn.addEventListener('click', function() {
             // Generate the iCal feed URL with token placeholder
             const baseUrl = window.location.origin;
-            const icalPath = '/plugins/vendor-notification/ical/maintenances.ics';
+            const icalPath = '/plugins/notices/ical/maintenances.ics';
             const tokenPlaceholder = window.ICAL_TOKEN_PLACEHOLDER || 'changeme';
             const subscribeUrl = `${baseUrl}${icalPath}?token=${tokenPlaceholder}`;
 
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function() {
             // Generate download URL with download=true parameter
-            const icalPath = '/plugins/vendor-notification/ical/maintenances.ics';
+            const icalPath = '/plugins/notices/ical/maintenances.ics';
             const downloadUrl = `${icalPath}?download=true`;
 
             // Navigate to download URL (will use session auth)

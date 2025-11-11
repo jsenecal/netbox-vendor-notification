@@ -16,7 +16,7 @@ class TestImpactFormStructure(unittest.TestCase):
         """Parse the forms.py file and return AST"""
         forms_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "forms.py",
         )
         with open(forms_path, "r") as f:
@@ -182,7 +182,7 @@ class TestEventNotificationFormStructure(unittest.TestCase):
         """Parse the forms.py file and return AST"""
         forms_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "forms.py",
         )
         with open(forms_path, "r") as f:

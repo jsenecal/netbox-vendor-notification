@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from vendor_notification.timeline_utils import (
+from notices.timeline_utils import (
     build_timeline_item,
     categorize_change,
     get_category_color,

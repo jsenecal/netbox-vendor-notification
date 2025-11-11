@@ -16,7 +16,7 @@ class TestCircuitOutageURLs(unittest.TestCase):
         """Read the urls.py file and return content"""
         urls_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "urls.py",
         )
         with open(urls_path, "r") as f:

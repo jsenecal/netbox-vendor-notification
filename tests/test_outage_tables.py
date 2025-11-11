@@ -16,7 +16,7 @@ class TestCircuitOutageTable(unittest.TestCase):
         """Parse the tables.py file and return AST"""
         tables_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "tables.py",
         )
         with open(tables_path, "r") as f:

@@ -85,6 +85,11 @@ urlpatterns = (
     ),
     # EventNotification URLs
     path(
+        "notifications/",
+        views.EventNotificationListView.as_view(),
+        name="eventnotification_list",
+    ),
+    path(
         "notification/add/",
         views.EventNotificationEditView.as_view(),
         name="eventnotification_add",

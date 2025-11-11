@@ -3,8 +3,8 @@ from django.utils import timezone
 from datetime import timedelta
 
 from circuits.models import Provider
-from vendor_notification.models import Maintenance
-from vendor_notification.forms import MaintenanceForm
+from notices.models import Maintenance
+from notices.forms import MaintenanceForm
 
 
 @pytest.mark.django_db
@@ -14,12 +14,12 @@ class TestMaintenanceFormReplaces:
     def test_replaces_field_in_form(self):
         """Test that form includes replaces field."""
         form = MaintenanceForm()
-        assert 'replaces' in form.fields
+        assert "replaces" in form.fields
 
     def test_replaces_field_is_optional(self):
         """Test that replaces field is not required."""
         form = MaintenanceForm()
-        assert form.fields['replaces'].required is False
+        assert form.fields["replaces"].required is False
 
     def test_form_saves_with_replaces(self):
         """Test that form correctly saves replaces relationship."""
@@ -31,17 +31,17 @@ class TestMaintenanceFormReplaces:
             provider=provider,
             start=timezone.now(),
             end=timezone.now() + timedelta(hours=2),
-            status="CONFIRMED"
+            status="CONFIRMED",
         )
 
         form_data = {
-            'name': 'MAINT-002',
-            'summary': 'Rescheduled maintenance',
-            'provider': provider.pk,
-            'start': timezone.now() + timedelta(days=1),
-            'end': timezone.now() + timedelta(days=1, hours=2),
-            'status': 'CONFIRMED',
-            'replaces': original.pk,
+            "name": "MAINT-002",
+            "summary": "Rescheduled maintenance",
+            "provider": provider.pk,
+            "start": timezone.now() + timedelta(days=1),
+            "end": timezone.now() + timedelta(days=1, hours=2),
+            "status": "CONFIRMED",
+            "replaces": original.pk,
         }
 
         form = MaintenanceForm(data=form_data)
@@ -55,12 +55,12 @@ class TestMaintenanceFormReplaces:
         provider = Provider.objects.create(name="Test Provider", slug="test-provider")
 
         form_data = {
-            'name': 'MAINT-001',
-            'summary': 'New maintenance',
-            'provider': provider.pk,
-            'start': timezone.now(),
-            'end': timezone.now() + timedelta(hours=2),
-            'status': 'CONFIRMED',
+            "name": "MAINT-001",
+            "summary": "New maintenance",
+            "provider": provider.pk,
+            "start": timezone.now(),
+            "end": timezone.now() + timedelta(hours=2),
+            "status": "CONFIRMED",
         }
 
         form = MaintenanceForm(data=form_data)

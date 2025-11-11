@@ -16,7 +16,7 @@ class TestCircuitOutageViewSetStructure(unittest.TestCase):
         """Parse the views.py file and return AST"""
         views_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "views.py",
         )
@@ -108,7 +108,7 @@ class TestCircuitOutageURLRouting(unittest.TestCase):
         """Read the urls.py file"""
         urls_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
-            "vendor_notification",
+            "notices",
             "api",
             "urls.py",
         )
