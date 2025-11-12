@@ -48,7 +48,7 @@ jobs:
       - name: Install NetBox
         run: |
           # Clone NetBox
-          git clone --depth 1 --branch v4.4.0 https://github.com/netbox-community/netbox.git /tmp/netbox
+          git clone --depth 1 --branch v4.4.1 https://github.com/netbox-community/netbox.git /tmp/netbox
 
           # Install NetBox dependencies
           pip install --upgrade pip
@@ -58,7 +58,14 @@ jobs:
         run: |
           # Copy configuration
           cp .devcontainer/configuration/configuration.py /tmp/netbox/netbox/netbox/
-          cp .devcontainer/configuration/plugins.py /tmp/netbox/netbox/netbox/
+
+          # Add notices plugin directly (no need to copy plugins.py)
+          cat >> /tmp/netbox/netbox/netbox/configuration.py << 'EOF_PLUGINS'
+
+          # Add notices plugin
+          PLUGINS.append("notices")
+          PLUGINS_CONFIG["notices"] = {}
+          EOF_PLUGINS
 
           # Update database settings for GitHub Actions
           cat >> /tmp/netbox/netbox/netbox/configuration.py << EOF
