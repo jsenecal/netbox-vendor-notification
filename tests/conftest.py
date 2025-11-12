@@ -7,7 +7,10 @@ import os
 import sys
 
 # Add NetBox to Python path BEFORE any imports
-sys.path.insert(0, "/opt/netbox/netbox")
+# Use PYTHONPATH if set (CI environment), otherwise use devcontainer path
+netbox_path = os.environ.get("PYTHONPATH", "/opt/netbox/netbox")
+if netbox_path not in sys.path:
+    sys.path.insert(0, netbox_path)
 
 # Configure NetBox to use testing configuration
 os.environ["NETBOX_CONFIGURATION"] = "netbox.configuration_testing"
@@ -20,13 +23,15 @@ from netbox import configuration_testing
 
 # Configure database for testing
 # Use PostgreSQL (required for NetBox - SQLite doesn't support array fields)
+# Default HOST differs: CI uses "localhost", devcontainer uses "postgres"
+default_db_host = "localhost" if "GITHUB_ACTIONS" in os.environ else "postgres"
 configuration_testing.DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("DB_NAME", "netbox"),
         "USER": os.environ.get("DB_USER", "netbox"),
         "PASSWORD": os.environ.get("DB_PASSWORD", ""),
-        "HOST": os.environ.get("DB_HOST", "postgres"),
+        "HOST": os.environ.get("DB_HOST", default_db_host),
         "PORT": os.environ.get("DB_PORT", "5432"),
         "CONN_MAX_AGE": 300,
     }
