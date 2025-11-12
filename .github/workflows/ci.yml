@@ -92,7 +92,7 @@ jobs:
 
       - name: Install plugin
         run: |
-          pip install -e .
+          pip install -e ".[dev]"
 
       - name: Run migrations
         env:

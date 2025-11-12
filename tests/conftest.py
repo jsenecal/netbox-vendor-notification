@@ -46,7 +46,7 @@ if "notices" not in configuration_testing.PLUGINS_CONFIG:
     configuration_testing.PLUGINS_CONFIG["notices"] = {}
 
 # Initialize Django BEFORE test collection
-import django
+import django  # noqa: E402
 
 django.setup()
 
