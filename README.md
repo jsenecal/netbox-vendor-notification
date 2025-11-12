@@ -1,8 +1,8 @@
 # NetBox Notices
 
-**Repository:** https://github.com/jsenecal/netbox-vendor-notification
+**Repository:** https://github.com/jsenecal/netbox-notices
 
-**Original Project:** Forked from [jasonyates/netbox-circuitmaintenance](https://github.com/jasonyates/netbox-circuitmaintenance)
+**Original Project:** Forked and inspired from [jasonyates/netbox-circuitmaintenance](https://github.com/jasonyates/netbox-circuitmaintenance), differs in the ability to track more than just maintenances, and circuits.
 
 A NetBox plugin built to track maintenance and outage events across various NetBox models. This plugin is agnostic in that it is only built to store data surrounding maintenance/outage events and provide an overview of historical, active and upcoming events. The plugin tracks events at the provider level and associates impact across multiple NetBox object types (circuits, devices, virtual machines, power feeds, sites, etc.).
 
