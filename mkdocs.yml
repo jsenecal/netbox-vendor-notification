@@ -1,7 +1,7 @@
-site_name: Netbox Circuit Maintenance Plugin
-site_url: https://jasonyates.github.io/netbox-circuitmaintenance
-repo_url: https://github.com/jasonyates/netbox-circuitmaintenance
-repo_name: jasonyates/netbox-circuitmaintenance
+site_name: NetBox Notices Plugin
+site_url: https://jsenecal.github.io/netbox-notices
+repo_url: https://github.com/jsenecal/netbox-notices
+repo_name: jsenecal/netbox-notices
 #strict: true
 nav:
   - Home: index.md
@@ -51,18 +51,12 @@ plugins:
       lang: en
   - mkdocstrings:
       watch:
-        - netbox_circuitmaintenance
+        - notices
 extra:
   social:
-    - icon: fontawesome/brands/twitter
-      # replace with your own tweet link below
-      link: https://www.twitter.com/jasonyates
-      name: Tweet
     - icon: fontawesome/brands/github
-      link: https://github.com/jasonyates/netbox-circuitmaintenance
+      link: https://github.com/jsenecal/netbox-notices
       name: Github
-    - icon: material/email
-      link: "mailto:me@jasonyates.co.uk"
   # to enable disqus, uncomment the following and put your disqus id below
   # disqus: disqus_id
 # uncomment the following and put your google tracking id below to enable GA
