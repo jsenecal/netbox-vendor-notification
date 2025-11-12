@@ -98,6 +98,7 @@ jobs:
         env:
           PYTHONPATH: /tmp/netbox/netbox
           DJANGO_SETTINGS_MODULE: netbox.settings
+          NETBOX_CONFIGURATION: netbox.configuration
           SECRET_KEY: "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
         run: |
           cd /tmp/netbox/netbox
@@ -113,6 +114,7 @@ jobs:
         env:
           PYTHONPATH: /tmp/netbox/netbox
           DJANGO_SETTINGS_MODULE: netbox.settings
+          NETBOX_CONFIGURATION: netbox.configuration
           SECRET_KEY: "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
         run: |
           pytest tests/ -v --ignore=tests/test_ical_download.py --ignore=tests/test_ical_view.py --tb=short
@@ -121,6 +123,7 @@ jobs:
         env:
           PYTHONPATH: /tmp/netbox/netbox
           DJANGO_SETTINGS_MODULE: netbox.settings
+          NETBOX_CONFIGURATION: netbox.configuration
           SECRET_KEY: "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
         run: |
           cd /tmp/netbox/netbox
@@ -130,6 +133,7 @@ jobs:
         env:
           PYTHONPATH: /tmp/netbox/netbox
           DJANGO_SETTINGS_MODULE: netbox.settings
+          NETBOX_CONFIGURATION: netbox.configuration
           SECRET_KEY: "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
         run: |
           cd /tmp/netbox/netbox
