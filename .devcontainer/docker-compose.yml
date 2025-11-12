@@ -1,7 +1,7 @@
 ---
 services:
   netbox: &netbox
-    container_name: netbox-vendor-notification-devcontainer
+    container_name: netbox-notices-devcontainer
     image: netboxcommunity/netbox:${NETBOX_VARIANT-latest}-devcontainer
     depends_on:
       - postgres
@@ -11,7 +11,7 @@ services:
       context: ..
     env_file: env/netbox.env
     volumes:
-      - ../:/opt/netbox-vendor-notification:cached
+      - ../:/opt/netbox-notices:cached
       - ~/.gitconfig:/home/ubuntu/.gitconfig:z,ro
       - ~/.ssh:/home/ubuntu/.ssh
       - ./home/.config/:/home/ubuntu/.config/
@@ -26,7 +26,7 @@ services:
       - infinity
   netbox-worker:
     <<: *netbox
-    container_name: netbox-vendor-notification-worker
+    container_name: netbox-notices-worker
     command:
       - /opt/netbox/venv/bin/python
       - /opt/netbox/netbox/manage.py
@@ -40,7 +40,7 @@ services:
 
   # postgres
   postgres:
-    container_name: netbox-vendor-notification-postgres
+    container_name: netbox-notices-postgres
     image: postgres:15-alpine
     env_file: env/postgres.env
     volumes:
@@ -48,7 +48,7 @@ services:
 
   # redis
   redis:
-    container_name: netbox-vendor-notification-redis
+    container_name: netbox-notices-redis
     image: redis:7-alpine
     command:
       - sh

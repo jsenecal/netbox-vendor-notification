@@ -42,9 +42,9 @@ RUN chsh -s /usr/bin/fish $USERNAME; \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/nopasswd
 
 # Copy the plugin code
-COPY . /opt/netbox-vendor-notification
+COPY . /opt/netbox-notices
 
-RUN chown $USERNAME:$USERNAME /opt/netbox-vendor-notification /opt/netbox /etc/netbox /opt/unit -R
+RUN chown $USERNAME:$USERNAME /opt/netbox-notices /opt/netbox /etc/netbox /opt/unit -R
 
 USER ${USERNAME}
 
@@ -59,6 +59,6 @@ RUN mkdir -p ~/.npm && npm config set prefix ~/.npm && npm install -g @anthropic
 RUN /usr/local/bin/uv pip install netbox-initializers==$NETBOX_INITIALIZERS_VARIANT
 
 # WORKDIR ${PLUGIN_PATH}
-RUN uv pip install --no-cache-dir -e /opt/netbox-vendor-notification
+RUN uv pip install --no-cache-dir -e /opt/netbox-notices
 
 ENTRYPOINT ["/bin/entrypoint-dev.sh"]
