@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.1.0 (2025-11-18)
+
+**BREAKING CHANGE**: Complete refactor from netbox-circuitmaintenance to netbox-notices
+
+This is the initial release of the fully refactored plugin, now supporting both maintenance and outage tracking across multiple NetBox object types.
+
+### New Features
+
+* **Outage Tracking**: New Outage model for unplanned outages with automatic timestamps
+* **Generic Impact Tracking**: Associate impacts with any NetBox object (circuits, devices, VMs, etc.)
+* **Reschedule Functionality**: Reschedule maintenance events with automatic status updates
+* **Timeline View**: Visual timeline of all changes and events
+* **Choice Constants**: All ChoiceSet classes now define constants (STATUS_*, IMPACT_*)
+* **Impact Field**: Added impact text field to BaseEvent for describing event impact
+* **Reported At**: Outage model includes reported_at timestamp with timezone conversion
+* **Timezone Support**: Automatic timezone conversion and display for all timestamp fields
+* **Changelog Tracking**: Proper changelog tracking for reschedule operations and related objects
+* **PyPI Publishing**: Automated GitHub Actions workflow for PyPI releases
+
+### API Changes
+
+* REST API support for Maintenance and Outage models
+* API serializers include all new fields (impact, reported_at, replaces)
+
+### Infrastructure
+
+* NetBox 4.4.1+ compatibility
+* Python 3.10+ required
+* Automated CI/CD with GitHub Actions
+* MkDocs documentation with GitHub Pages deployment
+
+### Migration Notes
+
+This is a completely new plugin architecture. Previous versions (0.6.0 and earlier as netbox-circuitmaintenance) are not compatible.
+
+---
+
+## Historical Releases (netbox-circuitmaintenance)
+
 ## 0.6.0 (2025-09-08)
 
 * Netbox 4.4 support
