@@ -20,10 +20,12 @@ The project is configured to automatically publish to PyPI when a new GitHub rel
    bumpver update --patch   # or --minor, or --major
    ```
    This will:
-   - Update version in `pyproject.toml`, `README.md`, and `notices/__init__.py`
+   - Update version in `pyproject.toml` and `notices/__init__.py`
    - Create a git commit
    - Create a git tag (e.g., `v0.1.1`)
    - Push the commit and tag to GitHub
+
+   **Note:** You'll need to manually update the version in the README.md compatibility table
 
 2. Create a GitHub Release:
    - Go to https://github.com/jsenecal/netbox-notices/releases/new
