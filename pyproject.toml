@@ -59,7 +59,7 @@ Tracker = "https://github.com/jsenecal/netbox-notices/issues"
 
 
 [tool.bumpver]
-current_version = "0.1.0"
+current_version = "0.1.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = true
@@ -67,9 +67,16 @@ tag = true
 push = true
 
 [tool.bumpver.file_patterns]
-"pyproject.toml" = ['current_version = "{version}"']
-"README.md" = ["{version}", "{pep440_version}"]
-"notices/__init__.py" = ["{version}", "{__version__}"]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"',
+]
+"README.md" = [
+    '| 4.4.1+         | {version}          |',
+]
+"notices/__init__.py" = [
+    '__version__ = "{version}"',
+]
 
 [tool.flake8]
 max-line-length = 120
