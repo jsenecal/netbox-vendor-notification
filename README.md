@@ -28,7 +28,7 @@ This plugin requires NetBox 4.4.1 or higher.
 
 | NetBox Version | Plugin Version |
 | -------------- | -------------- |
-| 4.4.1+         | 0.1.0          |
+| 4.4.1+         | 0.1.x         |
 
 ## Installing
 
