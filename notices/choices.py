@@ -165,10 +165,10 @@ class MaintenanceTypeChoices(ChoiceSet):
     CHOICES = [
         (STATUS_TENTATIVE, "Tentative", "yellow"),
         (STATUS_CONFIRMED, "Confirmed", "green"),
-        (STATUS_CANCELLED, "Cancelled", "blue"),
+        (STATUS_CANCELLED, "Cancelled", "gray"),
         (STATUS_IN_PROCESS, "In-Progress", "orange"),
         (STATUS_COMPLETED, "Completed", "indigo"),
-        (STATUS_RESCHEDULED, "Rescheduled", "green"),
+        (STATUS_RESCHEDULED, "Rescheduled", "teal"),
         (STATUS_UNKNOWN, "Unknown", "blue"),
     ]
 
