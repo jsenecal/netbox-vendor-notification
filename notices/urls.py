@@ -36,6 +36,26 @@ urlpatterns = (
         name="maintenance_reschedule",
     ),
     path(
+        "maintenance/<int:pk>/acknowledge/",
+        views.MaintenanceAcknowledgeView.as_view(),
+        name="maintenance_acknowledge",
+    ),
+    path(
+        "maintenance/<int:pk>/cancel/",
+        views.MaintenanceCancelView.as_view(),
+        name="maintenance_cancel",
+    ),
+    path(
+        "maintenance/<int:pk>/mark-in-progress/",
+        views.MaintenanceMarkInProgressView.as_view(),
+        name="maintenance_mark_in_progress",
+    ),
+    path(
+        "maintenance/<int:pk>/mark-completed/",
+        views.MaintenanceMarkCompletedView.as_view(),
+        name="maintenance_mark_completed",
+    ),
+    path(
         "maintenance/<int:pk>/changelog/",
         ObjectChangeLogView.as_view(),
         name="maintenance_changelog",

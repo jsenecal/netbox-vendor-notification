@@ -17,6 +17,31 @@ class MaintenanceTable(NetBoxTable):
         '<data-toggle="tooltip" title="{{record.summary}}">{{record.summary|truncatewords:15}}'
     )
 
+    actions = columns.ActionsColumn(
+        extra_buttons="""
+        {% load tz %}
+        {% now "U" as current_timestamp %}
+        {% if record.status not in 'COMPLETED,CANCELLED,RE-SCHEDULED' and record.start|date:"U" > current_timestamp %}
+        <a href="{% url 'plugins:notices:maintenance_reschedule' pk=record.pk %}" class="btn btn-sm btn-warning lh-1" title="Reschedule">
+            <i class="mdi mdi-calendar-refresh"></i>
+        </a>
+        {% else %}
+        <button type="button" class="btn btn-sm btn-outline-secondary lh-1 disabled" title="Cannot reschedule">
+            <i class="mdi mdi-calendar-refresh"></i>
+        </button>
+        {% endif %}
+        {% if record.status not in 'COMPLETED,CANCELLED,RE-SCHEDULED' %}
+        <a href="{% url 'plugins:notices:maintenance_cancel' pk=record.pk %}?return_url={{ request.get_full_path|urlencode }}" class="btn btn-sm btn-danger lh-1" title="Cancel">
+            <i class="mdi mdi-cancel"></i>
+        </a>
+        {% else %}
+        <button type="button" class="btn btn-sm btn-outline-secondary lh-1 disabled" title="Cannot cancel">
+            <i class="mdi mdi-cancel"></i>
+        </button>
+        {% endif %}
+        """
+    )
+
     class Meta(NetBoxTable.Meta):
         model = Maintenance
         fields = (

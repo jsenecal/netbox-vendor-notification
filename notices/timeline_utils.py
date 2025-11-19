@@ -110,16 +110,28 @@ CATEGORY_COLORS = {
 }
 
 
-def get_category_icon(category):
+def get_category_icon(category, status_value=None):
     """
     Get Tabler icon name for a change category.
 
+    For status changes, icon is determined by the status value.
+    For other categories, returns predefined icon.
+
     Args:
         category: Category string
+        status_value: Optional status value for status changes
 
     Returns:
-        Icon name (e.g., 'check-circle')
+        Icon name (e.g., 'check-circle', 'x-circle')
     """
+    if category == "status" and status_value:
+        # Return specific icons based on status
+        if status_value == "CANCELLED":
+            return "x-circle"
+        # Add more status-specific icons here if needed
+        # For now, other statuses use the default check-circle
+        return "check-circle"
+
     return CATEGORY_ICONS.get(category, "circle")
 
 
@@ -170,14 +182,13 @@ def build_timeline_item(object_change, event_model_name):
     # Categorize the change
     category = categorize_change(changed_model, action, prechange, postchange)
 
-    # Get icon and color
-    icon = get_category_icon(category)
-
-    # For status changes, get color from new status value
+    # For status changes, get icon and color from new status value
     if category == "status":
         new_status = postchange.get("status")
+        icon = get_category_icon(category, new_status)
         color = get_category_color(category, new_status)
     else:
+        icon = get_category_icon(category)
         color = get_category_color(category)
 
     # Build title based on category and action

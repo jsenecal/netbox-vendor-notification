@@ -1,0 +1,61 @@
+{% extends 'generic/object_delete.html' %}
+{% load helpers %}
+
+{% block title %}Cancel Maintenance{% endblock %}
+
+{% block content %}
+<h2 class="text-center">
+    <i class="mdi mdi-alert text-warning"></i> Confirm cancellation
+</h2>
+<p class="text-center">
+    Are you sure you want to <span class="text-danger fw-bold">cancel</span> this maintenance?
+</p>
+
+<div class="row">
+    <div class="col col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-hover attr-table">
+                    <tr>
+                        <th>Maintenance</th>
+                        <td>{{ object.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Provider</th>
+                        <td>{{ object.provider }}</td>
+                    </tr>
+                    <tr>
+                        <th>Summary</th>
+                        <td>{{ object.summary }}</td>
+                    </tr>
+                    <tr>
+                        <th>Current Status</th>
+                        <td>{% badge object.get_status_display bg_color=object.get_status_color %}</td>
+                    </tr>
+                    <tr>
+                        <th>Start Time</th>
+                        <td>{{ object.start }}</td>
+                    </tr>
+                    <tr>
+                        <th>End Time</th>
+                        <td>{{ object.end }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            <input type="hidden" name="return_url" value="{{ return_url }}">
+            <div class="d-flex justify-content-end">
+                <a href="{{ return_url }}" class="btn btn-secondary me-2">
+                    <i class="mdi mdi-close-thick"></i> No, Go Back
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="mdi mdi-check-bold"></i> Yes, cancel this maintenance
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

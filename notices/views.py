@@ -1,7 +1,7 @@
 from datetime import timedelta
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.db import transaction
 from django.db.models import Count
 from django.http import (
     HttpResponse,
@@ -9,8 +9,10 @@ from django.http import (
     HttpResponseBadRequest,
     HttpResponseNotModified,
 )
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.views.generic import View
 from netbox.views import generic
 from rest_framework import exceptions
@@ -100,7 +102,11 @@ class MaintenanceRescheduleView(generic.ObjectEditView):
         # Clone all fields from original (except auto fields)
         for field in self.original_maintenance._meta.fields:
             if field.name not in ["id", "created", "last_updated"]:
-                setattr(new_instance, field.name, getattr(self.original_maintenance, field.name))
+                setattr(
+                    new_instance,
+                    field.name,
+                    getattr(self.original_maintenance, field.name),
+                )
 
         # Set replaces to original and reset status
         new_instance.replaces = self.original_maintenance
@@ -131,6 +137,127 @@ class MaintenanceRescheduleView(generic.ObjectEditView):
         context = super().get_extra_context(request, instance)
         context["original_maintenance"] = self.original_maintenance
         return context
+
+
+class MaintenanceAcknowledgeView(PermissionRequiredMixin, View):
+    """Quick action to acknowledge a maintenance."""
+
+    permission_required = "notices.change_maintenance"
+
+    def post(self, request, pk):
+        maintenance = get_object_or_404(models.Maintenance, pk=pk)
+
+        # Take a snapshot for change logging
+        if hasattr(maintenance, 'snapshot'):
+            maintenance.snapshot()
+
+        maintenance.acknowledged = True
+        maintenance.save(update_fields=["acknowledged"])
+        messages.success(request, f"Maintenance {maintenance.name} acknowledged.")
+
+        # Redirect to return_url or maintenance detail
+        return_url = request.POST.get("return_url") or request.GET.get("return_url") or maintenance.get_absolute_url()
+        return redirect(return_url)
+
+
+class MaintenanceCancelView(PermissionRequiredMixin, View):
+    """Quick action to cancel a maintenance."""
+
+    permission_required = "notices.change_maintenance"
+
+    def get(self, request, pk):
+        # Show confirmation page
+        maintenance = get_object_or_404(models.Maintenance, pk=pk)
+        return_url = request.GET.get("return_url") or maintenance.get_absolute_url()
+
+        return render(request, 'notices/maintenance_cancel.html', {
+            'object': maintenance,
+            'return_url': return_url,
+        })
+
+    def post(self, request, pk):
+        maintenance = get_object_or_404(models.Maintenance, pk=pk)
+
+        # Don't allow cancelling already completed or cancelled maintenances
+        if maintenance.status in ["COMPLETED", "CANCELLED"]:
+            messages.error(
+                request,
+                f"Cannot cancel maintenance {maintenance.name} - it is already {maintenance.get_status_display()}.",
+            )
+        else:
+            # Take a snapshot for change logging
+            if hasattr(maintenance, 'snapshot'):
+                maintenance.snapshot()
+
+            maintenance.status = "CANCELLED"
+            maintenance.save(update_fields=["status"])
+            messages.success(request, f"Maintenance {maintenance.name} cancelled.")
+
+        # Redirect to return_url or maintenance detail
+        return_url = request.POST.get("return_url") or request.GET.get("return_url") or maintenance.get_absolute_url()
+        return redirect(return_url)
+
+
+class MaintenanceMarkInProgressView(PermissionRequiredMixin, View):
+    """Quick action to mark a maintenance as in-progress."""
+
+    permission_required = "notices.change_maintenance"
+
+    def post(self, request, pk):
+        maintenance = get_object_or_404(models.Maintenance, pk=pk)
+
+        # Don't allow marking completed or cancelled maintenances as in-progress
+        if maintenance.status in ["COMPLETED", "CANCELLED"]:
+            messages.error(
+                request,
+                f"Cannot mark maintenance {maintenance.name} as in-progress - it is already {maintenance.get_status_display()}.",
+            )
+        else:
+            # Take a snapshot for change logging
+            if hasattr(maintenance, 'snapshot'):
+                maintenance.snapshot()
+
+            maintenance.status = "IN-PROCESS"
+            maintenance.save(update_fields=["status"])
+            messages.success(
+                request, f"Maintenance {maintenance.name} marked as in-progress."
+            )
+
+        # Redirect to return_url or maintenance detail
+        return_url = request.POST.get("return_url") or request.GET.get("return_url") or maintenance.get_absolute_url()
+        return redirect(return_url)
+
+
+class MaintenanceMarkCompletedView(PermissionRequiredMixin, View):
+    """Quick action to mark a maintenance as completed."""
+
+    permission_required = "notices.change_maintenance"
+
+    def post(self, request, pk):
+        maintenance = get_object_or_404(models.Maintenance, pk=pk)
+
+        # Don't allow marking cancelled maintenances as completed
+        if maintenance.status == "CANCELLED":
+            messages.error(
+                request,
+                f"Cannot mark maintenance {maintenance.name} as completed - it is cancelled.",
+            )
+        elif maintenance.status == "COMPLETED":
+            messages.info(
+                request, f"Maintenance {maintenance.name} is already completed."
+            )
+        else:
+            # Take a snapshot for change logging
+            if hasattr(maintenance, 'snapshot'):
+                maintenance.snapshot()
+
+            maintenance.status = "COMPLETED"
+            maintenance.save(update_fields=["status"])
+            messages.success(request, f"Maintenance {maintenance.name} completed.")
+
+        # Redirect to return_url or maintenance detail
+        return_url = request.POST.get("return_url") or request.GET.get("return_url") or maintenance.get_absolute_url()
+        return redirect(return_url)
 
 
 # Outage Views

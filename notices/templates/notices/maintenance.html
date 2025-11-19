@@ -4,11 +4,84 @@
 {% load tz %}
 
 {% block extra_controls %}
-    {% if perms.notices.add_maintenance and object.status != 'COMPLETED' and object.status != 'CANCELLED' %}
-    <a href="{% url 'plugins:notices:maintenance_reschedule' pk=object.pk %}"
-       class="btn btn-warning">
-        <i class="mdi mdi-calendar-refresh"></i> Reschedule
-    </a>
+    {% if perms.notices.change_maintenance %}
+        {% load tz %}
+        {% now "U" as current_timestamp %}
+
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="mdi mdi-cog" aria-hidden="true"></i> Operations
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                {# Acknowledge #}
+                {% if not object.acknowledged %}
+                <li>
+                    <form method="post" action="{% url 'plugins:notices:maintenance_acknowledge' pk=object.pk %}?return_url={{ request.path }}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item">
+                            <i class="mdi mdi-check"></i> Acknowledge
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li><span class="dropdown-item disabled"><i class="mdi mdi-check"></i> Acknowledge</span></li>
+                {% endif %}
+
+                {# Reschedule #}
+                {% if perms.notices.add_maintenance and object.status not in 'COMPLETED,CANCELLED' %}
+                <li>
+                    <a class="dropdown-item" href="{% url 'plugins:notices:maintenance_reschedule' pk=object.pk %}">
+                        <i class="mdi mdi-calendar-refresh"></i> Reschedule
+                    </a>
+                </li>
+                {% else %}
+                <li><span class="dropdown-item disabled"><i class="mdi mdi-calendar-refresh"></i> Reschedule</span></li>
+                {% endif %}
+
+                <li><hr class="dropdown-divider"></li>
+
+                {# Mark In-Progress #}
+                {% if object.status not in 'COMPLETED,CANCELLED,RE-SCHEDULED' and object.start|date:"U" <= current_timestamp %}
+                <li>
+                    <form method="post" action="{% url 'plugins:notices:maintenance_mark_in_progress' pk=object.pk %}?return_url={{ request.path }}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item">
+                            <i class="mdi mdi-progress-clock"></i> Mark In-Progress
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li><span class="dropdown-item disabled"><i class="mdi mdi-progress-clock"></i> Mark In-Progress</span></li>
+                {% endif %}
+
+                {# Mark Completed #}
+                {% if object.status != 'CANCELLED' and object.status != 'COMPLETED' and object.start|date:"U" <= current_timestamp %}
+                <li>
+                    <form method="post" action="{% url 'plugins:notices:maintenance_mark_completed' pk=object.pk %}?return_url={{ request.path }}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item">
+                            <i class="mdi mdi-check-circle"></i> Mark Completed
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li><span class="dropdown-item disabled"><i class="mdi mdi-check-circle"></i> Mark Completed</span></li>
+                {% endif %}
+
+                <li><hr class="dropdown-divider"></li>
+
+                {# Cancel #}
+                {% if object.status not in 'COMPLETED,CANCELLED,RE-SCHEDULED' %}
+                <li>
+                    <a class="dropdown-item text-danger" href="{% url 'plugins:notices:maintenance_cancel' pk=object.pk %}?return_url={{ request.path|urlencode }}">
+                        <i class="mdi mdi-cancel"></i> Cancel
+                    </a>
+                </li>
+                {% else %}
+                <li><span class="dropdown-item disabled"><i class="mdi mdi-cancel"></i> Cancel</span></li>
+                {% endif %}
+            </ul>
+        </div>
     {% endif %}
 {% endblock %}
 
@@ -233,6 +306,10 @@
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
                         <path d="M9 12l2 2l4 -4"></path>
+                      {% elif item.icon == 'x-circle' %}
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                        <path d="M10 10l4 4m0 -4l-4 4"></path>
                       {% elif item.icon == 'alert-triangle' %}
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M12 9v4"></path>
