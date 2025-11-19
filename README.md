@@ -20,6 +20,14 @@ The plugin does not directly provide an automated approach to ingesting provider
 - Provides a consolidated view of active, upcoming and historical maintenance events at the provider and object level
 - Track unplanned outage events with optional end times and ETR tracking
 - Unified event notification tracking
+- Quick action buttons for common maintenance operations:
+  - Acknowledge maintenance events
+  - Reschedule maintenance (only before start time)
+  - Mark maintenance as in-progress or completed
+  - Cancel maintenance with confirmation
+- Event timeline with status-specific icons and colors
+- Maintenance rescheduling with automatic status updates
+- iCalendar feed for external calendar integration
 - Maintenance overlap detection (coming soon)
 
 ## Compatibility
@@ -28,7 +36,7 @@ This plugin requires NetBox 4.4.1 or higher.
 
 | NetBox Version | Plugin Version |
 | -------------- | -------------- |
-| 4.4.1+         | 0.1.x         |
+| 4.4.1+         | 0.2.x         |
 
 ## Installing
 
